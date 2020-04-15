@@ -11,4 +11,4 @@ FILE(GLOB CoreGameSources "game/*.cpp")
 add_library(planecontrol_core ${CoreUiSources} ${CoreGameSources})
 
 # set include directory
-include_directories(planecontrol_core "../../include/core")
+include_directories(planecontrol_core "../../include")

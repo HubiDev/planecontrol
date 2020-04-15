@@ -5,6 +5,8 @@
 #include <memory>
 #include <string>
 
+#include "sdl_deleter.hpp"
+
 namespace core
 {
 namespace ui
@@ -12,11 +14,14 @@ namespace ui
 class Window
 {
 public:
-    Window();
+    Window(const std::string& f_title, int32_t f_width, int32_t f_height);
 
 private:
 
-    std::unique_ptr<SDL_Window> m_window_p;
+    std::string m_title;
+    int32_t m_width;
+    int32_t m_height;
+    std::unique_ptr<SDL_Window, SdlDeleter> m_window_p;
 
 };
 
