@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 project(planecontrol)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
+add_subdirectory(src/core)
 include_directories(planecontrol include)
 
 # other lib dependencies
