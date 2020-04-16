@@ -21,7 +21,7 @@ public:
     void addEventCallback(int32_t f_eventId, std::function<void(const SDL_Event&)> f_eventCallback);
 
     /// @brief Gets all events out of the queue and executes the registered callbacks
-    void processEvents();
+    void processEvents() const;
 
 private:
     std::unordered_map<int32_t, std::function<void(const SDL_Event&)>> m_eventCallbacks;

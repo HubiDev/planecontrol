@@ -9,7 +9,15 @@ namespace ui
 {
 struct SdlDeleter
 {
-    void operator()(SDL_Window *p) const { SDL_DestroyWindow(p); }
+    void operator()(SDL_Window* f_window_p) const
+    {
+        SDL_DestroyWindow(f_window_p);
+    }
+
+    void operator()(SDL_Renderer* f_renderer_p) const
+    {
+        SDL_DestroyRenderer(f_renderer_p);
+    }
 };
 
 } // namespace ui

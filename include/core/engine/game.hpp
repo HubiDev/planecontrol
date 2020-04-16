@@ -22,6 +22,10 @@ public:
     void run();
 
 private:
+
+    void updateGameElements();
+    void drawGameElements();
+
     // CAUTION: Context shall always be the first object to be constructed 
     // and the last one to be destructed
     ui::SdlContext m_sdlContext;

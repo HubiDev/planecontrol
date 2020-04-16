@@ -24,7 +24,7 @@ void EventManager::addEventCallback(int32_t f_eventId, std::function<void(const 
 }
 
 /// @brief Gets all events out of the queue and executes the registered callbacks
-void EventManager::processEvents()
+void EventManager::processEvents() const
 {
     SDL_Event event;
     while(SDL_PollEvent(&event))
