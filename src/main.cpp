@@ -11,7 +11,6 @@ int main(int argc, const char *argv[])
 
     bool quit = false;
 
-    // The window is open: could enter program loop here (see SDL_PollEvent())
     while (!quit)
     {
         SDL_Event event;

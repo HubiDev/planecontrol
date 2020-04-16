@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 # Add sources
 FILE(GLOB CoreUiSources "ui/*.cpp")
-FILE(GLOB CoreGameSources "game/*.cpp")
+FILE(GLOB CoreGameSources "engine/*.cpp")
 
 # create core lib
 add_library(planecontrol_core ${CoreUiSources} ${CoreGameSources})
