@@ -1,10 +1,10 @@
 #include "SDL2/SDL.h"
 #include <stdio.h>
-#include "core/engine/game.hpp"
+#include "game/game.hpp"
 
 int main(int argc, const char *argv[])
 {
-    core::engine::Game game;
+    game::Game game;
     game.intialize();
     game.run();
 

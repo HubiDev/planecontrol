@@ -1,25 +1,26 @@
-#include "core/engine/game.hpp"
+#include "core/engine/game_base.hpp"
 
 namespace core
 {
 namespace engine
 {
-Game::Game()
+GameBase::GameBase()
     : m_sdlContext()
     , m_eventManager()
     , m_gameWindow_p(nullptr)
+    , m_gameElements()
     , m_exitRequested(false)
     , m_windowTitle("Plane Control")
 {}
 
-void Game::intialize()
+void GameBase::intialize()
 {
     m_eventManager.addEventCallback(SDL_QUIT, [this](const SDL_Event& f_event) -> void { m_exitRequested = true; });
     m_gameWindow_p = std::unique_ptr<ui::Window>(new ui::Window(m_windowTitle, k_windowWidth, k_windowHeight));
     m_gameWindow_p->initialize();
 }
 
-void Game::run()
+void GameBase::run()
 {
     // This loop is never left until the user want to quit the game
     while(!m_exitRequested)
@@ -32,18 +33,35 @@ void Game::run()
     m_gameWindow_p.reset(); // close the window
 }
 
-void Game::updateGameElements() 
+void GameBase::addGameElement(core::engine::IGameElement& f_gameElement) 
 {
-    // TODO
+    m_gameElements.push_back(std::reference_wrapper<IGameElement>(f_gameElement));
 }
 
-void Game::drawGameElements() 
+void GameBase::updateGameElements()
+{
+    for(auto& current : m_gameElements)
+    {
+        current.get().update();
+    }
+
+    update();
+}
+
+void GameBase::drawGameElements()
 {
     m_gameWindow_p->getRenderer().prepareRendering();
+
+    for(auto& current : m_gameElements)
+    {
+        current.get().draw(m_gameWindow_p->getRenderer());
+    }
+
+    draw();
     m_gameWindow_p->getRenderer().finishRendering();
 }
 
-Game::~Game() {}
+GameBase::~GameBase() {}
 
 } // namespace engine
 

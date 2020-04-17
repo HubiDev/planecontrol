@@ -19,7 +19,7 @@ void Window::initialize()
     createRenderer();
 }
 
-const Renderer& Window::getRenderer() const
+Renderer& Window::getRenderer() const
 {
     return *m_renderer_p;
 }

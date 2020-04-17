@@ -1,37 +1,47 @@
-#ifndef CORE_ENGINE_GAME_HPP_INCLUDED
-#define CORE_ENGINE_GAME_HPP_INCLUDED
+#ifndef CORE_ENGINE_GAME_BASE_HPP_INCLUDED
+#define CORE_ENGINE_GAME_BASE_HPP_INCLUDED
 
 #include "core/ui/event_manager.hpp"
 #include "core/ui/sdl_context.hpp"
 #include "core/ui/window.hpp"
+#include "core/engine/game_element.hpp"
+#include <vector>
 
 namespace core
 {
 namespace engine
 {
-class Game
+class GameBase
 {
 
 public:
-    Game();
-    ~Game();
+    GameBase();
+    virtual ~GameBase();
 
     void intialize();
 
     /// @brief This is "the" method that starts it all...
     void run();
 
-private:
+protected:
 
+    void addGameElement(core::engine::IGameElement& f_gameElement);
+    virtual void update() = 0;
+    virtual void draw() = 0;
+
+private:
     void updateGameElements();
     void drawGameElements();
 
-    // CAUTION: Context shall always be the first object to be constructed 
+    // CAUTION: Context shall always be the first object to be constructed
     // and the last one to be destructed
     ui::SdlContext m_sdlContext;
 
     ui::EventManager m_eventManager;
     std::unique_ptr<ui::Window> m_gameWindow_p;
+
+    std::vector<std::reference_wrapper<IGameElement>> m_gameElements;
+
     bool m_exitRequested;
 
     // TODO make setting dependend

@@ -17,7 +17,7 @@ class Window
 public:
     Window(const std::string& f_title, int32_t f_width, int32_t f_height);
     void initialize();
-    const Renderer& getRenderer() const;
+    Renderer& getRenderer() const;
 
 private:
 

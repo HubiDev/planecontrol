@@ -17,6 +17,7 @@ public:
 
     void prepareRendering() const;
     void finishRendering() const;
+    SDL_Renderer& getRenderer() const;
 
 private:
     std::unique_ptr<SDL_Renderer, SdlDeleter> m_renderer_p;
