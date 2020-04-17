@@ -18,5 +18,6 @@ add_subdirectory(src/game)
 
 # other lib dependencies
 find_package(SDL2 REQUIRED)
+find_package(OpenGL)
 include_directories(planecontrol ${SDL2_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${OPENGL_gl_LIBRARY})

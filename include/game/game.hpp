@@ -2,6 +2,7 @@
 #define GAME_GAME_HPP_INCLUDED
 
 #include "core/engine/game_base.hpp"
+#include "game/elements/flight_track.hpp"
 
 namespace game
 {
@@ -12,11 +13,14 @@ public:
     ~Game();
 
 protected:
+    void onAfterInitialize() override;
     void update() override;
     void draw() override;
 
 private:
-    /* data */
+
+    elements::FlightTrack m_flightTrack;
+    
 };
 
 } // namespace game

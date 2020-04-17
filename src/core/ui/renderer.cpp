@@ -13,7 +13,7 @@ Renderer::~Renderer() {}
 
 void Renderer::prepareRendering() const
 {
-    SDL_SetRenderDrawColor(m_renderer_p.get(), 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderDrawColor(m_renderer_p.get(), 0xFFU, 0xFFU, 0xFFU, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(m_renderer_p.get());
 }
 

@@ -28,6 +28,7 @@ protected:
     void addGameElement(core::engine::IGameElement& f_gameElement);
     virtual void update() = 0;
     virtual void draw() = 0;
+    virtual void onAfterInitialize();
 
 private:
     void updateGameElements();

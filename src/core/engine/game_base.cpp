@@ -18,7 +18,10 @@ void GameBase::intialize()
     m_eventManager.addEventCallback(SDL_QUIT, [this](const SDL_Event& f_event) -> void { m_exitRequested = true; });
     m_gameWindow_p = std::unique_ptr<ui::Window>(new ui::Window(m_windowTitle, k_windowWidth, k_windowHeight));
     m_gameWindow_p->initialize();
+    onAfterInitialize();
 }
+
+void GameBase::onAfterInitialize() {}
 
 void GameBase::run()
 {
@@ -33,7 +36,7 @@ void GameBase::run()
     m_gameWindow_p.reset(); // close the window
 }
 
-void GameBase::addGameElement(core::engine::IGameElement& f_gameElement) 
+void GameBase::addGameElement(core::engine::IGameElement& f_gameElement)
 {
     m_gameElements.push_back(std::reference_wrapper<IGameElement>(f_gameElement));
 }
