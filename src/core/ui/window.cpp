@@ -10,24 +10,28 @@ Window::Window(const std::string& f_title, int32_t f_width, int32_t f_height)
     , m_width(f_width)
     , m_height(f_height)
     , m_window_p(nullptr)
-    , m_renderer_p(nullptr)
+    , m_openGlContext(nullptr)
 {}
 
 void Window::initialize()
 {
     createWindow();
-    createRenderer();
+    createOpenGlContext();
 }
 
-Renderer& Window::getRenderer() const
+SDL_Window& Window::getSDLWindow()
 {
-    return *m_renderer_p;
+    return *m_window_p;
 }
 
-void Window::createWindow() 
+void Window::createWindow()
 {
-    m_window_p = std::unique_ptr<SDL_Window, SdlDeleter>(SDL_CreateWindow(
-        m_title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_width, m_height, SDL_WINDOW_OPENGL));
+    m_window_p = std::unique_ptr<SDL_Window, SdlDeleter>(SDL_CreateWindow(m_title.c_str(),
+                                                                          SDL_WINDOWPOS_CENTERED,
+                                                                          SDL_WINDOWPOS_CENTERED,
+                                                                          m_width,
+                                                                          m_height,
+                                                                          SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE));
 
     if(nullptr == m_window_p)
     {
@@ -35,16 +39,13 @@ void Window::createWindow()
     }
 }
 
-void Window::createRenderer()
+void Window::createOpenGlContext()
 {
-    if(nullptr != m_window_p)
+    m_openGlContext = SDL_GL_CreateContext(m_window_p.get());
+
+    if(nullptr == m_openGlContext)
     {
-        m_renderer_p =
-            std::unique_ptr<Renderer>(new Renderer(SDL_CreateRenderer(m_window_p.get(), -1, SDL_RENDERER_ACCELERATED)));
-    }
-    else
-    {
-        throw std::runtime_error("Window not available to create renderer");
+        throw std::runtime_error("OpenGL not available");
     }
 }
 

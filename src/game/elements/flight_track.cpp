@@ -13,17 +13,17 @@ FlightTrack::FlightTrack()
 
 FlightTrack::~FlightTrack() {}
 
-void FlightTrack::draw(const core::ui::Renderer& f_renderer)
+void FlightTrack::draw()
 {
-    SDL_SetRenderDrawColor(&f_renderer.getRenderer(), 128, 128, 128, SDL_ALPHA_OPAQUE);
-    glLineWidth(20.0f);
-    SDL_RenderDrawLine(&f_renderer.getRenderer(), 10, 10, 400, 400);
+    glLineWidth(5.0f);
+    glColor3f(1.f, 1.f, 1.f);
+    glBegin(GL_LINES);
+    glVertex2f(-0.5f, -0.5f);
+    glVertex2f(0.0f, 0.5f);
+    glEnd();
 }
 
-void FlightTrack::update()
-{
-
-}
+void FlightTrack::update() {}
 
 } // namespace elements
 } // namespace game

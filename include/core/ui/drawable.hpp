@@ -1,8 +1,6 @@
 #ifndef CORE_UI_DRAWABLE_HPP_INCLUDED
 #define CORE_UI_DRAWABLE_HPP_INCLUDED
 
-#include "core/ui/renderer.hpp"
-
 namespace core
 {
 namespace ui
@@ -18,7 +16,7 @@ public:
     IDrawable& operator=(const IDrawable&) = delete;
     IDrawable& operator=(IDrawable&&) = delete;
 
-    virtual void draw(const Renderer& f_renderer) = 0;
+    virtual void draw() = 0;
 
 protected:
     IDrawable() {}

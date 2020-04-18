@@ -14,7 +14,7 @@ public:
     FlightTrack();
     ~FlightTrack();
 
-    void draw(const core::ui::Renderer& f_renderer) override;
+    void draw() override;
     void update() override;
 
 private:

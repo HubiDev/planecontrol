@@ -5,7 +5,6 @@
 #include <memory>
 #include <string>
 
-#include "core/ui/renderer.hpp"
 #include "sdl_deleter.hpp"
 
 namespace core
@@ -17,18 +16,18 @@ class Window
 public:
     Window(const std::string& f_title, int32_t f_width, int32_t f_height);
     void initialize();
-    Renderer& getRenderer() const;
+    SDL_Window& getSDLWindow();
 
 private:
 
     void createWindow();
-    void createRenderer();
+    void createOpenGlContext();
 
     std::string m_title;
     int32_t m_width;
     int32_t m_height;
     std::unique_ptr<SDL_Window, SdlDeleter> m_window_p;
-    std::unique_ptr<Renderer> m_renderer_p;
+    SDL_GLContext m_openGlContext;
 };
 
 } // namespace ui

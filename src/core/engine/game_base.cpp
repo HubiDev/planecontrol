@@ -1,4 +1,5 @@
 #include "core/engine/game_base.hpp"
+#include <SDL2/SDL_opengl.h>
 
 namespace core
 {
@@ -53,15 +54,17 @@ void GameBase::updateGameElements()
 
 void GameBase::drawGameElements()
 {
-    m_gameWindow_p->getRenderer().prepareRendering();
+    glClearColor(0.f, 0.f, 0.f, 1);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     for(auto& current : m_gameElements)
     {
-        current.get().draw(m_gameWindow_p->getRenderer());
+        current.get().draw();
     }
 
     draw();
-    m_gameWindow_p->getRenderer().finishRendering();
+
+    SDL_GL_SwapWindow(&m_gameWindow_p->getSDLWindow());
 }
 
 GameBase::~GameBase() {}
