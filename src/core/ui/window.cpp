@@ -14,6 +14,11 @@ Window::Window(const std::string& f_title, int32_t f_width, int32_t f_height)
     , m_openGlContext(nullptr)
 {}
 
+Window::~Window()
+{
+    SDL_GL_DeleteContext(m_openGlContext);
+}
+
 void Window::initialize()
 {
     createWindow();

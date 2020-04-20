@@ -15,6 +15,7 @@ class Window
 {
 public:
     Window(const std::string& f_title, int32_t f_width, int32_t f_height);
+    ~Window();
     void initialize();
     SDL_Window& getSDLWindow();
 

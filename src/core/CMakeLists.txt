@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Add sources
 FILE(GLOB CoreUiSources "ui/*.cpp")
 FILE(GLOB CoreEngineSources "engine/*.cpp")
-FILE(GLOB CoreGraphicsSources "engine/*.cpp")
+FILE(GLOB CoreGraphicsSources "graphics/*.cpp")
 
 
 # create core lib

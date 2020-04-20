@@ -54,7 +54,7 @@ void GameBase::updateGameElements()
 
 void GameBase::drawGameElements()
 {
-    glClearColor(0.f, 0.f, 0.f, 1);
+    glClearColor(1.f, 1.f, 1.f, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
     for(auto& current : m_gameElements)

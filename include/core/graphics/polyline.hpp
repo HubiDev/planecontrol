@@ -15,10 +15,15 @@ public:
     ~Polyline();
 
     void addPoint(const Coordinate& f_point);
+    void draw();
 
 private:
-    /* data */
+
+    void render();
+    
+    float m_thickness;
     std::vector<Coordinate> m_points;
+    std::vector<Coordinate> m_vertexBuffer;
 };
 
 } // namespace graphics

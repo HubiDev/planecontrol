@@ -2,6 +2,7 @@
 #define GAME_ELEMENTS_FLIGHT_TRACK_HPP_INCLUDED
 
 #include "core/engine/game_element.hpp"
+#include "core/graphics/polyline.hpp"
 
 namespace game
 {
@@ -19,6 +20,7 @@ public:
 
 private:
     
+    core::graphics::Polyline m_line;
 };
 
 } // namespace elements

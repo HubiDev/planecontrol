@@ -9,28 +9,19 @@ namespace elements
 
 FlightTrack::FlightTrack()
     : core::engine::IGameElement()
-{}
+    , m_line()
+{
+    // TEST code
+    m_line.addPoint({10.f, 10.f});
+    m_line.addPoint({100.f, 100.f});
+
+}
 
 FlightTrack::~FlightTrack() {}
 
 void FlightTrack::draw()
 {
-    glEnable(GL_LINE_SMOOTH);
-    glEnable(GL_BLEND);
-
-    glLineWidth(5.0f);
-    glColor3f(1.f, 1.f, 1.f);
-    glBegin(GL_LINE_STRIP);
-    glVertex2i(0, 0);
-    glVertex2i(100, 100);
-    glVertex2i(100, 100);
-    glVertex2i(150, 175);
-    glVertex2i(150, 175);
-    glVertex2i(250, 175);
-    glEnd();
-
-    glDisable(GL_LINE_SMOOTH);
-    glDisable(GL_BLEND);
+    m_line.draw();
 }
 
 void FlightTrack::update() {}

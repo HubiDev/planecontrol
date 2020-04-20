@@ -9,8 +9,8 @@ namespace graphics
 {
 struct Coordinate
 {
-    int32_t x;
-    int32_t y;
+    float x;
+    float y;
 };
 
 } // namespace graphics
