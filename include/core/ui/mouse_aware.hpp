@@ -17,7 +17,7 @@ public:
     IMouseAware& operator=(const IMouseAware&) = delete;
     IMouseAware& operator=(IMouseAware&&) = delete;
 
-    void onMouseButtonPressed(const MousePressedEventArgs& f_eventArgs) {}
+    virtual void onMouseButtonPressed(const MousePressedEventArgs& f_eventArgs) {}
 
 protected:
     IMouseAware() {}

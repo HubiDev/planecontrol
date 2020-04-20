@@ -18,8 +18,9 @@ public:
     void draw() override;
     void update() override;
 
+    void onMouseButtonPressed(const core::ui::MousePressedEventArgs& f_eventArgs) override;
+
 private:
-    
     core::graphics::Polyline m_line;
 };
 

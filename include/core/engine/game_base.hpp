@@ -4,7 +4,10 @@
 #include "core/ui/event_manager.hpp"
 #include "core/ui/sdl_context.hpp"
 #include "core/ui/window.hpp"
+#include "core/ui/mouse.hpp"
+
 #include "core/engine/game_element.hpp"
+
 #include <vector>
 
 namespace core
@@ -39,6 +42,8 @@ private:
     ui::SdlContext m_sdlContext;
 
     ui::EventManager m_eventManager;
+    ui::Mouse m_mouse;
+
     std::unique_ptr<ui::Window> m_gameWindow_p;
 
     std::vector<std::reference_wrapper<IGameElement>> m_gameElements;

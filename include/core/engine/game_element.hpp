@@ -2,12 +2,13 @@
 #define CORE_ENGINE_GAME_ELEMENT_HPP_INCLUDED
 
 #include "core/ui/drawable.hpp"
+#include "core/ui/mouse_aware.hpp"
 
 namespace core
 {
 namespace engine
 {
-class IGameElement : public ui::IDrawable
+class IGameElement : public ui::IDrawable, public ui::IMouseAware
 {
 public:
     virtual ~IGameElement(){};
@@ -21,7 +22,8 @@ public:
 
 protected:
     IGameElement()
-        : ui::IDrawable(){};
+        : ui::IDrawable()
+        , ui::IMouseAware(){};
 };
 
 } // namespace engine
