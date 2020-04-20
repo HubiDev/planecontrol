@@ -22,11 +22,20 @@ void Polyline::addPoint(const Coordinate& f_point)
 
 void Polyline::draw()
 {
+    render(); // TODO delete this
+
     glBegin(GL_TRIANGLES);
+
     glColor3f(0.1, 0.2, 0.3);
-    glVertex3f(10, 10, 0);
-    glVertex3f(210, 10, 0);
-    glVertex3f(10, 210, 0);
+
+    for(auto& current : m_vertexBuffer)
+    {
+        glVertex3f(current.x, current.y, 0.f);
+    }
+    
+    // glVertex3f(10.f, 10.f, 0.f);
+    // glVertex3f(210.f, 10.f, 0.f);
+    // glVertex3f(10.f, 210.f, 0.f);
     glEnd();
 }
 
@@ -71,6 +80,7 @@ void Polyline::render()
             pUR.x = endPoint.x + (m_thickness * orthoVector.x);
             pUR.y = endPoint.y + (m_thickness * orthoVector.y);
 
+            m_vertexBuffer.clear(); // TODO delete this
             m_vertexBuffer.push_back(pLL);
             m_vertexBuffer.push_back(pUL);
             m_vertexBuffer.push_back(pLR);
