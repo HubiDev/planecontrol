@@ -14,6 +14,8 @@ FlightTrack::FlightTrack()
     // TEST code
     m_line.addPoint({10.f, 10.f});
     m_line.addPoint({100.f, 100.f});
+    m_line.addPoint({120.f, 150.f});
+    m_line.addPoint({150.f, 175.f});
 
 }
 
