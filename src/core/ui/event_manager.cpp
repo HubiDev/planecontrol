@@ -1,4 +1,5 @@
 #include "core/ui/event_manager.hpp"
+#include <iostream>
 
 namespace core
 {
@@ -33,6 +34,11 @@ void EventManager::processEvents() const
         if(m_eventCallbacks.end() != searchResult_p)
         {            
             searchResult_p->second(event);
+        }
+
+        if(event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            std::cout << "mouse down\n";
         }
     }
 }
