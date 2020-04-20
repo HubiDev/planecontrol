@@ -22,29 +22,12 @@ void Polyline::addPoint(const Coordinate& f_point)
 
 void Polyline::draw()
 {
-    glEnable(GL_LINE_SMOOTH);
-    glEnable(GL_BLEND);
-
-    glLineWidth(5.0f);
-    glColor3f(0.f, 0.f, 0.f);
-    glBegin(GL_LINE_STRIP);
-    glVertex2i(0, 0);
-    glVertex2i(100, 100);
-    glVertex2i(100, 100);
-    glVertex2i(150, 175);
-    glVertex2i(150, 175);
-    glVertex2i(250, 175);
+    glBegin(GL_TRIANGLES);
+    glColor3f(0.1, 0.2, 0.3);
+    glVertex3f(10, 10, 0);
+    glVertex3f(210, 10, 0);
+    glVertex3f(10, 210, 0);
     glEnd();
-
-    glDisable(GL_LINE_SMOOTH);
-    glDisable(GL_BLEND);
-
-    // glBegin(GL_TRIANGLES);
-    // glColor3f(0.1, 0.2, 0.3);
-    // glVertex2f(10.f, 10.f);
-    // glVertex2f(100.f, 100.f);
-    // glVertex2f(50.f, 50.f);
-    // glEnd();
 }
 
 void Polyline::render()
