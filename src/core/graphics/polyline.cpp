@@ -8,7 +8,7 @@ namespace graphics
 {
 
 Polyline::Polyline()
-    : m_thickness(10.f) // TODO make variable
+    : m_thickness(3.f) // TODO make variable
     , m_points()
     , m_upperVertexBuffer()
     , m_lowerVertexBuffer()
@@ -92,6 +92,12 @@ void Polyline::render()
         Coordinate connectionVector;
         connectionVector.x = lastVector.x + orthoVector.x;
         connectionVector.y = lastVector.y + orthoVector.y;
+
+        // Calculate unit vector
+        // TODO move this block
+        float connectionVectorLength = std::sqrt((connectionVector.x * connectionVector.x) + (connectionVector.y * connectionVector.y));
+        connectionVector.x = (connectionVector.x / connectionVectorLength);
+        connectionVector.y = (connectionVector.y / connectionVectorLength);
 
         // remove vertices that are no longer required
         m_lowerVertexBuffer.pop_back();
