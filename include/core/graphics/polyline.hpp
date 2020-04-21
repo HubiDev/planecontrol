@@ -23,7 +23,8 @@ private:
     
     float m_thickness;
     std::vector<Coordinate> m_points;
-    std::vector<Coordinate> m_vertexBuffer;
+    std::vector<Coordinate> m_upperVertexBuffer;
+    std::vector<Coordinate> m_lowerVertexBuffer;
 };
 
 } // namespace graphics
