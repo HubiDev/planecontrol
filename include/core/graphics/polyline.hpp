@@ -20,6 +20,7 @@ public:
 private:
 
     void render();
+    bool filterPoint(const Coordinate& f_point);
     
     float m_thickness;
     std::vector<Coordinate> m_points;

@@ -8,7 +8,7 @@ namespace graphics
 {
 
 Polyline::Polyline()
-    : m_thickness(3.f) // TODO make variable
+    : m_thickness(10.f) // TODO make variable
     , m_points()
     , m_upperVertexBuffer()
     , m_lowerVertexBuffer()
@@ -24,7 +24,7 @@ void Polyline::addPoint(const Coordinate& f_point)
     }
     else
     {
-        if((m_points.back().x != f_point.x) || (m_points.back().y != f_point.y))
+        if(filterPoint(f_point))
         {
             m_points.push_back(f_point);
 
@@ -36,18 +36,30 @@ void Polyline::addPoint(const Coordinate& f_point)
     }
 }
 
+bool Polyline::filterPoint(const Coordinate& f_point)
+{
+    bool result = false;
+
+    if((m_points.back().x != f_point.x) || (m_points.back().y != f_point.y))
+    {
+        result = true;
+    }
+
+    return result;
+}
+
 void Polyline::draw()
 {
     glBegin(GL_TRIANGLES);
 
-    glColor3f(0.1, 0.2, 0.3);
+    glColor3f(0.5, 0.0, 0.0);
 
     for(auto& current : m_upperVertexBuffer)
     {
         glVertex3f(current.x, current.y, 0.f);
     }
 
-    glColor3f(0.3, 0.2, 0.1);
+    glColor3f(0.5, 0.0, 0.0);
 
     for(auto& current : m_lowerVertexBuffer)
     {
@@ -95,39 +107,44 @@ void Polyline::render()
 
         // Calculate unit vector
         // TODO move this block
-        float connectionVectorLength = std::sqrt((connectionVector.x * connectionVector.x) + (connectionVector.y * connectionVector.y));
+        float connectionVectorLength =
+            std::sqrt((connectionVector.x * connectionVector.x) + (connectionVector.y * connectionVector.y));
         connectionVector.x = (connectionVector.x / connectionVectorLength);
         connectionVector.y = (connectionVector.y / connectionVectorLength);
 
         // remove vertices that are no longer required
-        m_lowerVertexBuffer.pop_back();
-        m_upperVertexBuffer.pop_back();
-        m_upperVertexBuffer.pop_back();
+        //m_lowerVertexBuffer.pop_back();
+        //m_upperVertexBuffer.pop_back();
+        //m_upperVertexBuffer.pop_back();
 
-        // calculate all 6 coordinates
-        Coordinate oldUpper;
-        Coordinate oldLower;
-        oldLower.x = startPoint.x + ((-1) * m_thickness * connectionVector.x);
-        oldLower.y = startPoint.y + ((-1) * m_thickness * connectionVector.y);
-        oldUpper.x = startPoint.x + (m_thickness * connectionVector.x);
-        oldUpper.y = startPoint.y + (m_thickness * connectionVector.y);
-
-        // add the recalculated points
-        m_lowerVertexBuffer.push_back(oldLower);
-        m_upperVertexBuffer.push_back(oldUpper);
-        m_upperVertexBuffer.push_back(oldLower);
-
+        // Calculate all 4 coordinates
+        // Start with the upper triangle
+        Coordinate pLL;
+        Coordinate pUL;
         Coordinate pUR;
         Coordinate pLR;
+        pLL.x = startPoint.x + ((-1) * m_thickness * orthoVector.x);
+        pLL.y = startPoint.y + ((-1) * m_thickness * orthoVector.y);
+        pUL.x = startPoint.x + (m_thickness * orthoVector.x);
+        pUL.y = startPoint.y + (m_thickness * orthoVector.y);
         pLR.x = endPoint.x + ((-1) * m_thickness * orthoVector.x);
         pLR.y = endPoint.y + ((-1) * m_thickness * orthoVector.y);
         pUR.x = endPoint.x + (m_thickness * orthoVector.x);
         pUR.y = endPoint.y + (m_thickness * orthoVector.y);
 
-        m_lowerVertexBuffer.push_back(oldLower);
-        m_lowerVertexBuffer.push_back(oldUpper);
+        // line joint
+        m_lowerVertexBuffer.push_back(upperVertex);
+        m_lowerVertexBuffer.push_back(pLL);
+        m_lowerVertexBuffer.push_back(pUL);
+        m_lowerVertexBuffer.push_back(lowerVertex);
+        m_lowerVertexBuffer.push_back(pLL);
+        m_lowerVertexBuffer.push_back(pUL);
+
+        // new line
+        m_lowerVertexBuffer.push_back(pLL);
+        m_lowerVertexBuffer.push_back(pUL);
         m_lowerVertexBuffer.push_back(pLR);
-        m_upperVertexBuffer.push_back(oldUpper);
+        m_upperVertexBuffer.push_back(pUL);
         m_upperVertexBuffer.push_back(pUR);
         m_upperVertexBuffer.push_back(pLR);
     }
