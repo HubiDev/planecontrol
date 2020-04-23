@@ -49,8 +49,11 @@ bool Polyline::filterPoint(const Vector& f_point)
 
 void Polyline::draw()
 {
-    glBegin(GL_TRIANGLES);
+    glEnable(GL_POLYGON_SMOOTH);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    glBegin(GL_TRIANGLES);
     glColor3f(0.1, 0.2, 0.7);
 
     for(auto& current : m_vertexBuffer)
