@@ -5,6 +5,8 @@
 #include <SDL2/SDL.h>
 #include <functional>
 #include <vector>
+#include <queue>
+#include <tuple>
 
 namespace core
 {
@@ -26,10 +28,12 @@ public:
     
 
 private:
+
+    void handlePressedEvent(IMouseAware& f_element);
+
     bool m_isPressed;
-    int32_t m_lastPosX;
-    int32_t m_lastPosY;
     std::vector<std::reference_wrapper<IMouseAware>> m_awareElements;
+    std::vector<std::tuple<int32_t, int32_t>> m_lastPositions;
 };
 
 } // namespace ui

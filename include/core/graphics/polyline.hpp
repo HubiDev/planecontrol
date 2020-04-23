@@ -1,7 +1,7 @@
 #ifndef CORE_GRAPHICS_POLYLINE_HPP_INCLUDED
 #define CORE_GRAPHICS_POLYLINE_HPP_INCLUDED
 
-#include "core/graphics/coordinate.hpp"
+#include "core/graphics/vector.hpp"
 #include <vector>
 
 namespace core
