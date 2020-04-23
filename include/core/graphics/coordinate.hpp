@@ -7,7 +7,7 @@ namespace core
 {
 namespace graphics
 {
-struct Coordinate
+struct Vector
 {
     float x;
     float y;

@@ -32,13 +32,8 @@ void EventManager::processEvents() const
     {
         auto searchResult_p = m_eventCallbacks.find(event.type);
         if(m_eventCallbacks.end() != searchResult_p)
-        {            
-            searchResult_p->second(event);
-        }
-
-        if(event.type == SDL_MOUSEBUTTONDOWN)
         {
-            std::cout << "mouse down\n";
+            searchResult_p->second(event);
         }
     }
 }

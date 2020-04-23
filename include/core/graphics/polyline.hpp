@@ -14,18 +14,17 @@ public:
     Polyline();
     ~Polyline();
 
-    void addPoint(const Coordinate& f_point);
+    void addPoint(const Vector& f_point);
     void draw();
 
 private:
 
     void render();
-    bool filterPoint(const Coordinate& f_point);
+    bool filterPoint(const Vector& f_point);
     
     float m_thickness;
-    std::vector<Coordinate> m_points;
-    std::vector<Coordinate> m_upperVertexBuffer;
-    std::vector<Coordinate> m_lowerVertexBuffer;
+    std::vector<Vector> m_points;
+    std::vector<Vector> m_vertexBuffer;
 };
 
 } // namespace graphics

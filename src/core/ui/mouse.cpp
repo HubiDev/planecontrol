@@ -1,5 +1,4 @@
 #include "core/ui/mouse.hpp"
-#include <iostream>
 
 namespace core
 {
@@ -22,11 +21,6 @@ void Mouse::registerAwareElement(IMouseAware& f_element)
 
 void Mouse::update()
 {
-    if(m_isPressed)
-    {
-        std::cout << "mouse pressed\n";
-    }
-
     for(auto& element : m_awareElements)
     {
         if(m_isPressed)
