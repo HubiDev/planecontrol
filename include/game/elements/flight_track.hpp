@@ -22,6 +22,7 @@ public:
 
 private:
     core::graphics::Polyline m_line;
+    static constexpr float TRACK_THICKNESS = 10.f;
 };
 
 } // namespace elements

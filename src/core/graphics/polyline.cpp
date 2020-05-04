@@ -7,8 +7,8 @@ namespace core
 namespace graphics
 {
 
-Polyline::Polyline()
-    : m_thickness(2.f) // TODO make variable
+Polyline::Polyline(float f_thickness)
+    : m_thickness(f_thickness) // TODO make variable
     , m_points()
     , m_vertexBuffer()
 {}
@@ -49,10 +49,6 @@ bool Polyline::filterPoint(const Vector& f_point)
 
 void Polyline::draw()
 {
-    glEnable(GL_POLYGON_SMOOTH);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     glBegin(GL_TRIANGLES);
     glColor3f(0.1, 0.2, 0.7);
 

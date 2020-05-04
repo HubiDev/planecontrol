@@ -11,7 +11,7 @@ namespace graphics
 class Polyline
 {
 public:
-    Polyline();
+    Polyline(float f_thickness);
     ~Polyline();
 
     void addPoint(const Vector& f_point);

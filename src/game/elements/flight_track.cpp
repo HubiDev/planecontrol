@@ -9,12 +9,8 @@ namespace elements
 
 FlightTrack::FlightTrack()
     : core::engine::IGameElement()
-    , m_line()
+    , m_line(TRACK_THICKNESS)
 {
-    //m_line.addPoint({10.f, 10.f});
-    //m_line.addPoint({100.f, 10.f});
-    //m_line.addPoint({100.f, 100.f});
-    //m_line.addPoint({175.f, 120.f});
 }
 
 FlightTrack::~FlightTrack() {}
