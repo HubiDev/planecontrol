@@ -1,5 +1,6 @@
 #include "core/graphics/polyline.hpp"
 #include "core/graphics/geometry.hpp"
+#define GL_GLEXT_PROTOTYPES
 #include <SDL2/SDL_opengl.h>
 
 namespace core
@@ -49,15 +50,72 @@ bool Polyline::filterPoint(const Vector& f_point)
 
 void Polyline::draw()
 {
-    glBegin(GL_TRIANGLES);
-    glColor3f(0.1, 0.2, 0.7);
+    std::vector<float> vertexBuffer;
 
     for(auto& current : m_vertexBuffer)
     {
-        glVertex3f(current.x, current.y, 0.f);
+        vertexBuffer.push_back(current.x);
+        vertexBuffer.push_back(current.y);
+        vertexBuffer.push_back(0.f);
+        //  glVertex3f(current.x, current.y, 0.f);
     }
 
-    glEnd();
+    // GLuint buffer;
+    // glGenBuffers(1, &buffer);
+    // glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    // glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size(), &vertexBuffer.front(), GL_STATIC_DRAW);
+    // glBindBuffer(GL_ARRAY_BUFFER, buffer);
+
+    // glEnableClientState(GL_VERTEX_ARRAY);
+    // glDrawArrays(GL_TRIANGLES, 0, m_vertexBuffer.size());
+    // glDeleteBuffers(1, &buffer);
+
+    glColor3f(0.1, 0.2, 0.7);
+
+    //Initialise VBO - do only once, at start of program
+    //Create a variable to hold the VBO identifier
+    GLuint triangleVBO;
+
+    //Vertices of a triangle (counter-clockwise winding)
+    //float data[] = {100.0, 0.0, 100.0, 0.0, 0.0, -100.0, -100.0, 0.0, 100.0};
+    //float data[] = {10.0, 150.0, 0.0, -100.0, -100.0, 0.0, 100.0, -100.0, 0.0};
+
+    //Create a new VBO and use the variable id to store the VBO id
+    glGenBuffers(1, &triangleVBO);
+
+    //Make the new VBO active
+    glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+
+    //Upload vertex data to the video device
+    glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(float), &vertexBuffer.front(), GL_STATIC_DRAW);
+
+    //Make the new VBO active. Repeat here incase changed since initialisation
+    glBindBuffer(GL_ARRAY_BUFFER, triangleVBO);
+
+    //Draw Triangle from VBO - do each time window, view point or data changes
+    //Establish its 3 coordinates per vertex with zero stride in this array; necessary here
+    glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+    //Establish array contains vertices (not normals, colours, texture coords etc)
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+    //Actually draw the triangle, giving the number of vertices provided
+    glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size() / 3);
+
+    //Force display to be drawn now
+    glFlush();
+
+    glDeleteBuffers(1, &triangleVBO);
+
+    //     glBegin(GL_TRIANGLES);
+    // glColor3f(0.1, 0.2, 0.7);
+
+    // for(auto& current : m_vertexBuffer)
+    // {
+    //     glVertex3f(current.x, current.y, 0.f);
+    // }
+
+    // glEnd();
 }
 
 /// @brief This will always render the line to the last point that was added
@@ -94,9 +152,9 @@ void Polyline::render()
         m_vertexBuffer.push_back(lastUpperPoint);
         m_vertexBuffer.push_back(lowerLeftPoint);
         m_vertexBuffer.push_back(upperLeftPoint);
-        m_vertexBuffer.push_back(lastLowerPoint);
+        m_vertexBuffer.push_back(lastLowerPoint);        
         m_vertexBuffer.push_back(lowerLeftPoint);
-        m_vertexBuffer.push_back(upperLeftPoint);
+        m_vertexBuffer.push_back(upperLeftPoint);        
     }
 
     m_vertexBuffer.push_back(lowerLeftPoint);
@@ -105,6 +163,10 @@ void Polyline::render()
     m_vertexBuffer.push_back(upperLeftPoint);
     m_vertexBuffer.push_back(upperRightPoint);
     m_vertexBuffer.push_back(lowerRightPoint);
+
+    
+    
+    
 }
 
 } // namespace graphics

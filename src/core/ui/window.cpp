@@ -32,8 +32,8 @@ SDL_Window& Window::getSDLWindow()
 
 void Window::createWindow()
 {
-    //glEnable(GL_MULTISAMPLE);
-    //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+    glEnable(GL_MULTISAMPLE);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
     m_window_p = std::unique_ptr<SDL_Window, SdlDeleter>(SDL_CreateWindow(m_title.c_str(),
                                                                           SDL_WINDOWPOS_CENTERED,
                                                                           SDL_WINDOWPOS_CENTERED,

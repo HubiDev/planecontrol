@@ -11,6 +11,9 @@ FlightTrack::FlightTrack()
     : core::engine::IGameElement()
     , m_line(TRACK_THICKNESS)
 {
+    m_line.addPoint({20.f, 20.f});
+    m_line.addPoint({120.f, 20.f});
+    m_line.addPoint({220.f, 20.f});
 }
 
 FlightTrack::~FlightTrack() {}
