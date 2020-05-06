@@ -15,7 +15,7 @@ GameBase::GameBase()
     , m_windowTitle("Plane Control")
 {}
 
-void GameBase::intialize()
+void GameBase::initialize()
 {
     m_eventManager.addEventCallback(SDL_QUIT, [this](const SDL_Event& f_event) -> void { m_exitRequested = true; });
 

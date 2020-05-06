@@ -21,7 +21,7 @@ public:
     GameBase();
     virtual ~GameBase();
 
-    void intialize();
+    void initialize();
 
     /// @brief This is "the" method that starts it all...
     void run();

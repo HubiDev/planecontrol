@@ -3,6 +3,8 @@
 
 #include "core/graphics/vector.hpp"
 #include <vector>
+#define GL_GLEXT_PROTOTYPES
+#include <SDL2/SDL_opengl.h>
 
 namespace core
 {
@@ -22,6 +24,7 @@ private:
     void render();
     bool filterPoint(const Vector& f_point);
     
+    GLuint m_vboReference;
     float m_thickness;
     std::vector<Vector> m_points;
     std::vector<Vector> m_vertexBuffer;

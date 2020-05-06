@@ -4,7 +4,7 @@
 int main(int argc, const char* argv[])
 {
     game::Game game;
-    game.intialize();
+    game.initialize();
     game.run();
 
     return 0;
