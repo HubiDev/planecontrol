@@ -31,7 +31,18 @@ void GameBase::initialize()
 
     m_gameWindow_p = std::unique_ptr<ui::Window>(new ui::Window(m_windowTitle, k_windowWidth, k_windowHeight));
     m_gameWindow_p->initialize();
+
+    // in this call all game elements shall be added by the subclass
     onAfterInitialize();
+}
+
+void GameBase::loadContent()
+{
+    // load game elements after window was created
+    for(auto& current : m_gameElements)
+    {
+        current.get().load();
+    }
 }
 
 void GameBase::onAfterInitialize() {}

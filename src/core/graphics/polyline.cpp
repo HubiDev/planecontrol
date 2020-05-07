@@ -65,16 +65,7 @@ void Polyline::draw()
         vertexBuffer.push_back(0.f);
     }
 
-    glColor3f(0.1, 0.2, 0.7);
-
-    //Initialise VBO - do only once, at start of program
-    //Create a variable to hold the VBO identifier
-    //GLuint triangleVBO;
-
-    //Create a new VBO and use the variable id to store the VBO id
-    glGenBuffers(1, &m_vboReference);
-    //Make the new VBO active
-    glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
+    glColor3f(0.1, 0.2, 0.7);    
 
     //Upload vertex data to the video device
     glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(float), &vertexBuffer.front(), GL_STATIC_DRAW);
@@ -91,9 +82,6 @@ void Polyline::draw()
 
     //Actually draw the triangle, giving the number of vertices provided
     glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size() / 3);
-
-    //Force display to be drawn now
-    //glFlush();
 }
 
 /// @brief This will always render the line to the last point that was added

@@ -9,25 +9,30 @@ namespace elements
 
 FlightTrack::FlightTrack()
     : core::engine::IGameElement()
-    , m_line(TRACK_THICKNESS)
+    , m_line_p(nullptr)
 {
-    m_line.addPoint({20.f, 20.f});
-    m_line.addPoint({120.f, 20.f});
-    m_line.addPoint({220.f, 20.f});
 }
 
 FlightTrack::~FlightTrack() {}
 
+void FlightTrack::load()
+{
+    m_line_p = std::unique_ptr<core::graphics::Polyline>(new core::graphics::Polyline(TRACK_THICKNESS));
+    m_line_p->addPoint({20.f, 20.f});
+    m_line_p->addPoint({120.f, 20.f});
+    m_line_p->addPoint({220.f, 20.f});
+}
+
 void FlightTrack::draw()
 {
-    m_line.draw();
+    m_line_p->draw();
 }
 
 void FlightTrack::update() {}
 
 void FlightTrack::onMouseButtonPressed(const core::ui::MousePressedEventArgs& f_eventArgs)
 {
-    m_line.addPoint({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+    m_line_p->addPoint({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
 }
 
 } // namespace elements

@@ -18,6 +18,10 @@ public:
     IGameElement& operator=(const IGameElement&) = delete;
     IGameElement& operator=(IGameElement&&) = delete;
 
+    /// @brief 
+    virtual void load() = 0;
+
+    /// @brief
     virtual void update() = 0;
 
 protected:

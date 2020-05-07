@@ -21,7 +21,12 @@ public:
     GameBase();
     virtual ~GameBase();
 
+    /// @brief Lightweight init of the game
     void initialize();
+
+    /// @brief Loads all content (allocates buffer, loads textures etc.)
+    /// @details Can be done during startup screen is shown
+    void loadContent();
 
     /// @brief This is "the" method that starts it all...
     void run();

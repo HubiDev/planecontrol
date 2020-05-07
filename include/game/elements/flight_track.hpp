@@ -3,6 +3,7 @@
 
 #include "core/engine/game_element.hpp"
 #include "core/graphics/polyline.hpp"
+#include <memory>
 
 namespace game
 {
@@ -15,13 +16,14 @@ public:
     FlightTrack();
     ~FlightTrack();
 
+    void load() override;
     void draw() override;
     void update() override;
 
     void onMouseButtonPressed(const core::ui::MousePressedEventArgs& f_eventArgs) override;
 
 private:
-    core::graphics::Polyline m_line;
+    std::unique_ptr<core::graphics::Polyline> m_line_p;
     static constexpr float TRACK_THICKNESS = 10.f;
 };
 
