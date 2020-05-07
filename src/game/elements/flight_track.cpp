@@ -30,7 +30,7 @@ void FlightTrack::draw()
 
 void FlightTrack::update() {}
 
-void FlightTrack::onMouseButtonPressed(const core::ui::MousePressedEventArgs& f_eventArgs)
+void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs)
 {
     m_line_p->addPoint({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
 }

@@ -7,6 +7,7 @@ namespace ui
 
 Mouse::Mouse()
     : m_isPressed(false)
+    , m_wasClicked(false)
     , m_awareElements()
     , m_lastPositions()
 {}
@@ -35,7 +36,7 @@ void Mouse::handlePressedEvent(IMouseAware& f_element)
     {
         for(const auto& position : m_lastPositions)
         {
-            MousePressedEventArgs e = {std::get<0>(position), std::get<1>(position)};
+            MouseEventArgs e = {std::get<0>(position), std::get<1>(position)};
             f_element.onMouseButtonPressed(e);
         }
     }
@@ -49,6 +50,11 @@ void Mouse::mouseButtonDownCallback(const SDL_MouseButtonEvent& f_event)
 
 void Mouse::mouseButtonUpCallback(const SDL_MouseButtonEvent& f_event)
 {
+    if(m_isPressed)
+    {
+        m_wasClicked = true;
+    }
+
     m_isPressed = false;
     m_lastPositions.push_back({f_event.x, f_event.y});
 }

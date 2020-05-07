@@ -12,7 +12,7 @@ Plane::~Plane() {}
 /// @brief
 void Plane::load()
 {
-    
+
 }
 
 /// @brief
@@ -26,7 +26,7 @@ void Plane::draw()
 
 }
 
-void Plane::onMouseButtonClicked(const core::ui::MousePressedEventArgs& f_eventArgs)
+void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 {
 
 }

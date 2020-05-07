@@ -32,6 +32,7 @@ private:
     void handlePressedEvent(IMouseAware& f_element);
 
     bool m_isPressed;
+    bool m_wasClicked;
     std::vector<std::reference_wrapper<IMouseAware>> m_awareElements;
     std::vector<std::tuple<int32_t, int32_t>> m_lastPositions;
 };

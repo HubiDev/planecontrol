@@ -24,7 +24,7 @@ public:
     virtual void draw() override;
 
     /// @brief
-    virtual void onMouseButtonClicked(const core::ui::MousePressedEventArgs& f_eventArgs) override;
+    virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs) override;
 
 private:
 };

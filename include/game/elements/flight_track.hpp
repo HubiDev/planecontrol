@@ -20,7 +20,7 @@ public:
     void draw() override;
     void update() override;
 
-    void onMouseButtonPressed(const core::ui::MousePressedEventArgs& f_eventArgs) override;
+    void onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs) override;
 
 private:
     std::unique_ptr<core::graphics::Polyline> m_line_p;

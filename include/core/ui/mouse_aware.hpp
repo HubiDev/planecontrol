@@ -1,7 +1,7 @@
 #ifndef CORE_UI_MOUSE_AWARE_HPP_INCLUDED
 #define CORE_UI_MOUSE_AWARE_HPP_INCLUDED
 
-#include "core/ui/mouse_pressed_event_args.hpp"
+#include "core/ui/mouse_event_args.hpp"
 
 namespace core
 {
@@ -17,8 +17,9 @@ public:
     IMouseAware& operator=(const IMouseAware&) = delete;
     IMouseAware& operator=(IMouseAware&&) = delete;
 
-    virtual void onMouseButtonPressed(const MousePressedEventArgs& f_eventArgs) {}
-    virtual void onMouseButtonClicked(const MousePressedEventArgs& f_eventArgs) {}
+    virtual void onMouseButtonPressed(const MouseEventArgs& f_eventArgs) {}
+    virtual void onMouseDown(const MouseEventArgs& f_eventArgs) {}
+    virtual void onMouseUp(const MouseEventArgs& f_eventArgs) {}
 
 protected:
     IMouseAware() {}

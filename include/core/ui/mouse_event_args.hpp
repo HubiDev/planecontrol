@@ -1,5 +1,5 @@
-#ifndef CORE_UI_MOUSE_PRESSED_EVENT_ARGS_HPP_INCLUDED
-#define CORE_UI_MOUSE_PRESSED_EVENT_ARGS_HPP_INCLUDED
+#ifndef CORE_UI_MOUSE_EVENT_ARGS_HPP_INCLUDED
+#define CORE_UI_MOUSE_EVENT_ARGS_HPP_INCLUDED
 
 #include <stdint.h>
 
@@ -15,7 +15,7 @@ enum class MouseButton
     middle
 };
 
-struct MousePressedEventArgs
+struct MouseEventArgs
 {
     int32_t m_posX;
     int32_t m_posY;
