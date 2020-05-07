@@ -7,7 +7,10 @@ namespace ui
 
 Mouse::Mouse()
     : m_isPressed(false)
-    , m_wasClicked(false)
+    , m_wasDown(false)
+    , m_wasUp(false)
+    , m_downPosition(0, 0)
+    , m_upPosition(0, 0)
     , m_awareElements()
     , m_lastPositions()
 {}
@@ -28,6 +31,8 @@ void Mouse::update()
 
     // clear the queue
     m_lastPositions.clear();
+    m_wasDown = false;
+    m_wasUp = false;
 }
 
 void Mouse::handlePressedEvent(IMouseAware& f_element)
@@ -36,24 +41,45 @@ void Mouse::handlePressedEvent(IMouseAware& f_element)
     {
         for(const auto& position : m_lastPositions)
         {
-            MouseEventArgs e = {std::get<0>(position), std::get<1>(position)};
-            f_element.onMouseButtonPressed(e);
+            f_element.onMouseButtonPressed(createEventArgs(position));
         }
     }
 }
 
+void Mouse::handleDownEvent(IMouseAware& f_element)
+{
+    if(m_wasDown)
+    {
+        f_element.onMouseDown(createEventArgs(m_downPosition));
+    }
+}
+
+void Mouse::handleUpEvent(IMouseAware& f_element) 
+{
+    if(m_wasUp)
+    {
+        f_element.onMouseUp(createEventArgs(m_upPosition));
+    }
+}
+
+MouseEventArgs Mouse::createEventArgs(const std::tuple<int32_t, int32_t>& f_position)
+{
+    return {std::get<0>(f_position), std::get<1>(f_position)};
+}
+
 void Mouse::mouseButtonDownCallback(const SDL_MouseButtonEvent& f_event)
 {
+    m_wasDown = true;
+    m_downPosition = {f_event.x, f_event.y};
+
     m_isPressed = true;
     m_lastPositions.push_back({f_event.x, f_event.y});
 }
 
 void Mouse::mouseButtonUpCallback(const SDL_MouseButtonEvent& f_event)
 {
-    if(m_isPressed)
-    {
-        m_wasClicked = true;
-    }
+    m_wasUp = true;
+    m_upPosition = {f_event.x, f_event.y};
 
     m_isPressed = false;
     m_lastPositions.push_back({f_event.x, f_event.y});
