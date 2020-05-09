@@ -2,7 +2,7 @@
 #define GAME_GAME_HPP_INCLUDED
 
 #include "core/engine/game_base.hpp"
-#include "game/elements/flight_track.hpp"
+#include "game/elements/plane_factory.hpp"
 
 namespace game
 {
@@ -19,7 +19,7 @@ protected:
 
 private:
 
-    elements::FlightTrack m_flightTrack;
+    elements::PlaneFactory m_planeFactory;
     
 };
 

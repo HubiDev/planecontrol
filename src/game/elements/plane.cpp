@@ -5,30 +5,25 @@ namespace game
 namespace elements
 {
 
-Plane::Plane() {}
+Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
+    : m_flightTrack_p(std::move(f_flightTrack_p))
+{}
 
 Plane::~Plane() {}
 
 /// @brief
-void Plane::load()
-{
-
-}
+void Plane::load() {}
 
 /// @brief
-void Plane::update()
+void Plane::update() {}
+
+void Plane::draw() {}
+
+void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs) {}
+
+FlightTrack& Plane::getFlightTrack()
 {
-
-}
-
-void Plane::draw()
-{
-
-}
-
-void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
-{
-
+    return *m_flightTrack_p;
 }
 
 } // namespace elements

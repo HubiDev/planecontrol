@@ -2,9 +2,9 @@
 #define CORE_ENGINE_GAME_BASE_HPP_INCLUDED
 
 #include "core/ui/event_manager.hpp"
+#include "core/ui/mouse.hpp"
 #include "core/ui/sdl_context.hpp"
 #include "core/ui/window.hpp"
-#include "core/ui/mouse.hpp"
 
 #include "core/engine/game_element.hpp"
 
@@ -32,11 +32,11 @@ public:
     void run();
 
 protected:
-
-    void addGameElement(core::engine::IGameElement& f_gameElement);
     virtual void update() = 0;
     virtual void draw() = 0;
     virtual void onAfterInitialize();
+
+    void addGameElement(core::engine::IGameElement& f_gameElement);
 
 private:
     void updateGameElements();

@@ -4,14 +4,16 @@ namespace game
 {
 Game::Game()
     : core::engine::GameBase()
-    , m_flightTrack()
+    , m_planeFactory()
 {}
 
 Game::~Game() {}
 
 void Game::onAfterInitialize()
 {
-    addGameElement(m_flightTrack);
+    auto& plane = m_planeFactory.createPlane();
+    addGameElement(plane.getFlightTrack());
+    addGameElement(plane);
 }
 
 void Game::update() {}
