@@ -84,6 +84,12 @@ void Polyline::draw()
     glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size() / 3);
 }
 
+void Polyline::reset()
+{
+    m_points.clear();
+    m_vertexBuffer.clear();
+}
+
 /// @brief This will always render the line to the last point that was added
 void Polyline::render()
 {

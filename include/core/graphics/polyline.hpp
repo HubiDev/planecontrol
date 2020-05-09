@@ -18,6 +18,7 @@ public:
 
     void addPoint(const Vector& f_point);
     void draw();
+    void reset();
 
 private:
 

@@ -19,7 +19,11 @@ void Plane::update() {}
 
 void Plane::draw() {}
 
-void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs) {}
+void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
+{
+    m_flightTrack_p->clear();
+    m_flightTrack_p->setActive(true);
+}
 
 FlightTrack& Plane::getFlightTrack()
 {

@@ -20,10 +20,14 @@ public:
     void draw() override;
     void update() override;
 
+    void setActive(bool f_isActive);
+    void clear();
+
     void onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs) override;
 
 private:
     std::unique_ptr<core::graphics::Polyline> m_line_p;
+    bool m_isActive;
     static constexpr float TRACK_THICKNESS = 5.f;
 };
 

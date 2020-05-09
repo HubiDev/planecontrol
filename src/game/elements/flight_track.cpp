@@ -10,8 +10,8 @@ namespace elements
 FlightTrack::FlightTrack()
     : core::engine::IGameElement()
     , m_line_p(nullptr)
-{
-}
+    , m_isActive(false)
+{}
 
 FlightTrack::~FlightTrack() {}
 
@@ -30,9 +30,22 @@ void FlightTrack::draw()
 
 void FlightTrack::update() {}
 
+void FlightTrack::setActive(bool f_isActive)
+{
+    m_isActive = f_isActive;
+}
+
+void FlightTrack::clear()
+{
+    m_line_p->reset();
+}
+
 void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    m_line_p->addPoint({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+    if(m_isActive)
+    {
+        m_line_p->addPoint({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+    }
 }
 
 } // namespace elements

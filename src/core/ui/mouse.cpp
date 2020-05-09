@@ -27,6 +27,8 @@ void Mouse::update()
     for(auto& element : m_awareElements)
     {
         handlePressedEvent(element);
+        handleDownEvent(element);
+        handleUpEvent(element);
     }
 
     // clear the queue
