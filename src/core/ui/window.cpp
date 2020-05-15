@@ -32,8 +32,6 @@ SDL_Window& Window::getSDLWindow()
 
 void Window::createWindow()
 {
-    glEnable(GL_MULTISAMPLE);
-    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
     m_window_p = std::unique_ptr<SDL_Window, SdlDeleter>(SDL_CreateWindow(m_title.c_str(),
                                                                           SDL_WINDOWPOS_CENTERED,
                                                                           SDL_WINDOWPOS_CENTERED,
@@ -51,6 +49,9 @@ void Window::createOpenGlContext()
 {
     m_openGlContext = SDL_GL_CreateContext(m_window_p.get());
     glOrtho(0.f, (double)m_width, (double)m_height, 0.f, 0.f, 1.f);
+
+    glEnable(GL_MULTISAMPLE);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
 
     if(nullptr == m_openGlContext)
     {
