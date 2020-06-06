@@ -73,9 +73,14 @@ void Rectangle::draw()
     //Actually draw the triangle, giving the number of vertices provided
     glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size() / 3);
 
-glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    
+}
+
+void Rectangle::move(float f_offsetX, float f_offsetY) 
+{
+    m_posX += f_offsetX;
+    m_posY += f_offsetY;
 }
 
 void Rectangle::render() {}

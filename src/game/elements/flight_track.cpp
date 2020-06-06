@@ -35,6 +35,11 @@ void FlightTrack::setActive(bool f_isActive)
     m_isActive = f_isActive;
 }
 
+bool FlightTrack::isActive()
+{
+    return m_isActive;
+}
+
 void FlightTrack::clear()
 {
     m_line_p->reset();

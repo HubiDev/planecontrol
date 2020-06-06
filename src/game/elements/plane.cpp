@@ -20,7 +20,13 @@ void Plane::load()
 }
 
 /// @brief
-void Plane::update() {}
+void Plane::update()
+{
+    if(m_flightTrack_p->isActive())
+    {
+        m_planeTexture_p->move(1.f, 1.f);
+    }
+}
 
 void Plane::draw()
 {

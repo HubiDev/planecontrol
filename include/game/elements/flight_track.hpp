@@ -21,6 +21,8 @@ public:
     void update() override;
 
     void setActive(bool f_isActive);
+    bool isActive();
+
     void clear();
 
     void onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs) override;

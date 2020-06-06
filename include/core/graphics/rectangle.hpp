@@ -19,6 +19,7 @@ public:
     ~Rectangle();
 
     void draw();
+    void move(float f_offsetX, float f_offsetY);
 
 private:
     void render();
