@@ -98,6 +98,21 @@ void Polyline::reset()
     m_vertexBuffer.clear();
 }
 
+const Vector& Polyline::getPoint(int32_t f_index)
+{
+    return m_points[f_index];
+}
+
+void Polyline::removePoint(int32_t f_index)
+{
+    m_points.erase(m_points.begin() + f_index);
+}
+
+int32_t Polyline::getPointCount() 
+{
+    return m_points.size();
+}
+
 /// @brief This will always render the line to the last point that was added
 void Polyline::render()
 {

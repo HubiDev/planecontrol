@@ -24,7 +24,12 @@ void Plane::update()
 {
     if(m_flightTrack_p->isActive())
     {
-        m_planeTexture_p->move(1.f, 1.f);
+        auto point_p = m_flightTrack_p->moveToNextPoint();
+
+        if(nullptr != point_p)
+        {
+            m_planeTexture_p->setPosition(point_p->x, point_p->y);
+        }
     }
 }
 

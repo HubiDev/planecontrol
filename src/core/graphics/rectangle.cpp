@@ -83,6 +83,12 @@ void Rectangle::move(float f_offsetX, float f_offsetY)
     m_posY += f_offsetY;
 }
 
+void Rectangle::setPosition(float f_posX, float f_posY)
+{
+    m_posX = f_posX;
+    m_posY = f_posY;
+}
+
 void Rectangle::render() {}
 
 } // namespace graphics

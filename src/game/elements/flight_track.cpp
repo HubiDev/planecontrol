@@ -45,6 +45,30 @@ void FlightTrack::clear()
     m_line_p->reset();
 }
 
+const core::graphics::Vector* FlightTrack::moveToNextPoint()
+{
+    if(m_line_p->getPointCount() == 1)
+    {
+        return &m_line_p->getPoint(0);
+    }
+    else if(m_line_p->getPointCount() > 1)
+    {
+        m_line_p->removePoint(0);
+        return &m_line_p->getPoint(0);
+    }
+
+    return nullptr;
+}
+
+const core::graphics::Vector* FlightTrack::getPoint(int32_t f_index)
+{
+    if(m_line_p->getPointCount() > 0)
+    {
+        return &(m_line_p->getPoint(f_index));
+    }
+    return nullptr;
+}
+
 void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs)
 {
     if(m_isActive)

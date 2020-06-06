@@ -19,6 +19,9 @@ public:
     void addPoint(const Vector& f_point);
     void draw();
     void reset();
+    const Vector& getPoint(int32_t f_index);
+    void removePoint(int32_t f_index);
+    int32_t getPointCount();
 
 private:
 

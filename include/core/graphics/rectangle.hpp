@@ -20,6 +20,7 @@ public:
 
     void draw();
     void move(float f_offsetX, float f_offsetY);
+    void setPosition(float f_posX, float f_posY);
 
 private:
     void render();
