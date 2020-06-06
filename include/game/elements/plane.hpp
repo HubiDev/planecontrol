@@ -3,6 +3,7 @@
 
 #include "core/engine/game_element.hpp"
 #include "game/elements/flight_track.hpp"
+#include "core/graphics/rectangle.hpp"
 
 namespace game
 {
@@ -32,6 +33,7 @@ public:
 private:
 
     std::shared_ptr<FlightTrack> m_flightTrack_p;
+    std::unique_ptr<core::graphics::Rectangle> m_planeTexture_p;
 };
 
 } // namespace elements

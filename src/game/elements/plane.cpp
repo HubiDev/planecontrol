@@ -7,17 +7,25 @@ namespace elements
 
 Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     : m_flightTrack_p(std::move(f_flightTrack_p))
+    , m_planeTexture_p()
 {}
 
 Plane::~Plane() {}
 
 /// @brief
-void Plane::load() {}
+void Plane::load()
+{
+    m_planeTexture_p =
+        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({10.f, 10.f}, {50.f, 50.f}));
+}
 
 /// @brief
 void Plane::update() {}
 
-void Plane::draw() {}
+void Plane::draw()
+{
+    m_planeTexture_p->draw();
+}
 
 void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 {

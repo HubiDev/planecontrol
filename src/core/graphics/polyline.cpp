@@ -14,7 +14,6 @@ Polyline::Polyline(float f_thickness)
 {
     //Create a new VBO and use the variable id to store the VBO id
     glGenBuffers(1, &m_vboReference);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
 }
 
 Polyline::~Polyline()
@@ -65,23 +64,32 @@ void Polyline::draw()
         vertexBuffer.push_back(0.f);
     }
 
-    glColor3f(0.1, 0.2, 0.7);    
+    if(vertexBuffer.size() > 0)
+    {
+        glColor3f(0.1, 0.2, 0.7);
 
-    //Upload vertex data to the video device
-    glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(float), &vertexBuffer.front(), GL_STATIC_DRAW);
+        //Make the new VBO active. Repeat here incase changed since initialisation
+        glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
 
-    //Make the new VBO active. Repeat here incase changed since initialisation
-    glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
+        //Upload vertex data to the video device
+        glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(float), &vertexBuffer.front(), GL_STATIC_DRAW);
 
-    //Draw Triangle from VBO - do each time window, view point or data changes
-    //Establish its 3 coordinates per vertex with zero stride in this array; necessary here
-    glVertexPointer(3, GL_FLOAT, 0, NULL);
+        //Make the new VBO active. Repeat here incase changed since initialisation
+        glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
 
-    //Establish array contains vertices (not normals, colours, texture coords etc)
-    glEnableClientState(GL_VERTEX_ARRAY);
+        //Draw Triangle from VBO - do each time window, view point or data changes
+        //Establish its 3 coordinates per vertex with zero stride in this array; necessary here
+        glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-    //Actually draw the triangle, giving the number of vertices provided
-    glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size() / 3);
+        //Establish array contains vertices (not normals, colours, texture coords etc)
+        glEnableClientState(GL_VERTEX_ARRAY);
+
+        //Actually draw the triangle, giving the number of vertices provided
+        glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size() / 3);
+
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 }
 
 void Polyline::reset()
