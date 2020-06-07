@@ -1,5 +1,6 @@
 #include "core/graphics/polyline.hpp"
 #include "core/graphics/geometry.hpp"
+#include <iostream>
 
 namespace core
 {
@@ -36,6 +37,10 @@ void Polyline::addPoint(const Vector& f_point)
             if(m_points.size() > 1)
             {
                 render(); // render the line that was defined by adding the last point
+                std::cout << "Points:" << std::endl;
+                std::cout << m_points.size() << std::endl;
+                std::cout << "Vertices:" << std::endl;
+                std::cout << m_vertexBuffer.size() << std::endl;
             }
         }
     }
@@ -103,12 +108,31 @@ const Vector& Polyline::getPoint(int32_t f_index)
     return m_points[f_index];
 }
 
+// TODO fix
 void Polyline::removePoint(int32_t f_index)
 {
     m_points.erase(m_points.begin() + f_index);
+
+    int32_t countToDelete = 15;
+
+    if(m_points.size() > 2)
+    {
+        // Delete the point + last line joint
+        for(int32_t i; i < countToDelete; ++i)
+        {
+            m_vertexBuffer.erase(m_vertexBuffer.begin());
+        }
+    }
+    else
+    {
+        m_vertexBuffer.clear();
+    }
+    
+
+    std::cout << m_vertexBuffer.size() << std::endl;
 }
 
-int32_t Polyline::getPointCount() 
+int32_t Polyline::getPointCount()
 {
     return m_points.size();
 }

@@ -1,6 +1,7 @@
 #include "game/elements/flight_track.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
+#include <iostream>
 
 namespace game
 {
@@ -47,6 +48,8 @@ void FlightTrack::clear()
 
 const core::graphics::Vector* FlightTrack::moveToNextPoint()
 {
+    // std::cout << "Points:" << std::endl;
+    // std::cout << m_line_p->getPointCount() << std::endl;
     if(m_line_p->getPointCount() == 1)
     {
         return &m_line_p->getPoint(0);
