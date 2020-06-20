@@ -60,40 +60,44 @@ bool Polyline::filterPoint(const Vector& f_point)
 
 void Polyline::draw()
 {
-    std::vector<float> vertexBuffer;
-
-    for(auto& current : m_vertexBuffer)
+    if(m_vertexBuffer.size() > 0)
     {
-        vertexBuffer.push_back(current.x);
-        vertexBuffer.push_back(current.y);
-        vertexBuffer.push_back(0.f);
-    }
 
-    if(vertexBuffer.size() > 0)
-    {
-        glColor3f(0.1, 0.2, 0.7);
+        std::vector<float> vertexBuffer;
 
-        //Make the new VBO active. Repeat here incase changed since initialisation
-        glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
+        for(auto& current : m_vertexBuffer)
+        {
+            vertexBuffer.push_back(current.x);
+            vertexBuffer.push_back(current.y);
+            vertexBuffer.push_back(0.f);
+        }
 
-        //Upload vertex data to the video device
-        glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(float), &vertexBuffer.front(), GL_STATIC_DRAW);
+        if(vertexBuffer.size() > 0)
+        {
+            glColor3f(0.1, 0.2, 0.7);
 
-        //Make the new VBO active. Repeat here incase changed since initialisation
-        glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
+            //Make the new VBO active. Repeat here incase changed since initialisation
+            glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
 
-        //Draw Triangle from VBO - do each time window, view point or data changes
-        //Establish its 3 coordinates per vertex with zero stride in this array; necessary here
-        glVertexPointer(3, GL_FLOAT, 0, NULL);
+            //Upload vertex data to the video device
+            glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(float), &vertexBuffer.front(), GL_STATIC_DRAW);
 
-        //Establish array contains vertices (not normals, colours, texture coords etc)
-        glEnableClientState(GL_VERTEX_ARRAY);
+            //Make the new VBO active. Repeat here incase changed since initialisation
+            glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
 
-        //Actually draw the triangle, giving the number of vertices provided
-        glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size() / 3);
+            //Draw Triangle from VBO - do each time window, view point or data changes
+            //Establish its 3 coordinates per vertex with zero stride in this array; necessary here
+            glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-        glDisableClientState(GL_VERTEX_ARRAY);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+            //Establish array contains vertices (not normals, colours, texture coords etc)
+            glEnableClientState(GL_VERTEX_ARRAY);
+
+            //Actually draw the triangle, giving the number of vertices provided
+            glDrawArrays(GL_TRIANGLES, 0, vertexBuffer.size() / 3);
+
+            glDisableClientState(GL_VERTEX_ARRAY);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
     }
 }
 
@@ -111,23 +115,24 @@ const Vector& Polyline::getPoint(int32_t f_index)
 // TODO fix
 void Polyline::removePoint(int32_t f_index)
 {
-    m_points.erase(m_points.begin() + f_index);
+    int32_t countToDelete = 12;
 
-    int32_t countToDelete = 15;
+    m_points.erase(m_points.begin());
 
-    if(m_points.size() > 2)
+    if(m_vertexBuffer.size() > 12)
     {
         // Delete the point + last line joint
-        for(int32_t i; i < countToDelete; ++i)
+        for(int32_t i = 0; i < countToDelete; ++i)
         {
+            //m_vertexBuffer.pop_back();
             m_vertexBuffer.erase(m_vertexBuffer.begin());
         }
     }
     else
     {
         m_vertexBuffer.clear();
+        std::cout << "cleared entire buffer" << std::endl;
     }
-    
 
     std::cout << m_vertexBuffer.size() << std::endl;
 }
