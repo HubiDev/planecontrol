@@ -39,6 +39,15 @@ Vector calcUnitVector(const Vector& f_vector)
     return result;
 }
 
+
+float calcDistance (const Vector& f_start, const Vector& f_end)
+{
+    float diffX = f_end.x - f_start.x;
+    float diffY = f_end.y - f_start.y;
+
+    return calcVectorLength({diffX, diffY});
+}
+
 } // namespace geometry
 } // namespace graphics
 } // namespace core

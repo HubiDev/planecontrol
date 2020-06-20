@@ -7,8 +7,9 @@ namespace elements
 {
 
 Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
-    : m_flightTrack_p(std::move(f_flightTrack_p))
-    , m_planeTexture_p()
+    : m_flightTrack_p{std::move(f_flightTrack_p)}
+    , m_planeTexture_p{}
+    , m_speed{1.f}
 {}
 
 Plane::~Plane() {}

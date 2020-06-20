@@ -31,6 +31,10 @@ float calcVectorLength(const Vector& f_vector);
 /// @return
 Vector calcUnitVector(const Vector& f_vector);
 
+
+float calcDistance(const Vector& f_start, const Vector& f_end);
+
+
 } // namespace geometry
 
 } // namespace graphics

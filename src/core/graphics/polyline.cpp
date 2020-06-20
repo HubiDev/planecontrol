@@ -130,6 +130,7 @@ void Polyline::removePoint(int32_t f_index)
     }
     else
     {
+        assert(m_vertexBuffer.size() == 6);
         m_vertexBuffer.clear();
         std::cout << "cleared entire buffer" << std::endl;
     }
