@@ -37,10 +37,6 @@ void Polyline::addPoint(const Vector& f_point)
             if(m_points.size() > 1)
             {
                 render(); // render the line that was defined by adding the last point
-                std::cout << "Points:" << std::endl;
-                std::cout << m_points.size() << std::endl;
-                std::cout << "Vertices:" << std::endl;
-                std::cout << m_vertexBuffer.size() << std::endl;
             }
         }
     }
@@ -132,7 +128,6 @@ void Polyline::removePoint(int32_t f_index)
     {
         assert(m_vertexBuffer.size() == 6);
         m_vertexBuffer.clear();
-        std::cout << "cleared entire buffer" << std::endl;
     }
 
     std::cout << m_vertexBuffer.size() << std::endl;

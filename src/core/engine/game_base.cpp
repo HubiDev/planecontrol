@@ -1,18 +1,20 @@
 #include "core/engine/game_base.hpp"
 #include <SDL2/SDL_opengl.h>
+#include <chrono>
 
 namespace core
 {
 namespace engine
 {
 GameBase::GameBase()
-    : m_sdlContext()
-    , m_eventManager()
-    , m_mouse()
-    , m_gameWindow_p(nullptr)
-    , m_gameElements()
-    , m_exitRequested(false)
-    , m_windowTitle("Plane Control")
+    : m_sdlContext{}
+    , m_eventManager{}
+    , m_mouse{}
+    , m_gameWindow_p{nullptr}
+    , m_gameElements{}
+    , m_lastUpdateTimestamp{}
+    , m_exitRequested{false}
+    , m_windowTitle{"Plane Control"}
 {}
 
 void GameBase::initialize()
@@ -69,8 +71,13 @@ void GameBase::addGameElement(core::engine::IGameElement& f_gameElement)
 
 void GameBase::updateGameElements()
 {
-    //TODO fill context
     UpdateContext context{};
+    auto now =
+        std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch())
+            .count();
+
+    context.m_durationSinceLastUpdate = {now - m_lastUpdateTimestamp};
+    m_lastUpdateTimestamp = now;
 
     for(auto& current : m_gameElements)
     {

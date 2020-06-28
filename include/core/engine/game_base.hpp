@@ -55,6 +55,8 @@ private:
 
     bool m_exitRequested;
 
+    int64_t m_lastUpdateTimestamp;
+
     // TODO make setting dependend
     static constexpr int32_t k_windowWidth = 1280;
     static constexpr int32_t k_windowHeight = 720;
