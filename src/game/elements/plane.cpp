@@ -22,7 +22,7 @@ void Plane::load()
 }
 
 /// @brief
-void Plane::update()
+void Plane::update(const core::engine::UpdateContext& f_context)
 {
     if(m_flightTrack_p->isActive())
     {

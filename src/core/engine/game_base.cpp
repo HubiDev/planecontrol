@@ -69,9 +69,12 @@ void GameBase::addGameElement(core::engine::IGameElement& f_gameElement)
 
 void GameBase::updateGameElements()
 {
+    //TODO fill context
+    UpdateContext context{};
+
     for(auto& current : m_gameElements)
     {
-        current.get().update();
+        current.get().update(context);
     }
 
     update();

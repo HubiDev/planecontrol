@@ -20,7 +20,7 @@ public:
     virtual void load() override;
 
     /// @brief
-    virtual void update() override;
+    virtual void update(const core::engine::UpdateContext& f_context) override;
 
     /// @brief
     virtual void draw() override;

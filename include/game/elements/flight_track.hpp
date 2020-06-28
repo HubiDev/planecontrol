@@ -18,7 +18,7 @@ public:
 
     void load() override;
     void draw() override;
-    void update() override;
+    void update(const core::engine::UpdateContext& f_context) override;
 
     void setActive(bool f_isActive);
     bool isActive();

@@ -29,7 +29,7 @@ void FlightTrack::draw()
     m_line_p->draw();
 }
 
-void FlightTrack::update() {}
+void FlightTrack::update(const core::engine::UpdateContext& f_context) {}
 
 void FlightTrack::setActive(bool f_isActive)
 {

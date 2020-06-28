@@ -3,6 +3,7 @@
 
 #include "core/ui/drawable.hpp"
 #include "core/ui/mouse_aware.hpp"
+#include "core/engine/update_context.hpp"
 
 namespace core
 {
@@ -22,7 +23,7 @@ public:
     virtual void load() = 0;
 
     /// @brief
-    virtual void update() = 0;
+    virtual void update(const UpdateContext& f_context) = 0;
 
 protected:
     IGameElement()
