@@ -1,6 +1,7 @@
 #include "core/graphics/polyline.hpp"
 #include "core/graphics/geometry.hpp"
 #include <iostream>
+#include <cmath>
 
 namespace core
 {
@@ -36,10 +37,23 @@ void Polyline::addPoint(const Vector& f_point)
 
             if(m_points.size() > 1)
             {
+
                 render(); // render the line that was defined by adding the last point
             }
         }
     }
+}
+
+void Polyline::beautifySegment()
+{
+    auto distance = geometry::calcDistance(m_points.back(), m_points.at(m_points.size() - 2));
+    distance = std::abs(distance);
+
+    if(distance > 10.f) // TOD define
+    {
+        
+    }
+
 }
 
 bool Polyline::filterPoint(const Vector& f_point)
@@ -129,8 +143,6 @@ void Polyline::removePoint(int32_t f_index)
         assert(m_vertexBuffer.size() == 6);
         m_vertexBuffer.clear();
     }
-
-    std::cout << m_vertexBuffer.size() << std::endl;
 }
 
 int32_t Polyline::getPointCount()

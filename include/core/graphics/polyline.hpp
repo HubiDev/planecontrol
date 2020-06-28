@@ -27,6 +27,8 @@ private:
 
     void render();
     bool filterPoint(const Vector& f_point);
+    void beautifySegment();
+
     
     GLuint m_vboReference;
     float m_thickness;

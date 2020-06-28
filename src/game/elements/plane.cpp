@@ -24,6 +24,8 @@ void Plane::load()
 /// @brief
 void Plane::update(const core::engine::UpdateContext& f_context)
 {
+    //std::cout << "Duration: " << f_context.m_durationSinceLastUpdate << std::endl;
+
     if(m_flightTrack_p->isActive())
     {
         auto point_p = m_flightTrack_p->moveToNextPoint();
