@@ -1,7 +1,9 @@
 #include "core/graphics/polyline.hpp"
 #include "core/graphics/geometry.hpp"
+
 #include <iostream>
 #include <cmath>
+#include <cassert>
 
 namespace core
 {
