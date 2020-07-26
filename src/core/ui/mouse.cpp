@@ -1,4 +1,6 @@
 #include "core/ui/mouse.hpp"
+#include "core/ui/mouse_event_args.hpp"
+#include "core/ui/mouse_aware.hpp"
 
 namespace core
 {

@@ -1,19 +1,25 @@
 #ifndef CORE_ENGINE_GAME_BASE_HPP_INCLUDED
 #define CORE_ENGINE_GAME_BASE_HPP_INCLUDED
 
-#include "core/ui/event_manager.hpp"
-#include "core/ui/mouse.hpp"
-#include "core/ui/sdl_context.hpp"
-#include "core/ui/window.hpp"
-
-#include "core/engine/game_element.hpp"
-
 #include <vector>
+#include <string>
 
 namespace core
 {
+// forward declarations
+namespace ui
+{
+class Window;
+class SdlContext;
+class EventManager;
+class Mouse;
+}
+
 namespace engine
 {
+// forward declarations
+class IGameElement;
+
 class GameBase
 {
 
@@ -36,7 +42,7 @@ protected:
     virtual void draw() = 0;
     virtual void onAfterInitialize();
 
-    void addGameElement(core::engine::IGameElement& f_gameElement);
+    void addGameElement(IGameElement& f_gameElement);
 
 private:
     void updateGameElements();
@@ -44,17 +50,13 @@ private:
 
     // CAUTION: Context shall always be the first object to be constructed
     // and the last one to be destructed
-    ui::SdlContext m_sdlContext;
-
-    ui::EventManager m_eventManager;
-    ui::Mouse m_mouse;
-
+    std::unique_ptr<ui::SdlContext> m_sdlContext_p;
+    std::unique_ptr<ui::EventManager> m_eventManager_p;
+    std::unique_ptr<ui::Mouse> m_mouse_p;
     std::unique_ptr<ui::Window> m_gameWindow_p;
-
     std::vector<std::reference_wrapper<IGameElement>> m_gameElements;
 
     bool m_exitRequested;
-
     int64_t m_lastUpdateTimestamp;
 
     // TODO make setting dependend

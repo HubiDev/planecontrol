@@ -1,12 +1,14 @@
 #ifndef CORE_UI_MOUSE_AWARE_HPP_INCLUDED
 #define CORE_UI_MOUSE_AWARE_HPP_INCLUDED
 
-#include "core/ui/mouse_event_args.hpp"
-
 namespace core
 {
 namespace ui
 {
+
+// forward declarations
+struct MouseEventArgs;
+
 class IMouseAware
 {
 public:

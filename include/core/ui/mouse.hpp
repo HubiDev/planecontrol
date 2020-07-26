@@ -1,7 +1,8 @@
 #ifndef CORE_UI_MOUSE_HPP_INCLUDED
 #define CORE_UI_MOUSE_HPP_INCLUDED
 
-#include "core/ui/mouse_aware.hpp"
+#include "core/ui/mouse_event_args.hpp"
+
 #include <SDL2/SDL.h>
 #include <functional>
 #include <queue>
@@ -12,6 +13,9 @@ namespace core
 {
 namespace ui
 {
+// forward declarations
+class IMouseAware;
+
 class Mouse
 {
 public:

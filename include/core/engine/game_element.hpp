@@ -3,12 +3,15 @@
 
 #include "core/ui/drawable.hpp"
 #include "core/ui/mouse_aware.hpp"
-#include "core/engine/update_context.hpp"
 
 namespace core
 {
 namespace engine
 {
+
+// forward decalrations
+class UpdateContext;
+
 class IGameElement : public ui::IDrawable, public ui::IMouseAware
 {
 public:
@@ -32,7 +35,6 @@ protected:
 };
 
 } // namespace engine
-
 } // namespace core
 
 #endif // CORE_ENGINE_GAME_ELEMENT_HPP_INCLUDED

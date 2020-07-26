@@ -1,4 +1,5 @@
 #include "game/elements/flight_track.hpp"
+#include "core/ui/mouse_event_args.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <iostream>

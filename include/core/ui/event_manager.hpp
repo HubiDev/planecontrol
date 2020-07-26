@@ -1,9 +1,11 @@
 #ifndef CORE_UI_EVENT_MANAGER_HPP_INCLUDED
 #define CORE_UI_EVENT_MANAGER_HPP_INCLUDED
 
-#include <SDL2/SDL.h>
 #include <functional>
 #include <unordered_map>
+
+// forward declarations
+union SDL_Event;
 
 namespace core
 {

@@ -1,5 +1,6 @@
 #include "core/ui/event_manager.hpp"
 #include <iostream>
+#include <SDL2/SDL_events.h>
 
 namespace core
 {
