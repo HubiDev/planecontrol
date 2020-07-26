@@ -1,5 +1,6 @@
 #include "game/elements/flight_track.hpp"
 #include "core/ui/mouse_event_args.hpp"
+#include "core/graphics/geometry.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
@@ -77,6 +78,20 @@ void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventAr
     {
         m_line_p->addPoint({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
     }
+}
+
+double FlightTrack::calcDistanceToNextPoint() const
+{
+    if(m_line_p->getPointCount() >= 2)
+    {
+        auto& start = m_line_p->getPoint(0);
+        auto& end = m_line_p->getPoint(1);
+
+        return core::graphics::geometry::calcDistance(start, end);
+    }
+
+    return 0.0;
+    //throw new std::runtime_error("flight track has not enough points");
 }
 
 } // namespace elements
