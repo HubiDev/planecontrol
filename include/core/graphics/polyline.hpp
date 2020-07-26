@@ -16,7 +16,8 @@ public:
     Polyline(float f_thickness);
     ~Polyline();
 
-    void addPoint(const Vector& f_point);
+    void push_back(const Vector& f_point);
+    void push_front(const Vector& f_point);
     void draw();
     void reset();
     const Vector& getPoint(int32_t f_index);

@@ -25,7 +25,7 @@ Polyline::~Polyline()
     glDeleteBuffers(1, &m_vboReference);
 }
 
-void Polyline::addPoint(const Vector& f_point)
+void Polyline::push_back(const Vector& f_point)
 {
     if(m_points.empty())
     {
@@ -39,11 +39,15 @@ void Polyline::addPoint(const Vector& f_point)
 
             if(m_points.size() > 1)
             {
-
                 render(); // render the line that was defined by adding the last point
             }
         }
     }
+}
+
+void Polyline::push_front(const Vector& f_point)
+{
+    m_points.insert(m_points.begin(), f_point);
 }
 
 void Polyline::beautifySegment()

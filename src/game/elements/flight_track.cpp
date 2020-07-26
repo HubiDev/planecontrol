@@ -21,9 +21,9 @@ FlightTrack::~FlightTrack() {}
 void FlightTrack::load()
 {
     m_line_p = std::unique_ptr<core::graphics::Polyline>(new core::graphics::Polyline(TRACK_THICKNESS));
-    // m_line_p->addPoint({20.f, 20.f});
-    // m_line_p->addPoint({120.f, 20.f});
-    // m_line_p->addPoint({220.f, 20.f});
+    // m_line_p->push_back({20.f, 20.f});
+    // m_line_p->push_back({120.f, 20.f});
+    // m_line_p->push_back({220.f, 20.f});
 }
 
 void FlightTrack::draw()
@@ -76,7 +76,7 @@ void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventAr
 {
     if(m_isActive)
     {
-        m_line_p->addPoint({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+        m_line_p->push_back({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
     }
 }
 
