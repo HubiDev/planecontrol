@@ -1,6 +1,6 @@
 #include "game/elements/flight_track.hpp"
-#include "core/ui/mouse_event_args.hpp"
 #include "core/graphics/geometry.hpp"
+#include "core/ui/mouse_event_args.hpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include <iostream>
@@ -48,24 +48,31 @@ void FlightTrack::clear()
     m_line_p->reset();
 }
 
-const core::graphics::Vector* FlightTrack::moveToNextPoint(double f_distance)
+const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
 {
-    if(calcDistanceToNextPoint() > f_distance)
-    {
-        
-    }
-    else
-    {
-
-    }
-    
-
     if(m_line_p->getPointCount() == 1)
     {
         return &m_line_p->getPoint(0);
     }
     else if(m_line_p->getPointCount() > 1)
     {
+        // TODO encapsulate
+        if(calcDistanceToNextPoint() > f_distance)
+        {
+            auto& start = m_line_p->getPoint(0);
+            auto& end = m_line_p->getPoint(1);
+            auto direction = core::graphics::geometry::calcDirection(start, end);
+
+            auto shiftX = (direction.x * f_distance);
+            auto shiftY = (direction.y * f_distance);
+
+            core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
+        }
+        else
+        {
+            // TODO
+        }
+
         m_line_p->removePoint(0);
         return &m_line_p->getPoint(0);
     }

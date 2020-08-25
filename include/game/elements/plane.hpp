@@ -34,7 +34,7 @@ private:
 
     std::shared_ptr<FlightTrack> m_flightTrack_p;
     std::unique_ptr<core::graphics::Rectangle> m_planeTexture_p;
-    double m_speed;
+    float m_speed;
 
 };
 
