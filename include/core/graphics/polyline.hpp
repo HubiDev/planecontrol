@@ -27,6 +27,7 @@ public:
 private:
 
     void render();
+    void renderFront();
     bool filterPoint(const Vector& f_point);
     void beautifySegment();
 

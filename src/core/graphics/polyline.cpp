@@ -1,9 +1,9 @@
 #include "core/graphics/polyline.hpp"
 #include "core/graphics/geometry.hpp"
 
-#include <iostream>
-#include <cmath>
 #include <cassert>
+#include <cmath>
+#include <iostream>
 
 namespace core
 {
@@ -47,7 +47,11 @@ void Polyline::push_back(const Vector& f_point)
 
 void Polyline::push_front(const Vector& f_point)
 {
+    // TODO add checks
+
     m_points.insert(m_points.begin(), f_point);
+
+    renderFront();
 }
 
 void Polyline::beautifySegment()
@@ -57,9 +61,7 @@ void Polyline::beautifySegment()
 
     if(distance > 10.f) // TOD define
     {
-        
     }
-
 }
 
 bool Polyline::filterPoint(const Vector& f_point)
@@ -190,6 +192,7 @@ void Polyline::render()
         m_vertexBuffer.push_back(lastUpperPoint);
         m_vertexBuffer.push_back(lowerLeftPoint);
         m_vertexBuffer.push_back(upperLeftPoint);
+
         m_vertexBuffer.push_back(lastLowerPoint);
         m_vertexBuffer.push_back(lowerLeftPoint);
         m_vertexBuffer.push_back(upperLeftPoint);
@@ -198,9 +201,60 @@ void Polyline::render()
     m_vertexBuffer.push_back(lowerLeftPoint);
     m_vertexBuffer.push_back(upperLeftPoint);
     m_vertexBuffer.push_back(lowerRightPoint);
+
     m_vertexBuffer.push_back(upperLeftPoint);
     m_vertexBuffer.push_back(upperRightPoint);
     m_vertexBuffer.push_back(lowerRightPoint);
+}
+
+void Polyline::renderFront()
+{
+    // TODO remove duplicated code
+
+    auto& startPoint = m_points.front();
+    auto& endPoint = m_points.at(1);
+
+    Vector vectorBetweenPoints = geometry::calcVector(startPoint, endPoint);
+    Vector orthoVector = geometry::calcOrthoVector(vectorBetweenPoints);
+    orthoVector = geometry::calcUnitVector(orthoVector);
+
+    // Calculate all 4 coordinates
+    // Start with the upper triangle
+    Vector lowerLeftPoint;
+    Vector upperLeftPoint;
+    Vector upperRightPoint;
+    Vector lowerRightPoint;
+    lowerLeftPoint.x = startPoint.x + ((-1.f) * m_thickness * orthoVector.x);
+    lowerLeftPoint.y = startPoint.y + ((-1.f) * m_thickness * orthoVector.y);
+    upperLeftPoint.x = startPoint.x + (m_thickness * orthoVector.x);
+    upperLeftPoint.y = startPoint.y + (m_thickness * orthoVector.y);
+    lowerRightPoint.x = endPoint.x + ((-1.f) * m_thickness * orthoVector.x);
+    lowerRightPoint.y = endPoint.y + ((-1.f) * m_thickness * orthoVector.y);
+    upperRightPoint.x = endPoint.x + (m_thickness * orthoVector.x);
+    upperRightPoint.y = endPoint.y + (m_thickness * orthoVector.y);
+
+    if(m_points.size() > 2)
+    {
+        auto& lastLowerPoint = m_vertexBuffer[m_vertexBuffer.size() - 1];
+        auto& lastUpperPoint = m_vertexBuffer[m_vertexBuffer.size() - 2];
+
+        // line joint
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), lastUpperPoint);
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerLeftPoint);
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
+
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), lastLowerPoint);
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerLeftPoint);
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
+    }
+
+    m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerLeftPoint);
+    m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
+    m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerRightPoint);    
+
+    m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
+    m_vertexBuffer.insert(m_vertexBuffer.begin(), upperRightPoint);
+    m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerRightPoint);
 }
 
 } // namespace graphics

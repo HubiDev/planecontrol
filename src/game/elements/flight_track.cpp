@@ -67,13 +67,16 @@ const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
             auto shiftY = (direction.y * f_distance);
 
             core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
+
+            m_line_p->removePoint(0);
+            m_line_p->push_front(shiftedPoint);
         }
         else
         {
             // TODO
+            m_line_p->removePoint(0);
         }
 
-        m_line_p->removePoint(0);
         return &m_line_p->getPoint(0);
     }
 
