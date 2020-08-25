@@ -28,11 +28,12 @@ void Plane::update(const core::engine::UpdateContext& f_context)
 
     if(m_flightTrack_p->isActive())
     {
-        if(m_flightTrack_p->calcDistanceToNextPoint() > 0.0)
+        if(m_flightTrack_p->calcDistanceToNextPoint() > m_speed)
         {
-        std::cout << m_flightTrack_p->calcDistanceToNextPoint() << std::endl;
+            std::cout << m_flightTrack_p->calcDistanceToNextPoint() << std::endl;
         }
-        auto point_p = m_flightTrack_p->moveToNextPoint();
+
+        auto point_p = m_flightTrack_p->moveToNextPoint(m_speed);
 
         if(nullptr != point_p)
         {

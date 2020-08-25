@@ -48,8 +48,18 @@ void FlightTrack::clear()
     m_line_p->reset();
 }
 
-const core::graphics::Vector* FlightTrack::moveToNextPoint()
+const core::graphics::Vector* FlightTrack::moveToNextPoint(double f_distance)
 {
+    if(calcDistanceToNextPoint() > f_distance)
+    {
+        
+    }
+    else
+    {
+
+    }
+    
+
     if(m_line_p->getPointCount() == 1)
     {
         return &m_line_p->getPoint(0);

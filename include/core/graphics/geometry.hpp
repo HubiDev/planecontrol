@@ -34,6 +34,9 @@ Vector calcUnitVector(const Vector& f_vector);
 
 float calcDistance(const Vector& f_start, const Vector& f_end);
 
+Vector calcDirection(const Vector& f_start, const Vector& f_end);
+
+
 
 } // namespace geometry
 

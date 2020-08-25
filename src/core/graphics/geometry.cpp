@@ -39,13 +39,15 @@ Vector calcUnitVector(const Vector& f_vector)
     return result;
 }
 
-
-float calcDistance (const Vector& f_start, const Vector& f_end)
+float calcDistance(const Vector& f_start, const Vector& f_end)
 {
-    float diffX = f_end.x - f_start.x;
-    float diffY = f_end.y - f_start.y;
+    auto direction = calcDirection(f_start, f_end);
+    return calcVectorLength(direction);
+}
 
-    return calcVectorLength({diffX, diffY});
+Vector calcDirection(const Vector& f_start, const Vector& f_end)
+{
+    return {(f_end.x - f_start.x), (f_end.y - f_start.y)};
 }
 
 } // namespace geometry
