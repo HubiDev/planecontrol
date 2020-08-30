@@ -20,10 +20,12 @@ FlightTrack::~FlightTrack() {}
 
 void FlightTrack::load()
 {
-    m_line_p = std::unique_ptr<core::graphics::Polyline>(new core::graphics::Polyline(TRACK_THICKNESS));
-    // m_line_p->push_back({20.f, 20.f});
-    // m_line_p->push_back({120.f, 20.f});
-    // m_line_p->push_back({220.f, 20.f});
+    m_line_p = std::unique_ptr<core::graphics::Polyline>(new core::graphics::Polyline(TRACK_THICKNESS));    
+    
+    //m_line_p->push_front({240.f, 40.f});
+    //m_line_p->push_front({220.f, 20.f});
+    //m_line_p->push_front({120.f, 20.f});
+    //m_line_p->push_front({20.f, 20.f});
 }
 
 void FlightTrack::draw()
@@ -57,17 +59,21 @@ const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
     else if(m_line_p->getPointCount() > 1)
     {
         // TODO encapsulate
-        if(calcDistanceToNextPoint() > f_distance)
+        auto distanceToNext = calcDistanceToNextPoint();
+
+        if(distanceToNext > f_distance)
         {
             auto& start = m_line_p->getPoint(0);
             auto& end = m_line_p->getPoint(1);
             auto direction = core::graphics::geometry::calcDirection(start, end);
 
-            auto shiftX = (direction.x * f_distance);
-            auto shiftY = (direction.y * f_distance);
+            auto distanceFactor = (f_distance / distanceToNext);
+            auto shiftX = (direction.x * distanceFactor);
+            auto shiftY = (direction.y * distanceFactor);
 
             core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
-
+            
+            std::cout << "removed: " << m_line_p->getPoint(0).x << ", " << m_line_p->getPoint(0).y << std::endl;
             m_line_p->removePoint(0);
             m_line_p->push_front(shiftedPoint);
         }
@@ -100,7 +106,7 @@ void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventAr
     }
 }
 
-double FlightTrack::calcDistanceToNextPoint() const
+float FlightTrack::calcDistanceToNextPoint() const
 {
     if(m_line_p->getPointCount() >= 2)
     {

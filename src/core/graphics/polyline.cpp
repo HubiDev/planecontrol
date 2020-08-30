@@ -49,9 +49,22 @@ void Polyline::push_front(const Vector& f_point)
 {
     // TODO add checks
 
-    m_points.insert(m_points.begin(), f_point);
+    if(m_points.empty())
+    {
+        m_points.insert(m_points.begin(), f_point);
+    }
+    else
+    {
+        if(filterPoint(f_point))
+        {
+            m_points.insert(m_points.begin(), f_point);
 
-    renderFront();
+            if(m_points.size() > 1)
+            {
+                renderFront();
+            }
+        }
+    }
 }
 
 void Polyline::beautifySegment()
@@ -235,8 +248,8 @@ void Polyline::renderFront()
 
     if(m_points.size() > 2)
     {
-        auto& lastLowerPoint = m_vertexBuffer[m_vertexBuffer.size() - 1];
-        auto& lastUpperPoint = m_vertexBuffer[m_vertexBuffer.size() - 2];
+        auto& lastLowerPoint = lowerRightPoint;//m_vertexBuffer[m_vertexBuffer.size() - 1];
+        auto& lastUpperPoint = upperRightPoint;//m_vertexBuffer[m_vertexBuffer.size() - 2];
 
         // line joint
         m_vertexBuffer.insert(m_vertexBuffer.begin(), lastUpperPoint);
@@ -250,7 +263,7 @@ void Polyline::renderFront()
 
     m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerLeftPoint);
     m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
-    m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerRightPoint);    
+    m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerRightPoint);
 
     m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
     m_vertexBuffer.insert(m_vertexBuffer.begin(), upperRightPoint);

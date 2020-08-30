@@ -38,6 +38,7 @@ void Plane::update(const core::engine::UpdateContext& f_context)
         if(nullptr != point_p)
         {
             m_planeTexture_p->setPosition(point_p->x, point_p->y);
+            std::cout << point_p->x << ", " << point_p->y << std::endl; 
         }
     }
 }

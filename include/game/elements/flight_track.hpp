@@ -30,7 +30,7 @@ public:
 
     void onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs) override;
 
-    double calcDistanceToNextPoint() const;
+    float calcDistanceToNextPoint() const;
 
 private:
     std::unique_ptr<core::graphics::Polyline> m_line_p;
