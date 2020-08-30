@@ -22,9 +22,9 @@ void FlightTrack::load()
 {
     m_line_p = std::unique_ptr<core::graphics::Polyline>(new core::graphics::Polyline(TRACK_THICKNESS));    
     
-    //m_line_p->push_front({240.f, 40.f});
-    //m_line_p->push_front({220.f, 20.f});
-    //m_line_p->push_front({120.f, 20.f});
+    m_line_p->push_front({240.f, 40.f});
+    m_line_p->push_front({220.f, 20.f});
+    m_line_p->push_front({120.f, 20.f});
     //m_line_p->push_front({20.f, 20.f});
 }
 
@@ -73,7 +73,6 @@ const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
 
             core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
             
-            std::cout << "removed: " << m_line_p->getPoint(0).x << ", " << m_line_p->getPoint(0).y << std::endl;
             m_line_p->removePoint(0);
             m_line_p->push_front(shiftedPoint);
         }

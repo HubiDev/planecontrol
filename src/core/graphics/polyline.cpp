@@ -246,19 +246,20 @@ void Polyline::renderFront()
     upperRightPoint.x = endPoint.x + (m_thickness * orthoVector.x);
     upperRightPoint.y = endPoint.y + (m_thickness * orthoVector.y);
 
+    // TODO fix line joint
     if(m_points.size() > 2)
     {
-        auto& lastLowerPoint = lowerRightPoint;//m_vertexBuffer[m_vertexBuffer.size() - 1];
-        auto& lastUpperPoint = upperRightPoint;//m_vertexBuffer[m_vertexBuffer.size() - 2];
+        auto lastLowerPoint = m_vertexBuffer.at(0);
+        auto lastUpperPoint = m_vertexBuffer.at(1);
 
         // line joint
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerRightPoint);
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), upperRightPoint);
         m_vertexBuffer.insert(m_vertexBuffer.begin(), lastUpperPoint);
-        m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerLeftPoint);
-        m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
 
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerRightPoint);
+        m_vertexBuffer.insert(m_vertexBuffer.begin(), lastUpperPoint);
         m_vertexBuffer.insert(m_vertexBuffer.begin(), lastLowerPoint);
-        m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerLeftPoint);
-        m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
     }
 
     m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerLeftPoint);
@@ -271,5 +272,4 @@ void Polyline::renderFront()
 }
 
 } // namespace graphics
-
 } // namespace core
