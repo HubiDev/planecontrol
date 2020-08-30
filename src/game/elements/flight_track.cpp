@@ -20,12 +20,7 @@ FlightTrack::~FlightTrack() {}
 
 void FlightTrack::load()
 {
-    m_line_p = std::unique_ptr<core::graphics::Polyline>(new core::graphics::Polyline(TRACK_THICKNESS));    
-    
-    m_line_p->push_front({240.f, 40.f});
-    m_line_p->push_front({220.f, 20.f});
-    m_line_p->push_front({120.f, 20.f});
-    //m_line_p->push_front({20.f, 20.f});
+    m_line_p = std::unique_ptr<core::graphics::Polyline>(new core::graphics::Polyline(TRACK_THICKNESS));
 }
 
 void FlightTrack::draw()

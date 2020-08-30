@@ -246,11 +246,10 @@ void Polyline::renderFront()
     upperRightPoint.x = endPoint.x + (m_thickness * orthoVector.x);
     upperRightPoint.y = endPoint.y + (m_thickness * orthoVector.y);
 
-    // TODO fix line joint
     if(m_points.size() > 2)
     {
-        auto lastLowerPoint = m_vertexBuffer.at(0);
-        auto lastUpperPoint = m_vertexBuffer.at(1);
+        auto lastLowerPoint = m_vertexBuffer.at(4);
+        auto lastUpperPoint = m_vertexBuffer.at(5);
 
         // line joint
         m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerRightPoint);
