@@ -24,21 +24,13 @@ void Plane::load()
 /// @brief
 void Plane::update(const core::engine::UpdateContext& f_context)
 {
-    //std::cout << "Duration: " << f_context.m_durationSinceLastUpdate << std::endl;
-
     if(m_flightTrack_p->isActive())
     {
-        if(m_flightTrack_p->calcDistanceToNextPoint() > m_speed)
-        {
-            std::cout << m_flightTrack_p->calcDistanceToNextPoint() << std::endl;
-        }
-
         auto point_p = m_flightTrack_p->moveToNextPoint(m_speed);
 
-        if(nullptr != point_p)
+        if(point_p)
         {
             m_planeTexture_p->setPosition(point_p->x, point_p->y);
-            std::cout << point_p->x << ", " << point_p->y << std::endl; 
         }
     }
 }
