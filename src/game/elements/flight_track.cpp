@@ -47,7 +47,6 @@ void FlightTrack::clear()
 
 const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
 {
-    //TODO handle scenario when only one point is left
 
     if(m_line_p->getPointCount() == 1)
     {
@@ -64,9 +63,9 @@ const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
             auto& end = m_line_p->getPoint(1);
             auto direction = core::graphics::geometry::calcDirection(start, end);
 
-            auto distanceFactor = (f_distance / distanceToNext);
-            auto shiftX = (direction.x * distanceFactor);
-            auto shiftY = (direction.y * distanceFactor);
+            auto distanceFactor = (distanceToNext / f_distance);
+            auto shiftX = (direction.x / distanceFactor);
+            auto shiftY = (direction.y / distanceFactor);
 
             core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
 
