@@ -47,6 +47,8 @@ void FlightTrack::clear()
 
 const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
 {
+    //TODO handle scenario when only one point is left
+
     if(m_line_p->getPointCount() == 1)
     {
         return &m_line_p->getPoint(0);
@@ -74,31 +76,32 @@ const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
         else if(distanceToNext < f_distance)
         {
             // TODO
-            auto distanceSum = distanceToNext;
-            core::graphics::Vector lastRemoved{};
-            while((distanceSum < f_distance) && m_line_p->getPointCount() > 2)
-            {
-                lastRemoved = m_line_p->getPoint(0);
+            float remainingDistance = {f_distance - distanceToNext};
+
+            do            
+            {                
                 m_line_p->removePoint(0);
-                distanceSum += calcDistanceToNextPoint();
+                distanceToNext = calcDistanceToNextPoint();
+                remainingDistance -= distanceToNext;
             }
+            while((remainingDistance > 0.f) && (m_line_p->getPointCount() > 1));
 
-            if(m_line_p->getPointCount() > 1)
-            {
-                auto& start = lastRemoved;
-                auto& end = m_line_p->getPoint(0);
-                auto direction = core::graphics::geometry::calcDirection(start, end);
+            // Recalculate what distance is still left
+            remainingDistance += distanceToNext;
 
-                auto distanceFactor = (f_distance / distanceToNext);
-                auto shiftX = (direction.x * distanceFactor);
-                auto shiftY = (direction.y * distanceFactor);
+            auto& start = m_line_p->getPoint(0);
+            auto& end = m_line_p->getPoint(1);
+            auto direction = core::graphics::geometry::calcDirection(start, end);
 
-                core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
+            // 
+            auto distanceFactor = (distanceToNext / remainingDistance);
+            auto shiftX = (direction.x / distanceFactor);
+            auto shiftY = (direction.y / distanceFactor);
 
-                m_line_p->push_front(shiftedPoint);
-            }
+            core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
 
             m_line_p->removePoint(0);
+            m_line_p->push_front(shiftedPoint);
         }
         else
         {

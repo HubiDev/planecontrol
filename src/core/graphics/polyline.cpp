@@ -150,19 +150,22 @@ void Polyline::removePoint(int32_t f_index)
 
     m_points.erase(m_points.begin());
 
-    if(m_vertexBuffer.size() > 12)
+    if(m_points.size() > 0) // vertices need not to be removed if more than one point was left
     {
-        // Delete the point + last line joint
-        for(int32_t i = 0; i < countToDelete; ++i)
+        if(m_vertexBuffer.size() > 12)
         {
-            //m_vertexBuffer.pop_back();
-            m_vertexBuffer.erase(m_vertexBuffer.begin());
+            // Delete the point + last line joint
+            for(int32_t i = 0; i < countToDelete; ++i)
+            {
+                //m_vertexBuffer.pop_back();
+                m_vertexBuffer.erase(m_vertexBuffer.begin());
+            }
         }
-    }
-    else
-    {
-        assert(m_vertexBuffer.size() == 6);        
-        m_vertexBuffer.clear();
+        else
+        {
+            assert(m_vertexBuffer.size() == 6);
+            m_vertexBuffer.clear();
+        }
     }
 }
 
