@@ -32,6 +32,8 @@ public:
 
     float calcDistanceToNextPoint() const;
 
+    void shiftStart(float f_distanceToShift, float f_distanceToNext);
+
 private:
     std::unique_ptr<core::graphics::Polyline> m_line_p;
     bool m_isActive;

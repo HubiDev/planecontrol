@@ -47,61 +47,39 @@ void FlightTrack::clear()
 
 const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
 {
-
+    // jump to last point
     if(m_line_p->getPointCount() == 1)
     {
         return &m_line_p->getPoint(0);
     }
     else if(m_line_p->getPointCount() > 1)
     {
-        // TODO encapsulate
         auto distanceToNext = calcDistanceToNextPoint();
 
+        // distance to next is larger than the distance to cover
         if(distanceToNext > f_distance)
         {
-            auto& start = m_line_p->getPoint(0);
-            auto& end = m_line_p->getPoint(1);
-            auto direction = core::graphics::geometry::calcDirection(start, end);
-
-            auto distanceFactor = (distanceToNext / f_distance);
-            auto shiftX = (direction.x / distanceFactor);
-            auto shiftY = (direction.y / distanceFactor);
-
-            core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
-
-            m_line_p->removePoint(0);
-            m_line_p->push_front(shiftedPoint);
+            shiftStart(f_distance, distanceToNext);
         }
+        // distance to next is smaller
         else if(distanceToNext < f_distance)
         {
-            // TODO
             float remainingDistance = {f_distance - distanceToNext};
 
-            do            
-            {                
+            // Remove points until distance is covered
+            do
+            {
                 m_line_p->removePoint(0);
                 distanceToNext = calcDistanceToNextPoint();
                 remainingDistance -= distanceToNext;
-            }
-            while((remainingDistance > 0.f) && (m_line_p->getPointCount() > 1));
+            } while((remainingDistance > 0.f) && (m_line_p->getPointCount() > 1));
 
             // Recalculate what distance is still left
             remainingDistance += distanceToNext;
 
-            auto& start = m_line_p->getPoint(0);
-            auto& end = m_line_p->getPoint(1);
-            auto direction = core::graphics::geometry::calcDirection(start, end);
-
-            // 
-            auto distanceFactor = (distanceToNext / remainingDistance);
-            auto shiftX = (direction.x / distanceFactor);
-            auto shiftY = (direction.y / distanceFactor);
-
-            core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
-
-            m_line_p->removePoint(0);
-            m_line_p->push_front(shiftedPoint);
+            shiftStart(remainingDistance, distanceToNext);
         }
+        // distance matches perfectly
         else
         {
             m_line_p->removePoint(0);
@@ -111,6 +89,22 @@ const core::graphics::Vector* FlightTrack::moveToNextPoint(float f_distance)
     }
 
     return nullptr;
+}
+
+void FlightTrack::shiftStart(float f_distanceToShift, float f_distanceToNext)
+{
+    auto& start = m_line_p->getPoint(0);
+    auto& end = m_line_p->getPoint(1);
+    auto direction = core::graphics::geometry::calcDirection(start, end);
+
+    auto distanceFactor = (f_distanceToNext / f_distanceToShift);
+    auto shiftX = (direction.x / distanceFactor);
+    auto shiftY = (direction.y / distanceFactor);
+
+    core::graphics::Vector shiftedPoint = {(start.x + shiftX), (start.y + shiftY)};
+
+    m_line_p->removePoint(0);
+    m_line_p->push_front(shiftedPoint);
 }
 
 const core::graphics::Vector* FlightTrack::getPoint(int32_t f_index)
