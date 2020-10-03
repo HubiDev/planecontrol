@@ -2,13 +2,15 @@
 #define GAME_ELEMENTS_PLANE_HPP_INLUDED
 
 #include "core/engine/game_element.hpp"
-#include "game/elements/flight_track.hpp"
 #include "core/graphics/rectangle.hpp"
+#include "game/elements/flight_track.hpp"
 
 namespace game
 {
 namespace elements
 {
+
+using core::graphics::Vector;
 
 class Plane : public core::engine::IGameElement
 {
@@ -31,11 +33,11 @@ public:
     FlightTrack& getFlightTrack();
 
 private:
+    Vector centrifyPoint(const Vector& f_point);
 
     std::shared_ptr<FlightTrack> m_flightTrack_p;
     std::unique_ptr<core::graphics::Rectangle> m_planeTexture_p;
     float m_speed;
-
 };
 
 } // namespace elements

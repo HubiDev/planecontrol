@@ -30,7 +30,8 @@ void Plane::update(const core::engine::UpdateContext& f_context)
 
         if(point_p)
         {
-            m_planeTexture_p->setPosition(point_p->x, point_p->y);
+            auto centrifiedPoint = centrifyPoint(*point_p);
+            m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
         }
     }
 }
@@ -49,6 +50,13 @@ void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 FlightTrack& Plane::getFlightTrack()
 {
     return *m_flightTrack_p;
+}
+
+Vector Plane::centrifyPoint(const Vector& f_point)
+{
+    const float posX = (f_point.x - m_planeTexture_p->getSize().x / 2.f);
+    const float posY = (f_point.y - m_planeTexture_p->getSize().y / 2.f);
+    return {posX, posY};
 }
 
 } // namespace elements
