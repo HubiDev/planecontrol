@@ -2,9 +2,12 @@
 #define CORE_GRAPHICS_POLYLINE_HPP_INCLUDED
 
 #include "core/graphics/vector.hpp"
-#include <vector>
+
 #define GL_GLEXT_PROTOTYPES
 #include <SDL2/SDL_opengl.h>
+
+#include <vector>
+#include <tuple>
 
 namespace core
 {
