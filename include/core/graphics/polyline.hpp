@@ -25,13 +25,13 @@ public:
     int32_t getPointCount();
 
 private:
-
     void render();
     void renderFront();
+    std::tuple<Vector, Vector, Vector, Vector> calcLineSegment(const Vector& f_startPoint, const Vector& f_endPoint);
+
     bool filterPoint(const Vector& f_point);
     void beautifySegment();
 
-    
     GLuint m_vboReference;
     float m_thickness;
     std::vector<Vector> m_points;

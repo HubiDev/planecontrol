@@ -177,27 +177,14 @@ int32_t Polyline::getPointCount()
 /// @brief This will always render the line to the last point that was added
 void Polyline::render()
 {
-    auto& startPoint = m_points[m_points.size() - 2];
-    auto& endPoint = m_points.back();
+    const auto& startPoint = m_points[m_points.size() - 2];
+    const auto& endPoint = m_points.back();
 
-    Vector vectorBetweenPoints = geometry::calcVector(startPoint, endPoint);
-    Vector orthoVector = geometry::calcOrthoVector(vectorBetweenPoints);
-    orthoVector = geometry::calcUnitVector(orthoVector);
-
-    // Calculate all 4 coordinates
-    // Start with the upper triangle
     Vector lowerLeftPoint;
     Vector upperLeftPoint;
     Vector upperRightPoint;
     Vector lowerRightPoint;
-    lowerLeftPoint.x = startPoint.x + ((-1.f) * m_thickness * orthoVector.x);
-    lowerLeftPoint.y = startPoint.y + ((-1.f) * m_thickness * orthoVector.y);
-    upperLeftPoint.x = startPoint.x + (m_thickness * orthoVector.x);
-    upperLeftPoint.y = startPoint.y + (m_thickness * orthoVector.y);
-    lowerRightPoint.x = endPoint.x + ((-1.f) * m_thickness * orthoVector.x);
-    lowerRightPoint.y = endPoint.y + ((-1.f) * m_thickness * orthoVector.y);
-    upperRightPoint.x = endPoint.x + (m_thickness * orthoVector.x);
-    upperRightPoint.y = endPoint.y + (m_thickness * orthoVector.y);
+    std::tie(lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint) = calcLineSegment(startPoint, endPoint);
 
     if(m_points.size() > 2)
     {
@@ -214,6 +201,7 @@ void Polyline::render()
         m_vertexBuffer.push_back(upperLeftPoint);
     }
 
+    // duplicated
     m_vertexBuffer.push_back(lowerLeftPoint);
     m_vertexBuffer.push_back(upperLeftPoint);
     m_vertexBuffer.push_back(lowerRightPoint);
@@ -225,29 +213,14 @@ void Polyline::render()
 
 void Polyline::renderFront()
 {
-    // TODO remove duplicated code
-
     auto& startPoint = m_points.front();
     auto& endPoint = m_points.at(1);
 
-    Vector vectorBetweenPoints = geometry::calcVector(startPoint, endPoint);
-    Vector orthoVector = geometry::calcOrthoVector(vectorBetweenPoints);
-    orthoVector = geometry::calcUnitVector(orthoVector);
-
-    // Calculate all 4 coordinates
-    // Start with the upper triangle
     Vector lowerLeftPoint;
     Vector upperLeftPoint;
     Vector upperRightPoint;
     Vector lowerRightPoint;
-    lowerLeftPoint.x = startPoint.x + ((-1.f) * m_thickness * orthoVector.x);
-    lowerLeftPoint.y = startPoint.y + ((-1.f) * m_thickness * orthoVector.y);
-    upperLeftPoint.x = startPoint.x + (m_thickness * orthoVector.x);
-    upperLeftPoint.y = startPoint.y + (m_thickness * orthoVector.y);
-    lowerRightPoint.x = endPoint.x + ((-1.f) * m_thickness * orthoVector.x);
-    lowerRightPoint.y = endPoint.y + ((-1.f) * m_thickness * orthoVector.y);
-    upperRightPoint.x = endPoint.x + (m_thickness * orthoVector.x);
-    upperRightPoint.y = endPoint.y + (m_thickness * orthoVector.y);
+    std::tie(lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint) = calcLineSegment(startPoint, endPoint);
 
     if(m_points.size() > 2)
     {
@@ -271,6 +244,31 @@ void Polyline::renderFront()
     m_vertexBuffer.insert(m_vertexBuffer.begin(), upperLeftPoint);
     m_vertexBuffer.insert(m_vertexBuffer.begin(), upperRightPoint);
     m_vertexBuffer.insert(m_vertexBuffer.begin(), lowerRightPoint);
+}
+
+std::tuple<Vector, Vector, Vector, Vector> Polyline::calcLineSegment(const Vector& f_startPoint,
+                                                                     const Vector& f_endPoint)
+{
+    Vector vectorBetweenPoints = geometry::calcVector(f_startPoint, f_endPoint);
+    Vector orthoVector = geometry::calcOrthoVector(vectorBetweenPoints);
+    orthoVector = geometry::calcUnitVector(orthoVector);
+
+    // Calculate all 4 coordinates
+    // Start with the upper triangle
+    Vector lowerLeftPoint;
+    Vector upperLeftPoint;
+    Vector upperRightPoint;
+    Vector lowerRightPoint;
+    lowerLeftPoint.x = f_startPoint.x + ((-1.f) * m_thickness * orthoVector.x);
+    lowerLeftPoint.y = f_startPoint.y + ((-1.f) * m_thickness * orthoVector.y);
+    upperLeftPoint.x = f_startPoint.x + (m_thickness * orthoVector.x);
+    upperLeftPoint.y = f_startPoint.y + (m_thickness * orthoVector.y);
+    lowerRightPoint.x = f_endPoint.x + ((-1.f) * m_thickness * orthoVector.x);
+    lowerRightPoint.y = f_endPoint.y + ((-1.f) * m_thickness * orthoVector.y);
+    upperRightPoint.x = f_endPoint.x + (m_thickness * orthoVector.x);
+    upperRightPoint.y = f_endPoint.y + (m_thickness * orthoVector.y);
+
+    return {lowerLeftPoint, upperLeftPoint, upperRightPoint, lowerRightPoint};
 }
 
 } // namespace graphics
