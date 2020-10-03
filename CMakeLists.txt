@@ -23,4 +23,6 @@ add_subdirectory(src/game)
 # other lib dependencies
 find_package(SDL2 REQUIRED)
 find_package(OpenGL)
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${OPENGL_gl_LIBRARY})
+find_package(PNG REQUIRED)
+include_directories(${PROJECT_NAME} ${PNG_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${OPENGL_gl_LIBRARY} ${PNG_LIBRARY})
