@@ -4,7 +4,6 @@
 #include <fstream>
 #include <stdexcept>
 #include <vector>
-#include <filesystem>
 
 extern "C"
 {
@@ -20,7 +19,7 @@ namespace
 {
 void pngLoadHandler(png_structp f_pngStruct_p, png_bytep f_data_p, png_size_t f_dataSize)
 {
-    auto imageStream_p = reinterpret_cast<std::fstream*>(png_get_io_ptr(f_pngStruct_p));
+    auto imageStream_p = reinterpret_cast<std::ifstream*>(png_get_io_ptr(f_pngStruct_p));
 
     if(imageStream_p)
     {
@@ -52,14 +51,60 @@ void loadPng()
         throw new std::runtime_error("pnglib info struct creation failure");
     }
 
-    auto tmp = std::filesystem::exists("");
-    std::fstream imageStream("", std::ios_base::binary);
+    std::ifstream imageStream("", std::ios_base::binary);
 
     if(imageStream.is_open())
     {
         png_set_read_fn(pngReadStruct_p, &imageStream, pngLoadHandler);
 
         png_read_info(pngReadStruct_p, pngInfoStruct_p);
+
+        uint32_t width;
+        uint32_t height;
+        int32_t bitDepth;
+        int32_t colorType;
+        int32_t interlaceMethod;
+        int32_t compressionMethod;
+        int32_t filterMethod;
+
+        auto ihdrRetVal = png_get_IHDR(pngReadStruct_p,
+                                       pngInfoStruct_p,
+                                       &width,
+                                       &height,
+                                       &bitDepth,
+                                       &colorType,
+                                       &interlaceMethod,
+                                       &compressionMethod,
+                                       &filterMethod);
+
+        if(ihdrRetVal != 1)
+        {
+            // cleanup
+            png_destroy_info_struct(pngReadStruct_p, &pngInfoStruct_p);
+            png_destroy_read_struct(&pngReadStruct_p, nullptr, nullptr);
+            throw new std::runtime_error("Failed to get PNG info");
+        }
+
+        if(PNG_COLOR_TYPE_RGB_ALPHA == colorType)
+        {
+            auto bytesPerRow = png_get_rowbytes(pngReadStruct_p, pngInfoStruct_p);
+
+            std::vector<uint8_t> imageBuffer;
+            imageBuffer.resize(bytesPerRow * height);
+
+            for(uint32_t i{}; i < height; ++i)
+            {
+                png_read_row(pngReadStruct_p, &imageBuffer[i * bytesPerRow], nullptr);
+            }
+        }
+        else
+        {
+            throw new std::runtime_error("Unsupported image format");
+        }
+        
+
+        png_destroy_info_struct(pngReadStruct_p, &pngInfoStruct_p);
+        png_destroy_read_struct(&pngReadStruct_p, nullptr, nullptr);
     }
 }
 
