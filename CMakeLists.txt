@@ -26,3 +26,6 @@ find_package(OpenGL)
 find_package(PNG REQUIRED)
 include_directories(${PROJECT_NAME} ${PNG_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${OPENGL_gl_LIBRARY} ${PNG_LIBRARY})
+
+# copy resources to execution directory
+file(COPY resources/textures DESTINATION resources)
