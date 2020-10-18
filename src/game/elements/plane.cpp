@@ -18,7 +18,8 @@ Plane::~Plane() {}
 void Plane::load()
 {
     m_planeTexture_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({10.f, 10.f}, {50.f, 50.f}));
+        std::unique_ptr<core::graphics::Texture>(new core::graphics::Texture("resources/textures/plane.png"));
+    m_planeTexture_p->load();
 }
 
 /// @brief
@@ -31,7 +32,9 @@ void Plane::update(const core::engine::UpdateContext& f_context)
         if(point_p)
         {
             auto centrifiedPoint = centrifyPoint(*point_p);
-            m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+
+            // TODO
+            //m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
         }
     }
 }

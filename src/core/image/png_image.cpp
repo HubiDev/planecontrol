@@ -126,7 +126,7 @@ std::size_t PngImage::size() noexcept
     return (m_info.m_width * m_info.m_height) * (m_info.m_bitDepth / 8);
 }
 
-const PngImageInfo& PngImage::info() noexcept
+const ImageInfo& PngImage::info() noexcept
 {
     return m_info;
 }

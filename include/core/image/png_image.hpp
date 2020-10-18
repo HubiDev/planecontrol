@@ -1,6 +1,8 @@
 #ifndef CORE_IMAGE_PNG_IMAGE_HPP_INCLUDED
 #define CORE_IMAGE_PNG_IMAGE_HPP_INCLUDED
 
+#include "image.hpp"
+
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -11,18 +13,15 @@ namespace core
 namespace image
 {
 
-struct PngImageInfo
+struct PngImageInfo : public ImageInfo
 {
-    std::uint32_t m_width;
-    std::uint32_t m_height;
-    std::int32_t m_bitDepth;
     std::int32_t m_colorType;
     std::int32_t m_interlaceMethod;
     std::int32_t m_compressionMethod;
     std::int32_t m_filterMethod;
 };
 
-class PngImage
+class PngImage : public Image
 {
 
 public:
@@ -30,15 +29,16 @@ public:
     PngImage(const std::string& f_path) noexcept;
 
     /// @brief
-    void load();
+    void load() final;
 
     /// @brief
-    std::uint8_t& data() noexcept;
+    std::uint8_t& data() noexcept final;
 
     /// @brief
-    std::size_t size() noexcept;
+    std::size_t size() noexcept final;
 
-    const PngImageInfo& info() noexcept;
+    /// @brief
+    const ImageInfo& info() noexcept final;
 
 private:
 

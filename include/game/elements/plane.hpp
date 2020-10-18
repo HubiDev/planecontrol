@@ -2,7 +2,7 @@
 #define GAME_ELEMENTS_PLANE_HPP_INLUDED
 
 #include "core/engine/game_element.hpp"
-#include "core/graphics/rectangle.hpp"
+#include "core/graphics/texture.hpp"
 #include "game/elements/flight_track.hpp"
 
 namespace game
@@ -36,7 +36,7 @@ private:
     Vector centrifyPoint(const Vector& f_point);
 
     std::shared_ptr<FlightTrack> m_flightTrack_p;
-    std::unique_ptr<core::graphics::Rectangle> m_planeTexture_p;
+    std::unique_ptr<core::graphics::Texture> m_planeTexture_p;
     float m_speed;
 };
 
