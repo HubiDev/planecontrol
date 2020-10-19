@@ -1,12 +1,12 @@
 #ifndef CORE_GRAPHICS_HPP_INCLUDED
 #define CORE_GRAPHICS_HPP_INCLUDED
 
+#include "core/graphics/vector.hpp"
+
 #include <array>
 #include <tuple>
 #define GL_GLEXT_PROTOTYPES
 #include <SDL2/SDL_opengl.h>
-
-#include "core/graphics/vector.hpp"
 
 namespace core
 {

@@ -32,9 +32,7 @@ void Plane::update(const core::engine::UpdateContext& f_context)
         if(point_p)
         {
             auto centrifiedPoint = centrifyPoint(*point_p);
-
-            // TODO
-            //m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+            m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
         }
     }
 }
@@ -63,5 +61,4 @@ Vector Plane::centrifyPoint(const Vector& f_point)
 }
 
 } // namespace elements
-
 } // namespace game
