@@ -12,8 +12,10 @@ Texture::Texture(const std::string& f_imagePath)
     , m_posY()
     , m_width()
     , m_height()
+    , m_textureRef()
+    , m_vertexRef()
 {
-    glGenBuffers(1, &m_textureRef);
+    glGenBuffers(1, &m_vertexRef);
     glGenTextures(1, &m_textureRef);
 }
 
@@ -41,43 +43,59 @@ void Texture::draw()
                                      200.f,
                                      100.f};
 
+    std::array<float, 12U> tmpBuffer = {100.f,
+                                       100.f, //
+                                       0.f,
+                                       100.f,
+                                       200.f,
+                                       0.f,
+                                       200.f,
+                                       200.f,
+                                       0.f,
+                                       200.f,
+                                       100.f,
+                                       0.f};
+
+    glColor3f(0.1, 0.2, 0.7);
+
     // Bind buffer
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexRef);
-    glBufferData(GL_ARRAY_BUFFER, buffer.size() * sizeof(float), buffer.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, tmpBuffer.size() * sizeof(float), tmpBuffer.data(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexRef);
+    // glBindTexture(GL_TEXTURE_2D, m_textureRef);
 
-    glBindTexture(GL_TEXTURE_2D, m_textureRef);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // glTexImage2D(GL_TEXTURE_2D,
+    //              0,
+    //              GL_RGBA,
+    //              m_image_p->info().m_width,
+    //              m_image_p->info().m_height,
+    //              0,
+    //              GL_RGBA,
+    //              GL_UNSIGNED_BYTE,
+    //              &m_image_p->data());
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D,
-                 0,
-                 GL_RGBA,
-                 m_image_p->info().m_width,
-                 m_image_p->info().m_height,
-                 0,
-                 GL_RGBA,
-                 GL_UNSIGNED_BYTE,
-                 &m_image_p->data());
+    //glBindTexture(GL_TEXTURE_2D, 0);
 
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    glColor4f(1.f, 1.f, 1.f, 1.f);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glColor4f(1.f, 1.f, 1.f, 1.f);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Render
-    glEnable(GL_TEXTURE_2D);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    // glEnable(GL_TEXTURE_2D);
+    // glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexRef);
+    // glBindBuffer(GL_ARRAY_BUFFER, m_vertexRef);
     // glTexCoordPointer(4, GL_FLOAT, sizeof(float) * 2U, 0);
-    glVertexPointer(4, GL_FLOAT, sizeof(float) * 2U, reinterpret_cast<const GLvoid*>(2));
+    glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-    glDrawArrays(GL_QUADS, 0, 4);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glDrawArrays(GL_QUADS, 0, tmpBuffer.size() / 3);
 
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     // glBindTexture(GL_TEXTURE_2D, m_textureRef);
 
