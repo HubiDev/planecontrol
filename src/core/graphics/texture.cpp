@@ -1,5 +1,6 @@
 #include "core/graphics/texture.hpp"
 #include "core/image/png_image.hpp"
+#include <array>
 
 namespace core
 {
@@ -12,6 +13,7 @@ Texture::Texture(const std::string& f_imagePath)
     , m_width()
     , m_height()
 {
+    glGenBuffers(1, &m_textureRef);
     glGenTextures(1, &m_textureRef);
 }
 
@@ -22,6 +24,27 @@ void Texture::load()
 
 void Texture::draw()
 {
+    std::array<float, 16U> buffer = {0.f,
+                                     0.f, //
+                                     100.f,
+                                     100.f, //
+                                     0.f,
+                                     1.f,
+                                     100.f,
+                                     200.f,
+                                     1.f,
+                                     1.f,
+                                     200.f,
+                                     200.f,
+                                     1.f,
+                                     0.f,
+                                     200.f,
+                                     100.f};
+
+    // Bind buffer
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexRef);
+    glBufferData(GL_ARRAY_BUFFER, buffer.size() * sizeof(float), buffer.data(), GL_STATIC_DRAW);
+
     glBindTexture(GL_TEXTURE_2D, m_textureRef);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -35,24 +58,62 @@ void Texture::draw()
                  GL_RGBA,
                  GL_UNSIGNED_BYTE,
                  &m_image_p->data());
+
     glBindTexture(GL_TEXTURE_2D, 0);
 
-    //clear and draw quad with texture (could be in display callback)
-    glClear(GL_COLOR_ALPHA_PAIRING_ATI);
-    glBindTexture(GL_TEXTURE_2D, m_textureRef);
+    glColor4f(1.f, 1.f, 1.f, 1.f);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Render
     glEnable(GL_TEXTURE_2D);
-    glBegin(GL_QUADS);
-    glTexCoord2i(0, 0);
-    glVertex2i(100, 100);
-    glTexCoord2i(0, 1);
-    glVertex2i(100, 500);
-    glTexCoord2i(1, 1);
-    glVertex2i(500, 500);
-    glTexCoord2i(1, 0);
-    glVertex2i(500, 100);
-    glEnd();
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glBindBuffer(GL_ARRAY_BUFFER, m_vertexRef);
+    // glTexCoordPointer(4, GL_FLOAT, sizeof(float) * 2U, 0);
+    glVertexPointer(4, GL_FLOAT, sizeof(float) * 2U, reinterpret_cast<const GLvoid*>(2));
+
+    glDrawArrays(GL_QUADS, 0, 4);
+
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+    // glBindTexture(GL_TEXTURE_2D, m_textureRef);
+
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // glTexImage2D(GL_TEXTURE_2D,
+    //              0,
+    //              GL_RGBA,
+    //              m_image_p->info().m_width,
+    //              m_image_p->info().m_height,
+    //              0,
+    //              GL_RGBA,
+    //              GL_UNSIGNED_BYTE,
+    //              &m_image_p->data());
+    // glBindTexture(GL_TEXTURE_2D, 0);
+
+    // //clear and draw quad with texture (could be in display callback)
+    // glBindTexture(GL_TEXTURE_2D, m_textureRef);
+
+    // glColor4f(1.f, 1.f, 1.f, 1.f);
+    // glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // glEnable(GL_TEXTURE_2D);
+    // glBegin(GL_QUADS);
+    // glTexCoord2i(0, 0);
+    // glVertex2i(100, 100);
+    // glTexCoord2i(0, 1);
+    // glVertex2i(100, 200);
+    // glTexCoord2i(1, 1);
+    // glVertex2i(200, 200);
+    // glTexCoord2i(1, 0);
+    // glVertex2i(200, 100);
+    // glEnd();
+    // glDisable(GL_TEXTURE_2D);
+    // glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Texture::setPosition(float f_posX, float f_posY)
