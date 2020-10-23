@@ -28,53 +28,45 @@ void Texture::draw()
 {
     std::array<float, 16U> buffer = {0.f,
                                      0.f, //
-                                     100.f,
-                                     100.f, //
                                      0.f,
                                      1.f,
-                                     100.f,
-                                     200.f,
                                      1.f,
                                      1.f,
-                                     200.f,
-                                     200.f,
                                      1.f,
-                                     0.f,
-                                     200.f,
-                                     100.f};
+                                     0.f};
 
     std::array<float, 12U> tmpBuffer = {100.f,
-                                       100.f, //
-                                       0.f,
-                                       100.f,
-                                       200.f,
-                                       0.f,
-                                       200.f,
-                                       200.f,
-                                       0.f,
-                                       200.f,
-                                       100.f,
-                                       0.f};
+                                        100.f, //
+                                        0.f,
+                                        100.f,
+                                        200.f,
+                                        0.f,
+                                        200.f,
+                                        200.f,
+                                        0.f,
+                                        200.f,
+                                        100.f,
+                                        0.f};
 
     glColor3f(0.1, 0.2, 0.7);
 
-    // Bind buffer
+    // Load vertices
     glBindBuffer(GL_ARRAY_BUFFER, m_vertexRef);
     glBufferData(GL_ARRAY_BUFFER, tmpBuffer.size() * sizeof(float), tmpBuffer.data(), GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vertexRef);
-    // glBindTexture(GL_TEXTURE_2D, m_textureRef);
 
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // glTexImage2D(GL_TEXTURE_2D,
-    //              0,
-    //              GL_RGBA,
-    //              m_image_p->info().m_width,
-    //              m_image_p->info().m_height,
-    //              0,
-    //              GL_RGBA,
-    //              GL_UNSIGNED_BYTE,
-    //              &m_image_p->data());
+    // Load texture
+    glBindTexture(GL_TEXTURE_2D, m_textureRef);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,
+                 GL_RGBA,
+                 m_image_p->info().m_width,
+                 m_image_p->info().m_height,
+                 0,
+                 GL_RGBA,
+                 GL_UNSIGNED_BYTE,
+                 &m_image_p->data());
 
     //glBindTexture(GL_TEXTURE_2D, 0);
 
