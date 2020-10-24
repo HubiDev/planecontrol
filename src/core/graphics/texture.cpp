@@ -29,29 +29,9 @@ void Texture::load()
 
 void Texture::draw()
 {
-    constexpr std::array<float, 16U> textVertexBuffer = {0.f,
-                                                         0.f, //
-                                                         0.f,
-                                                         1.f,
-                                                         1.f,
-                                                         1.f,
-                                                         1.f,
-                                                         0.f};
+    constexpr std::array<float, 16U> textVertexBuffer = {0.f, 0.f, 0.f, 1.f, 1.f, 1.f, 1.f, 0.f};
 
-    // std::array<float, 12U> rectVertexBuffer = {100.f,
-    //                                            100.f, //
-    //                                            0.f,
-    //                                            100.f,
-    //                                            200.f,
-    //                                            0.f,
-    //                                            200.f,
-    //                                            200.f,
-    //                                            0.f,
-    //                                            200.f,
-    //                                            100.f,
-    //                                            0.f};
-
-    glColor3f(1.f, 1.f, 1.f);
+    glColor3f(1.f, 1.f, 1.f); // take color from texture
 
     // Load vertices
     glBindBuffer(GL_ARRAY_BUFFER, m_rectVertexRef);

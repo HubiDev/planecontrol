@@ -37,7 +37,7 @@ public:
 private:
     std::unique_ptr<core::graphics::Polyline> m_line_p;
     bool m_isActive;
-    static constexpr float TRACK_THICKNESS = 5.f;
+    static constexpr float TRACK_THICKNESS = 2.5f;
 };
 
 } // namespace elements
