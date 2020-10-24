@@ -34,7 +34,8 @@ private:
     float m_height;
 
     GLuint m_textureRef;
-    GLuint m_vertexRef;
+    GLuint m_rectVertexRef;
+    GLuint m_textVertexRef;
 };
 
 } // namespace graphics
