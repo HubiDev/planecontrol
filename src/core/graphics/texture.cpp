@@ -1,24 +1,25 @@
 #include "core/graphics/texture.hpp"
 #include "core/image/png_image.hpp"
-#include <array>
 
 namespace core
 {
 namespace graphics
 {
-Texture::Texture(const std::string& f_imagePath)
+Texture::Texture(const std::string& f_imagePath, std::tuple<float, float> f_position, std::tuple<float, float> f_size)
     : m_image_p(new image::PngImage(f_imagePath))
-    , m_posX()
-    , m_posY()
-    , m_width()
-    , m_height()
+    , m_posX(std::get<0>(f_position))
+    , m_posY(std::get<1>(f_position))
+    , m_width(std::get<0>(f_size))
+    , m_height(std::get<1>(f_size))
     , m_textureRef()
     , m_rectVertexRef()
     , m_textVertexRef()
+    , m_rectVertices()
 {
     glGenBuffers(1, &m_rectVertexRef);
     glGenBuffers(1, &m_textVertexRef);
     glGenTextures(1, &m_textureRef);
+    updateRectVertices();
 }
 
 void Texture::load()
@@ -37,24 +38,24 @@ void Texture::draw()
                                                          1.f,
                                                          0.f};
 
-    std::array<float, 12U> rectVertexBuffer = {100.f,
-                                               100.f, //
-                                               0.f,
-                                               100.f,
-                                               200.f,
-                                               0.f,
-                                               200.f,
-                                               200.f,
-                                               0.f,
-                                               200.f,
-                                               100.f,
-                                               0.f};
+    // std::array<float, 12U> rectVertexBuffer = {100.f,
+    //                                            100.f, //
+    //                                            0.f,
+    //                                            100.f,
+    //                                            200.f,
+    //                                            0.f,
+    //                                            200.f,
+    //                                            200.f,
+    //                                            0.f,
+    //                                            200.f,
+    //                                            100.f,
+    //                                            0.f};
 
     glColor3f(1.f, 1.f, 1.f);
 
     // Load vertices
     glBindBuffer(GL_ARRAY_BUFFER, m_rectVertexRef);
-    glBufferData(GL_ARRAY_BUFFER, rectVertexBuffer.size() * sizeof(float), rectVertexBuffer.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, m_rectVertices.size() * sizeof(float), m_rectVertices.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_textVertexRef);
     glBufferData(GL_ARRAY_BUFFER, textVertexBuffer.size() * sizeof(float), textVertexBuffer.data(), GL_STATIC_DRAW);
@@ -87,7 +88,7 @@ void Texture::draw()
     glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
     glEnableClientState(GL_VERTEX_ARRAY);
-    glDrawArrays(GL_QUADS, 0, rectVertexBuffer.size() / 3);
+    glDrawArrays(GL_QUADS, 0, m_rectVertices.size() / 3);
 
     //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
@@ -100,6 +101,7 @@ void Texture::setPosition(float f_posX, float f_posY)
 {
     m_posX = f_posX;
     m_posY = f_posY;
+    updateRectVertices();
 }
 
 Vector Texture::getSize()
@@ -110,6 +112,25 @@ Vector Texture::getSize()
 Vector Texture::getPostion()
 {
     return {m_posX, m_posY};
+}
+
+void Texture::updateRectVertices()
+{
+    m_rectVertices[0] = m_posX;
+    m_rectVertices[1] = m_posY;
+    m_rectVertices[2] = 0.f;
+
+    m_rectVertices[3] = m_posX;
+    m_rectVertices[4] = m_posY + m_height;
+    m_rectVertices[5] = 0.f;
+
+    m_rectVertices[6] = m_posX + m_width;
+    m_rectVertices[7] = m_posY + m_height;
+    m_rectVertices[8] = 0.f;
+
+    m_rectVertices[9] = m_posX + m_width;
+    m_rectVertices[10] = m_posY;
+    m_rectVertices[11] = 0.f;
 }
 
 } // namespace graphics
