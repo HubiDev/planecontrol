@@ -60,16 +60,9 @@ void Texture::draw()
 
     // Render
     glPushMatrix(); // save current matrix
-    glTranslatef(m_posX + (m_width / 2.f), m_posY + (m_height / 2.f), 0.f);
+    glTranslatef(m_posX + m_width / 2.f, m_posY + m_height / 2.f, 0.f);
     glRotatef(m_rotation, 0.f, 0.f, 1.f);
     glTranslatef(-(m_posX + m_width / 2.f), -(m_posY + m_height / 2.f), 0.f);
-
-    m_rotation += 0.1f;
-
-    if(m_rotation > 359.f)
-    {
-        m_rotation = 0.f;
-    }
 
     glEnable(GL_TEXTURE_2D);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -83,14 +76,14 @@ void Texture::draw()
     glEnableClientState(GL_VERTEX_ARRAY);
     glDrawArrays(GL_QUADS, 0, m_rectVertices.size() / 3);
 
-    glPopMatrix();
-
     // Restore state for next element
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glDisable(GL_TEXTURE_2D);
+
+    glPopMatrix();
 
 }
 

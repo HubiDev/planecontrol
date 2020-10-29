@@ -50,6 +50,16 @@ Vector calcDirection(const Vector& f_start, const Vector& f_end)
     return {(f_end.x - f_start.x), (f_end.y - f_start.y)};
 }
 
+float calcAngle(const Vector& f_first, const Vector& f_second)
+{
+    return std::acosf(calcScalarProduct(f_first, f_second) / (calcVectorLength(f_first) * calcVectorLength(f_second)));
+}
+
+float calcScalarProduct(const Vector& f_first, const Vector& f_second)
+{
+    return (f_first.x * f_second.x) + (f_first.y * f_second.y);
+}
+
 } // namespace geometry
 } // namespace graphics
 } // namespace core

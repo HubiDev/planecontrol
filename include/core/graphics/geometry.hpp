@@ -36,10 +36,11 @@ float calcDistance(const Vector& f_start, const Vector& f_end);
 
 Vector calcDirection(const Vector& f_start, const Vector& f_end);
 
+float calcAngle(const Vector& f_first, const Vector& f_second);
 
+float calcScalarProduct(const Vector& f_first, const Vector& f_second);
 
 } // namespace geometry
-
 } // namespace graphics
 } // namespace core
 
