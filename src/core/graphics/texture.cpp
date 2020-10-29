@@ -11,6 +11,7 @@ Texture::Texture(const std::string& f_imagePath, std::tuple<float, float> f_posi
     , m_posY(std::get<1>(f_position))
     , m_width(std::get<0>(f_size))
     , m_height(std::get<1>(f_size))
+    , m_rotation(0.f)
     , m_textureRef()
     , m_rectVertexRef()
     , m_textVertexRef()
@@ -31,7 +32,7 @@ void Texture::draw()
 {
     constexpr std::array<float, 16U> textVertexBuffer = {0.f, 0.f, 0.f, 1.f, 1.f, 1.f, 1.f, 0.f};
 
-    glColor3f(1.f, 1.f, 1.f); // take color from texture
+    glColor3f(1.f, 1.f, 1.f); // take color from texture    
 
     // Load vertices
     glBindBuffer(GL_ARRAY_BUFFER, m_rectVertexRef);
@@ -58,6 +59,18 @@ void Texture::draw()
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Render
+    glPushMatrix(); // save current matrix
+    glTranslatef(m_posX + (m_width / 2.f), m_posY + (m_height / 2.f), 0.f);
+    glRotatef(m_rotation, 0.f, 0.f, 1.f);
+    glTranslatef(-(m_posX + m_width / 2.f), -(m_posY + m_height / 2.f), 0.f);
+
+    m_rotation += 0.1f;
+
+    if(m_rotation > 359.f)
+    {
+        m_rotation = 0.f;
+    }
+
     glEnable(GL_TEXTURE_2D);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -70,11 +83,15 @@ void Texture::draw()
     glEnableClientState(GL_VERTEX_ARRAY);
     glDrawArrays(GL_QUADS, 0, m_rectVertices.size() / 3);
 
-    //glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glPopMatrix();
+
+    // Restore state for next element
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
+    glDisable(GL_TEXTURE_2D);
+
 }
 
 void Texture::setPosition(float f_posX, float f_posY)

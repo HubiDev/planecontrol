@@ -18,7 +18,7 @@ Plane::~Plane() {}
 void Plane::load()
 {
     m_planeTexture_p = std::unique_ptr<core::graphics::Texture>(
-        new core::graphics::Texture("resources/textures/plane.png", {10.f, 10.f}, {100.f, 100.f}));
+        new core::graphics::Texture("resources/textures/plane.png", {100.f, 100.f}, {100.f, 100.f}));
     m_planeTexture_p->load();
 }
 

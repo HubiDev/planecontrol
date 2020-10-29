@@ -37,6 +37,7 @@ private:
     float m_posY;
     float m_width;
     float m_height;
+    float m_rotation;
 
     GLuint m_textureRef;
     GLuint m_rectVertexRef;
