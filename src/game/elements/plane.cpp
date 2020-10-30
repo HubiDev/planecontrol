@@ -11,7 +11,7 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     : m_flightTrack_p{std::move(f_flightTrack_p)}
     , m_planeTexture_p{}
     , m_speed{2.f}
-    , m_textureOrientation{1.f, 1.f} // 90 degrees
+    , m_textureOrientation{1.f, 0.f} // 90 degrees
 {}
 
 Plane::~Plane() {}
@@ -72,8 +72,15 @@ void Plane::updateRotation()
 {
     auto direction = m_flightTrack_p->getDirection();
     auto angle = core::graphics::geometry::calcAngle(m_textureOrientation, direction);
+
+    if(direction.y < 0.f)
+    {
+        angle = (360.f - angle);
+    }
+
+    angle += 45.f; // Temporary fix for current texture
+
     m_planeTexture_p->setRotation(angle);
-    std::cout << angle << std::endl;
 }
 
 } // namespace elements

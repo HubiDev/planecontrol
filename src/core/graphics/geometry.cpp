@@ -56,7 +56,9 @@ float calcAngle(const Vector& f_first, const Vector& f_second)
     auto length1 = calcVectorLength(f_first);
     auto length2 = calcVectorLength(f_second);
     auto angleInRadian = std::acosf(scalar / (length1 * length2));
-    return (angleInRadian * 180.f / M_PI);
+    auto angleInDegree = (angleInRadian * 180.f / M_PI);    
+
+    return angleInDegree;
 }
 
 float calcScalarProduct(const Vector& f_first, const Vector& f_second)
