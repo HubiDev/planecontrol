@@ -25,6 +25,7 @@ public:
     Vector getPostion();
 
     void setPosition(float f_posX, float f_posY);
+    void setRotation(float f_roatation);
 
 private:
 

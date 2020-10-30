@@ -34,6 +34,8 @@ public:
 
 private:
     Vector centrifyPoint(const Vector& f_point);
+    void updatePosition();
+    void updateRotation();
 
     std::shared_ptr<FlightTrack> m_flightTrack_p;
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;

@@ -32,7 +32,7 @@ void Texture::draw()
 {
     constexpr std::array<float, 16U> textVertexBuffer = {0.f, 0.f, 0.f, 1.f, 1.f, 1.f, 1.f, 0.f};
 
-    glColor3f(1.f, 1.f, 1.f); // take color from texture    
+    glColor3f(1.f, 1.f, 1.f); // take color from texture
 
     // Load vertices
     glBindBuffer(GL_ARRAY_BUFFER, m_rectVertexRef);
@@ -84,7 +84,6 @@ void Texture::draw()
     glDisable(GL_TEXTURE_2D);
 
     glPopMatrix();
-
 }
 
 void Texture::setPosition(float f_posX, float f_posY)
@@ -92,6 +91,14 @@ void Texture::setPosition(float f_posX, float f_posY)
     m_posX = f_posX;
     m_posY = f_posY;
     updateRectVertices();
+}
+
+void Texture::setRotation(float f_rotation)
+{
+    if(!isnan(f_rotation))
+    {
+        m_rotation = f_rotation;
+    }
 }
 
 Vector Texture::getSize()
