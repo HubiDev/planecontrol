@@ -1,5 +1,5 @@
 #include "game/elements/plane.hpp"
-#include <iostream>
+#include "core/graphics/geometry.hpp"
 
 namespace game
 {
@@ -10,6 +10,7 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     : m_flightTrack_p{std::move(f_flightTrack_p)}
     , m_planeTexture_p{}
     , m_speed{2.f}
+    ,m_textureOrientation{1.f, 1.f} // 90 degrees
 {}
 
 Plane::~Plane() {}
@@ -28,6 +29,8 @@ void Plane::update(const core::engine::UpdateContext& f_context)
     if(m_flightTrack_p->isActive())
     {
         auto point_p = m_flightTrack_p->moveToNextPoint(m_speed);
+        auto direction = m_flightTrack_p->getDirection();
+        auto angle = core::graphics::geometry::calcAngle(m_textureOrientation, direction);
 
         if(point_p)
         {

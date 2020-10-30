@@ -116,6 +116,16 @@ const core::graphics::Vector* FlightTrack::getPoint(int32_t f_index)
     return nullptr;
 }
 
+core::graphics::Vector FlightTrack::getDirection()
+{
+    if(m_line_p->getPointCount() >= 2)
+    {
+        return core::graphics::geometry::calcDirection(m_line_p->getPoint(0), m_line_p->getPoint(1));
+    }
+
+    return core::graphics::Vector{}; //TODO
+}
+
 void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs)
 {
     if(m_isActive)

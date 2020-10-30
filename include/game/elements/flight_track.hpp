@@ -27,6 +27,7 @@ public:
 
     const core::graphics::Vector* moveToNextPoint(float f_distance);
     const core::graphics::Vector* getPoint(int32_t f_index);
+    core::graphics::Vector getDirection();
 
     void onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs) override;
 

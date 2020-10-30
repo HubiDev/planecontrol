@@ -38,6 +38,7 @@ private:
     std::shared_ptr<FlightTrack> m_flightTrack_p;
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;
     float m_speed;
+    Vector m_textureOrientation;
 };
 
 } // namespace elements
