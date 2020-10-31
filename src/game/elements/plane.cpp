@@ -1,4 +1,5 @@
 #include "game/elements/plane.hpp"
+#include "core/engine/update_context.hpp"
 #include "core/graphics/geometry.hpp"
 #include <iostream>
 
@@ -20,13 +21,14 @@ Plane::~Plane() {}
 void Plane::load()
 {
     m_planeTexture_p = std::unique_ptr<core::graphics::Texture>(
-        new core::graphics::Texture("resources/textures/plane.png", {100.f, 100.f}, {100.f, 100.f}));
+        new core::graphics::Texture("resources/textures/plane2.png", {100.f, 100.f}, {100.f, 100.f}));
     m_planeTexture_p->load();
 }
 
 /// @brief
 void Plane::update(const core::engine::UpdateContext& f_context)
 {
+    std::cout << f_context.m_durationSinceLastUpdate << std::endl;
     if(m_flightTrack_p->isActive())
     {
         updatePosition();
@@ -78,7 +80,7 @@ void Plane::updateRotation()
         angle = (360.f - angle);
     }
 
-    angle += 45.f; // Temporary fix for current texture
+    angle += 90.f; // Temporary fix for current texture
 
     m_planeTexture_p->setRotation(angle);
 }

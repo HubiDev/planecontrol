@@ -52,10 +52,12 @@ Vector calcDirection(const Vector& f_start, const Vector& f_end)
 
 float calcAngle(const Vector& f_first, const Vector& f_second)
 {
+    using namespace std;
+
     auto scalar = calcScalarProduct(f_first, f_second);
     auto length1 = calcVectorLength(f_first);
     auto length2 = calcVectorLength(f_second);
-    auto angleInRadian = std::acosf(scalar / (length1 * length2));
+    auto angleInRadian = ::acosf(scalar / (length1 * length2));
     auto angleInDegree = (angleInRadian * 180.f / M_PI);    
 
     return angleInDegree;
