@@ -1,5 +1,6 @@
 #include "core/graphics/texture.hpp"
 #include "core/image/png_image.hpp"
+#include <cmath>
 
 namespace core
 {
@@ -95,7 +96,7 @@ void Texture::setPosition(float f_posX, float f_posY)
 
 void Texture::setRotation(float f_rotation)
 {
-    if(!isnan(f_rotation))
+    if(!std::isnan(f_rotation))
     {
         m_rotation = f_rotation;
     }
