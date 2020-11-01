@@ -11,6 +11,16 @@ struct Vector
 {
     float x;
     float y;
+
+    bool operator==(const Vector& toCompare)
+    {
+        return (x == toCompare.x) && (y == toCompare.y);
+    }
+
+    bool operator!=(const Vector& toCompare)
+    {
+        return !(*this == toCompare);
+    }
 };
 
 } // namespace graphics

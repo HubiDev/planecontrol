@@ -33,7 +33,7 @@ void Polyline::push_back(const Vector& f_point)
     }
     else
     {
-        if(filterPoint(f_point))
+        if(filterPoint(f_point, false))
         {
             m_points.push_back(f_point);
 
@@ -55,7 +55,7 @@ void Polyline::push_front(const Vector& f_point)
     }
     else
     {
-        if(filterPoint(f_point))
+        if(filterPoint(f_point, true))
         {
             m_points.insert(m_points.begin(), f_point);
 
@@ -77,16 +77,19 @@ void Polyline::beautifySegment()
     }
 }
 
-bool Polyline::filterPoint(const Vector& f_point)
+bool Polyline::filterPoint(const Vector& f_point, bool f_front)
 {
-    bool result = false;
+    auto& pointToCompare = f_front ? m_points.front() : m_points.back();
 
-    if((m_points.back().x != f_point.x) || (m_points.back().y != f_point.y))
+    if(pointToCompare != f_point)
     {
-        result = true;
+        if(geometry::calcDistance(m_points.back(), f_point) > 2.f)
+        {
+            return true;
+        }
     }
 
-    return result;
+    return false;
 }
 
 void Polyline::draw()

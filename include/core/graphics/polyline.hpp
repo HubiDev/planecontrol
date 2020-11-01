@@ -32,7 +32,7 @@ private:
     void renderFront();
     std::tuple<Vector, Vector, Vector, Vector> calcLineSegment(const Vector& f_startPoint, const Vector& f_endPoint);
 
-    bool filterPoint(const Vector& f_point);
+    bool filterPoint(const Vector& f_point, bool f_front);
     void beautifySegment();
 
     GLuint m_vboReference;
