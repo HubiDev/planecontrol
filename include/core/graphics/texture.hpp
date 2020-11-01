@@ -23,6 +23,7 @@ public:
 
     Vector getSize();
     Vector getPostion();
+    float getRotation();
 
     void setPosition(float f_posX, float f_posY);
     void setRotation(float f_roatation);

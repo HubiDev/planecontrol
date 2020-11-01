@@ -114,6 +114,11 @@ Vector Texture::getPostion()
     return {m_posX, m_posY};
 }
 
+float Texture::getRotation()
+{
+    return m_rotation;
+}
+
 void Texture::updateRectVertices()
 {
     m_rectVertices[0] = m_posX;

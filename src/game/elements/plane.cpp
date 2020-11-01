@@ -82,6 +82,21 @@ void Plane::updateRotation()
 
     angle += 90.f; // Temporary fix for current texture
 
+    // TODO encaplsulate
+    auto currentRotation = m_planeTexture_p->getRotation();
+
+    if(currentRotation != angle)
+    {
+        if(currentRotation < angle)
+        {
+            angle = (currentRotation + 1.f);
+        }
+        else
+        {
+            angle = (currentRotation - 1.f);
+        }
+    }
+
     m_planeTexture_p->setRotation(angle);
 }
 
