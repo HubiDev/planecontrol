@@ -68,21 +68,13 @@ float calcScalarProduct(const Vector& f_first, const Vector& f_second)
     return (f_first.x * f_second.x) + (f_first.y * f_second.y);
 }
 
-// TODO this does not work for all inputs!!!
-float addAngles(float f_first, float f_second)
+float angleAbs(float f_angle)
 {
-    auto result = f_first + f_second;
+    auto result = std::fmod(f_angle, 360.f);
 
-    if(result < 0)
+    if(result < 0.f)
     {
-        result = 360.f + result;
-    }
-
-    auto largerAs360 = result - 360.f;
-
-    if(largerAs360 > 0.f)
-    {
-        return largerAs360;
+        result += 360.f;
     }
 
     return result;

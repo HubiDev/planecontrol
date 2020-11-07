@@ -85,51 +85,27 @@ float Plane::rotateSmooth(float f_targetRotation)
     auto currentRotation = m_planeTexture_p->getRotation();
     auto diff = std::abs(currentRotation - f_targetRotation);
 
-    float rotationToDo{};
-
-    // turn right by default
-    if(currentRotation < f_targetRotation)
-    {
-        if(diff > 180.f)
-        {
-            rotationToDo = -1.f;
-        }
-        else
-        {
-            rotationToDo = 1.f;
-        }
-    }
-    else
-    {
-        if(diff > 180.f)
-        {
-            rotationToDo = 1.f;
-        }
-        else
-        {
-            rotationToDo = -1.f;
-        }
-    }
-
     float result{};
 
     if(diff > 1.f)
     {
-        result = core::graphics::geometry::addAngles(currentRotation, rotationToDo);
+        float rotationToDo{};
+        // turn right by default
+        if(currentRotation < f_targetRotation)
+        {
+            rotationToDo = (diff > 180.f) ? -1.f : 1.f; // check if other direction is shorter
+        }
+        else // turn left by default
+        {
+            rotationToDo = (diff > 180.f) ? 1.f : -1.f;
+        }
+
+        return core::graphics::geometry::angleAbs(currentRotation + rotationToDo);
     }
     else
     {
-        result = f_targetRotation;
+        return f_targetRotation;
     }
-
-    if(isnan(result))
-    {
-        int debug = 0;
-    }
-
-    std::cout << result << std::endl;
-
-    return result;
 }
 
 float Plane::calcTargetRotation()
@@ -143,7 +119,7 @@ float Plane::calcTargetRotation()
     }
 
     // Temporary fix for current texture
-    angle = core::graphics::geometry::addAngles(angle, 90.f);
+    angle = core::graphics::geometry::angleAbs(angle + 90.f);
 
     return angle;
 }

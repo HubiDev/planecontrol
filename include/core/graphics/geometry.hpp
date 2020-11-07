@@ -39,8 +39,7 @@ float calcAngle(const Vector& f_first, const Vector& f_second);
 
 float calcScalarProduct(const Vector& f_first, const Vector& f_second);
 
-/// @brief Deals with angle wrap
-float addAngles(float f_first, float f_second);
+float angleAbs(float f_angle);
 
 } // namespace geometry
 } // namespace graphics
