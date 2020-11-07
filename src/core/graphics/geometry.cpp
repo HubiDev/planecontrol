@@ -58,7 +58,7 @@ float calcAngle(const Vector& f_first, const Vector& f_second)
     auto length1 = calcVectorLength(f_first);
     auto length2 = calcVectorLength(f_second);
     auto angleInRadian = ::acosf(scalar / (length1 * length2));
-    auto angleInDegree = (angleInRadian * 180.f / M_PI);    
+    auto angleInDegree = (angleInRadian * 180.f / M_PI);
 
     return angleInDegree;
 }
@@ -66,6 +66,26 @@ float calcAngle(const Vector& f_first, const Vector& f_second)
 float calcScalarProduct(const Vector& f_first, const Vector& f_second)
 {
     return (f_first.x * f_second.x) + (f_first.y * f_second.y);
+}
+
+// TODO this does not work for all inputs!!!
+float addAngles(float f_first, float f_second)
+{
+    auto result = f_first + f_second;
+
+    if(result < 0)
+    {
+        result = 360.f + result;
+    }
+
+    auto largerAs360 = result - 360.f;
+
+    if(largerAs360 > 0.f)
+    {
+        return largerAs360;
+    }
+
+    return result;
 }
 
 } // namespace geometry

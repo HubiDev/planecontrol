@@ -28,7 +28,6 @@ void Plane::load()
 /// @brief
 void Plane::update(const core::engine::UpdateContext& f_context)
 {
-    std::cout << f_context.m_durationSinceLastUpdate << std::endl;
     if(m_flightTrack_p->isActive())
     {
         updatePosition();
@@ -73,9 +72,12 @@ void Plane::updatePosition()
 void Plane::updateRotation()
 {
     auto targetAngle = calcTargetRotation();
-    targetAngle = rotateSmooth(targetAngle);
 
-    m_planeTexture_p->setRotation(targetAngle);
+    if(!isnan(targetAngle))
+    {
+        targetAngle = rotateSmooth(targetAngle);
+        m_planeTexture_p->setRotation(targetAngle);
+    }
 }
 
 float Plane::rotateSmooth(float f_targetRotation)
@@ -83,23 +85,49 @@ float Plane::rotateSmooth(float f_targetRotation)
     auto currentRotation = m_planeTexture_p->getRotation();
     auto diff = std::abs(currentRotation - f_targetRotation);
 
+    float rotationToDo{};
+
+    // turn right by default
+    if(currentRotation < f_targetRotation)
+    {
+        if(diff > 180.f)
+        {
+            rotationToDo = -1.f;
+        }
+        else
+        {
+            rotationToDo = 1.f;
+        }
+    }
+    else
+    {
+        if(diff > 180.f)
+        {
+            rotationToDo = 1.f;
+        }
+        else
+        {
+            rotationToDo = -1.f;
+        }
+    }
+
     float result{};
 
     if(diff > 1.f)
     {
-        if(currentRotation < f_targetRotation)
-        {
-            result = (currentRotation + 1.f);
-        }
-        else
-        {
-            result = (currentRotation - 1.f);
-        }
+        result = core::graphics::geometry::addAngles(currentRotation, rotationToDo);
     }
     else
     {
         result = f_targetRotation;
     }
+
+    if(isnan(result))
+    {
+        int debug = 0;
+    }
+
+    std::cout << result << std::endl;
 
     return result;
 }
@@ -114,7 +142,8 @@ float Plane::calcTargetRotation()
         angle = (360.f - angle);
     }
 
-    angle += 90.f; // Temporary fix for current texture
+    // Temporary fix for current texture
+    angle = core::graphics::geometry::addAngles(angle, 90.f);
 
     return angle;
 }
