@@ -72,6 +72,40 @@ void Plane::updatePosition()
 
 void Plane::updateRotation()
 {
+    auto targetAngle = calcTargetRotation();
+    targetAngle = rotateSmooth(targetAngle);
+
+    m_planeTexture_p->setRotation(targetAngle);
+}
+
+float Plane::rotateSmooth(float f_targetRotation)
+{
+    auto currentRotation = m_planeTexture_p->getRotation();
+    auto diff = std::abs(currentRotation - f_targetRotation);
+
+    float result{};
+
+    if(diff > 1.f)
+    {
+        if(currentRotation < f_targetRotation)
+        {
+            result = (currentRotation + 1.f);
+        }
+        else
+        {
+            result = (currentRotation - 1.f);
+        }
+    }
+    else
+    {
+        result = f_targetRotation;
+    }
+
+    return result;
+}
+
+float Plane::calcTargetRotation()
+{
     auto direction = m_flightTrack_p->getDirection();
     auto angle = core::graphics::geometry::calcAngle(m_textureOrientation, direction);
 
@@ -82,22 +116,7 @@ void Plane::updateRotation()
 
     angle += 90.f; // Temporary fix for current texture
 
-    // TODO encaplsulate
-    auto currentRotation = m_planeTexture_p->getRotation();
-
-    if(currentRotation != angle)
-    {
-        if(currentRotation < angle)
-        {
-            angle = (currentRotation + 1.f);
-        }
-        else
-        {
-            angle = (currentRotation - 1.f);
-        }
-    }
-
-    m_planeTexture_p->setRotation(angle);
+    return angle;
 }
 
 } // namespace elements
