@@ -90,14 +90,18 @@ float Plane::rotateSmooth(float f_targetRotation)
     if(diff > 1.f)
     {
         float rotationToDo{};
+        auto speed = diff / 10.f;
+
+        std::cout << "Speed " << speed << std::endl;
+
         // turn right by default
         if(currentRotation < f_targetRotation)
         {
-            rotationToDo = (diff > 180.f) ? -1.f : 1.f; // check if other direction is shorter
+            rotationToDo = (diff > 180.f) ? -speed : speed; // check if other direction is shorter
         }
         else // turn left by default
         {
-            rotationToDo = (diff > 180.f) ? 1.f : -1.f;
+            rotationToDo = (diff > 180.f) ? speed : -speed;
         }
 
         return core::graphics::geometry::angleAbs(currentRotation + rotationToDo);
