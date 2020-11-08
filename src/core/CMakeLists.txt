@@ -4,14 +4,14 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 
 # Add sources
-FILE(GLOB CoreUiSources "ui/*.cpp")
-FILE(GLOB CoreEngineSources "engine/*.cpp")
-FILE(GLOB CoreGraphicsSources "graphics/*.cpp")
-FILE(GLOB CoreImageSources "image/*.cpp")
+FILE(GLOB CoreUiSources "src/ui/*.cpp")
+FILE(GLOB CoreEngineSources "src/engine/*.cpp")
+FILE(GLOB CoreGraphicsSources "src/graphics/*.cpp")
+FILE(GLOB CoreImageSources "src/image/*.cpp")
 
 
 # create core lib
 add_library(planecontrol_core ${CoreUiSources} ${CoreEngineSources} ${CoreGraphicsSources} ${CoreImageSources})
 
 # set include directory
-include_directories(planecontrol_core "../../include")
+include_directories(planecontrol_core "include")
