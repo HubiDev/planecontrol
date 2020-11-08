@@ -4,6 +4,20 @@ namespace game
 {
 namespace elements
 {
-Runway::Runway(/* args */) {}
+Runway::Runway()
+    : core::engine::IGameElement()
+{}
+
+Runway::~Runway() {}
+
+void Runway::load() 
+{
+    
+}
+
+void Runway::update(const core::engine::UpdateContext& f_context) {}
+
+void Runway::draw() {}
+
 } // namespace elements
 } // namespace game

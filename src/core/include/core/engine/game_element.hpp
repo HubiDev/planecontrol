@@ -29,7 +29,7 @@ public:
     virtual void update(const UpdateContext& f_context) = 0;
 
 protected:
-    IGameElement()
+    inline IGameElement()
         : ui::IDrawable()
         , ui::IMouseAware(){};
 };

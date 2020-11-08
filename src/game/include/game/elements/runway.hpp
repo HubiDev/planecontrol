@@ -11,6 +11,15 @@ class Runway : public core::engine::IGameElement
 {
 public:
     Runway();
+    ~Runway();
+
+    void load() override;
+
+    void update(const core::engine::UpdateContext& f_context) override;
+
+    void draw() override;
+
+private:
 };
 
 } // namespace elements

@@ -3,6 +3,7 @@
 
 #include "core/engine/game_base.hpp"
 #include "game/elements/plane_factory.hpp"
+#include "game/elements/runway.hpp"
 
 namespace game
 {
@@ -20,7 +21,7 @@ protected:
 private:
 
     elements::PlaneFactory m_planeFactory;
-    
+    std::unique_ptr<elements::Runway> m_runway_p;
 };
 
 } // namespace game
