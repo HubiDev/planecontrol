@@ -89,7 +89,7 @@ float Plane::rotateSmooth(float f_targetRotation, const core::engine::UpdateCont
 
     float result{};
 
-    if(diff > 1.f)
+    if(diff > 0.5f)
     {
         float rotationToDo{};
         float speed = calcRotationSpeed(diff, f_context);
@@ -131,6 +131,7 @@ float Plane::calcTargetRotation()
 float Plane::calcRotationSpeed(float f_angleDiff, const core::engine::UpdateContext& f_context)
 {
     constexpr float speedDivisor = 10.f;
+    constexpr float maxSpeed = 5.f;
     float result{};
 
     if(f_angleDiff > 180.f)
@@ -140,6 +141,11 @@ float Plane::calcRotationSpeed(float f_angleDiff, const core::engine::UpdateCont
     else
     {
         result = f_angleDiff / speedDivisor;
+    }
+
+    if(result > maxSpeed)
+    {
+        result = maxSpeed;
     }
 
     return core::engine::adaptToFps(f_context, result);

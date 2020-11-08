@@ -79,6 +79,21 @@ void Polyline::beautifySegment()
 
 bool Polyline::filterPoint(const Vector& f_point, bool f_front)
 {
+    // if(!f_front)
+    // {
+    //     for(std::int32_t i{}; i < m_points.size(); ++i)
+    //     {
+    //         auto& current = m_points[i];
+    //         auto diffX = std::abs(current.x - f_point.x);
+    //         auto diffY = std::abs(current.y - f_point.y);
+
+    //         if((diffX < 1.f) || (diffY < 1.f))
+    //         {
+    //             removePoint(i);
+    //         }
+    //     }
+    // }
+
     auto& pointToCompare = f_front ? m_points.front() : m_points.back();
 
     if(pointToCompare != f_point)
@@ -108,7 +123,7 @@ void Polyline::draw()
 
         if(vertexBuffer.size() > 0)
         {
-            glColor3f(0.1, 0.2, 0.7);
+            glColor3f(0.4, 0.4, 0.4);
 
             //Make the new VBO active. Repeat here incase changed since initialisation
             glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
