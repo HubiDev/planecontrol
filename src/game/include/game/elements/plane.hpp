@@ -30,6 +30,9 @@ public:
     /// @brief
     virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs) override;
 
+    /// @brief
+    virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs) override;
+
     FlightTrack& getFlightTrack();
 
 private:

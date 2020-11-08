@@ -80,6 +80,19 @@ float angleAbs(float f_angle)
     return result;
 }
 
+bool isContainedInRegion(const Vector& f_origin, const Vector& f_size, const Vector& f_point)
+{
+    if((f_point.x >= f_origin.x) && (f_point.y >= f_origin.y))
+    {
+        if(((f_origin.x + f_size.x) >= f_point.x) && ((f_origin.y + f_size.y) >= f_point.y))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 } // namespace geometry
 } // namespace graphics
 } // namespace core

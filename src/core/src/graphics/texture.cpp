@@ -109,7 +109,7 @@ Vector Texture::getSize()
     return {m_width, m_height};
 }
 
-Vector Texture::getPostion()
+Vector Texture::getPosition()
 {
     return {m_posX, m_posY};
 }

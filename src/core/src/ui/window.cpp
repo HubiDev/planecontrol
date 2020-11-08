@@ -50,8 +50,8 @@ void Window::createOpenGlContext()
     m_openGlContext = SDL_GL_CreateContext(m_window_p.get());
     glOrtho(0.f, (double)m_width, (double)m_height, 0.f, 0.f, 1.f);
 
-    glEnable(GL_MULTISAMPLE_ARB);
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
+    glEnable(GL_MULTISAMPLE);
 
     if(nullptr == m_openGlContext)
     {

@@ -94,7 +94,7 @@ Vector Rectangle::getSize()
     return {m_width, m_height};
 }
 
-Vector Rectangle::getPostion()
+Vector Rectangle::getPosition()
 {
     return {m_posX, m_posY};
 }

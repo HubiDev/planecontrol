@@ -1,6 +1,7 @@
 #include "game/elements/plane.hpp"
 #include "core/engine/update_context.hpp"
 #include "core/graphics/geometry.hpp"
+#include "core/ui/mouse_event_args.hpp"
 
 namespace game
 {
@@ -27,11 +28,8 @@ void Plane::load()
 /// @brief
 void Plane::update(const core::engine::UpdateContext& f_context)
 {
-    if(m_flightTrack_p->isActive())
-    {
-        updatePosition(f_context);
-        updateRotation(f_context);
-    }
+    updatePosition(f_context);
+    updateRotation(f_context);
 }
 
 void Plane::draw()
@@ -41,8 +39,25 @@ void Plane::draw()
 
 void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    m_flightTrack_p->clear();
-    m_flightTrack_p->setActive(true);
+    bool planeWasHit = core::graphics::geometry::isContainedInRegion(
+        m_planeTexture_p->getPosition(),
+        m_planeTexture_p->getSize(),
+        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+
+    if(planeWasHit)
+    {
+        m_flightTrack_p->clear();
+        m_flightTrack_p->setActive(true);
+    }
+    else
+    {
+        m_flightTrack_p->setActive(false);
+    }
+}
+
+void Plane::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
+{
+    m_flightTrack_p->setActive(false);
 }
 
 FlightTrack& Plane::getFlightTrack()

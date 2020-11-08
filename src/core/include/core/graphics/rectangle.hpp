@@ -24,7 +24,7 @@ public:
     void setPosition(float f_posX, float f_posY);
 
     Vector getSize();
-    Vector getPostion();
+    Vector getPosition();
 
 private:
     void render();

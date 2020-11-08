@@ -22,7 +22,7 @@ public:
     void draw();
 
     Vector getSize();
-    Vector getPostion();
+    Vector getPosition();
     float getRotation();
 
     void setPosition(float f_posX, float f_posY);
