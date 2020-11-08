@@ -2,6 +2,7 @@
 #define GAME_ELEMENTS_RUWAY_HPP_INCLUDED
 
 #include "core/engine/game_element.hpp"
+#include "core/graphics/rectangle.hpp"
 
 namespace game
 {
@@ -20,6 +21,7 @@ public:
     void draw() override;
 
 private:
+    std::unique_ptr<core::graphics::Rectangle> m_texture_p;
 };
 
 } // namespace elements
