@@ -38,6 +38,7 @@ private:
     void updateRotation();
     float calcTargetRotation();
     float rotateSmooth(float f_targetRotation);
+    float calcRotationSpeed(float f_angleDiff);
 
     std::shared_ptr<FlightTrack> m_flightTrack_p;
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;

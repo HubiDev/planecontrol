@@ -11,7 +11,7 @@ namespace elements
 Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     : m_flightTrack_p{std::move(f_flightTrack_p)}
     , m_planeTexture_p{}
-    , m_speed{2.f}
+    , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
 {}
 
@@ -83,6 +83,8 @@ void Plane::updateRotation()
 float Plane::rotateSmooth(float f_targetRotation)
 {
     auto currentRotation = m_planeTexture_p->getRotation();
+
+    // todo fix this
     auto diff = std::abs(currentRotation - f_targetRotation);
 
     float result{};
@@ -90,9 +92,7 @@ float Plane::rotateSmooth(float f_targetRotation)
     if(diff > 1.f)
     {
         float rotationToDo{};
-        auto speed = diff / 10.f;
-
-        std::cout << "Speed " << speed << std::endl;
+        float speed = calcRotationSpeed(diff);
 
         // turn right by default
         if(currentRotation < f_targetRotation)
@@ -126,6 +126,20 @@ float Plane::calcTargetRotation()
     angle = core::graphics::geometry::angleAbs(angle + 90.f);
 
     return angle;
+}
+
+float Plane::calcRotationSpeed(float f_angleDiff)
+{
+    constexpr float speedDivisor = 10.f;
+
+    if(f_angleDiff > 180.f)
+    {
+        return (f_angleDiff - 180.f) / speedDivisor;
+    }
+    else
+    {
+        return f_angleDiff / speedDivisor;
+    }
 }
 
 } // namespace elements
