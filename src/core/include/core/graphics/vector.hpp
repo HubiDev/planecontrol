@@ -18,8 +18,6 @@
 #ifndef CORE_GRAPHICS_VECTOR_HPP_INCLUDED
 #define CORE_GRAPHICS_VECTOR_HPP_INCLUDED
 
-#include <stdint.h>
-
 namespace core
 {
 namespace graphics

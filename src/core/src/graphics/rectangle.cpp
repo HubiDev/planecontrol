@@ -28,6 +28,7 @@ Rectangle::Rectangle(std::tuple<float, float> f_position, std::tuple<float, floa
     , m_posY(std::get<1>(f_position))
     , m_width(std::get<0>(f_size))
     , m_height(std::get<1>(f_size))
+    , m_color{0.1f, 0.2f, 0.7f}
 {
     glGenBuffers(1, &m_vboReference);
 }
@@ -68,7 +69,7 @@ void Rectangle::draw()
     vertexBuffer.push_back(m_posY);
     vertexBuffer.push_back(0.f);
 
-    glColor3f(0.1, 0.2, 0.7);
+    glColor3f(m_color.m_r, m_color.m_g, m_color.m_b);
 
     //Make the new VBO active. Repeat here incase changed since initialisation
     glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
@@ -113,6 +114,11 @@ Vector Rectangle::getSize()
 Vector Rectangle::getPosition()
 {
     return {m_posX, m_posY};
+}
+
+void Rectangle::setColor(const ColorRgb& f_color)
+{
+    m_color = f_color;
 }
 
 void Rectangle::render() {}

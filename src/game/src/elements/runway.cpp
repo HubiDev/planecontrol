@@ -26,6 +26,7 @@ Runway::Runway()
     : core::engine::IGameElement()
     , m_texture_p()
     , m_landingRect_p()
+    , m_landingRectVisible(false)
 {}
 
 Runway::~Runway() {}
@@ -33,9 +34,12 @@ Runway::~Runway() {}
 void Runway::load()
 {
     m_texture_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({900.f, 400.f}, {20.f, 100.f}));
+        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({900.f, 400.f}, {75.f, 300.f}));
     m_landingRect_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({900.f, 350.f}, {10.f, 10.f}));
+        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({930.f, 405.f}, {10.f, 10.f}));
+
+    m_texture_p->setColor({0.5f, 0.5f, 0.5f});
+    m_landingRect_p->setColor({0.1f, 0.1f, 0.1f});
 }
 
 void Runway::update(const core::engine::UpdateContext& f_context) {}
@@ -43,13 +47,27 @@ void Runway::update(const core::engine::UpdateContext& f_context) {}
 void Runway::draw()
 {
     m_texture_p->draw();
-    m_landingRect_p->draw();
+
+    if(m_landingRectVisible)
+    {
+        m_landingRect_p->draw();
+    }
 }
 
 bool Runway::isPointForLanding(const Vector& f_point)
 {
     return core::graphics::geometry::isContainedInRegion(
         m_landingRect_p->getPosition(), m_landingRect_p->getSize(), f_point);
+}
+
+void Runway::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
+{
+    m_landingRectVisible = true;
+}
+
+void Runway::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
+{
+    m_landingRectVisible = false;
 }
 
 } // namespace elements

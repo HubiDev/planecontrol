@@ -15,42 +15,29 @@
 // along with planecontrol.  If not, see <http://www.gnu.org/licenses/>.
 // ------------------------------------------------------------------------
 
-#ifndef GAME_ELEMENTS_RUWAY_HPP_INCLUDED
-#define GAME_ELEMENTS_RUWAY_HPP_INCLUDED
+#ifndef CORE_GRAPHICS_COLOR_HPP_INCLUDED
+#define CORE_GRAPHICS_COLOR_HPP_INCLUDED
 
-#include "core/engine/game_element.hpp"
-#include "core/graphics/rectangle.hpp"
-
-using core::graphics::Vector;
-
-namespace game
+namespace core
 {
-namespace elements
+namespace graphics
 {
-class Runway : public core::engine::IGameElement
+struct ColorRgb
 {
-public:
-    Runway();
-    ~Runway();
-
-    void load() override;
-
-    void update(const core::engine::UpdateContext& f_context) override;
-
-    void draw() override;
-
-    bool isPointForLanding(const Vector& f_point);
-
-    void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs) override;
-    void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs) override;
-
-private:
-    std::unique_ptr<core::graphics::Rectangle> m_texture_p;
-    std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
-    bool m_landingRectVisible;
+    float m_r;
+    float m_g;
+    float m_b;
 };
 
-} // namespace elements
-} // namespace game
+struct ColorRgba
+{
+    float m_r;
+    float m_g;
+    float m_b;
+    float m_a;
+};
+
+} // namespace graphics
+} // namespace core
 
 #endif

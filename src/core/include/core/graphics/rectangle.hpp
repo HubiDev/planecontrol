@@ -19,6 +19,7 @@
 #define CORE_GRAPHICS_HPP_INCLUDED
 
 #include "core/graphics/vector.hpp"
+#include "core/graphics/color.hpp"
 
 #include <array>
 #include <tuple>
@@ -42,6 +43,7 @@ public:
 
     Vector getSize();
     Vector getPosition();
+    void setColor(const ColorRgb& f_color);
 
 private:
     void render();
@@ -53,6 +55,7 @@ private:
 
     GLuint m_vboReference;
     std::array<float, 6U> m_vertexBuffer;
+    core::graphics::ColorRgb m_color;
 };
 
 } // namespace graphics
