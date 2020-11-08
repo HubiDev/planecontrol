@@ -16,7 +16,7 @@ jobs:
     - name: update package sources
       run: sudo apt-get update
     - name: install packages
-      run: sudo apt-get install libsdl2-dev
+      run: sudo apt-get install libsdl2-dev libpng-dev
     - name: configure
       run: cmake -G "Unix Makefiles" -B ./build/
     - name: make
