@@ -124,9 +124,10 @@ void Plane::updatePosition(const core::engine::UpdateContext& f_context)
 
 void Plane::updateRotation(const core::engine::UpdateContext& f_context)
 {
+    using namespace std;
     auto targetAngle = calcTargetRotation();
 
-    if(!isnan(targetAngle))
+    if(!::isnan(targetAngle))
     {
         targetAngle = rotateSmooth(targetAngle, f_context);
         m_planeTexture_p->setRotation(targetAngle);
