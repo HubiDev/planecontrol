@@ -9,6 +9,8 @@
 #include "core/ui/sdl_context.hpp"
 #include "core/ui/window.hpp"
 
+#include <iostream>
+
 namespace core
 {
 namespace engine
@@ -32,8 +34,9 @@ void GameBase::initialize()
         m_mouse_p->mouseButtonDownCallback(f_event.button);
     });
 
-    m_eventManager_p->addEventCallback(
-        SDL_MOUSEBUTTONUP, [this](const SDL_Event& f_event) -> void { m_mouse_p->mouseButtonUpCallback(f_event.button); });
+    m_eventManager_p->addEventCallback(SDL_MOUSEBUTTONUP, [this](const SDL_Event& f_event) -> void {
+        m_mouse_p->mouseButtonUpCallback(f_event.button);
+    });
 
     m_eventManager_p->addEventCallback(
         SDL_MOUSEMOTION, [this](const SDL_Event& f_event) -> void { m_mouse_p->mouseMoveCallback(f_event.motion); });
@@ -70,6 +73,11 @@ void GameBase::run()
     m_gameWindow_p.reset(); // close the window
 }
 
+float GameBase::getCurrentFps()
+{
+    return m_currentFps;
+}
+
 void GameBase::addGameElement(core::engine::IGameElement& f_gameElement)
 {
     m_gameElements.push_back(std::reference_wrapper<IGameElement>(f_gameElement));
@@ -85,6 +93,7 @@ void GameBase::updateGameElements()
 
     context.m_durationSinceLastUpdate = {now - m_lastUpdateTimestamp};
     m_lastUpdateTimestamp = now;
+    updateFps(context.m_durationSinceLastUpdate);
 
     for(auto& current : m_gameElements)
     {
@@ -107,6 +116,11 @@ void GameBase::drawGameElements()
     draw();
 
     SDL_GL_SwapWindow(&m_gameWindow_p->getSDLWindow());
+}
+
+void GameBase::updateFps(std::int64_t f_durationSinceLastUpdate)
+{
+    m_currentFps = 1.f / (f_durationSinceLastUpdate / 1000.f / 1000.f);
 }
 
 GameBase::~GameBase() {}

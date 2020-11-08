@@ -38,6 +38,8 @@ public:
     /// @brief This is "the" method that starts it all...
     void run();
 
+    float getCurrentFps();
+
 protected:
     virtual void update() = 0;
     virtual void draw() = 0;
@@ -48,6 +50,7 @@ protected:
 private:
     void updateGameElements();
     void drawGameElements();
+    void updateFps(std::int64_t f_durationSinceLastUpdate);
 
     // CAUTION: Context shall always be the first object to be constructed
     // and the last one to be destructed
@@ -58,7 +61,8 @@ private:
     std::vector<std::reference_wrapper<IGameElement>> m_gameElements;
 
     bool m_exitRequested;
-    int64_t m_lastUpdateTimestamp;
+    std::int64_t m_lastUpdateTimestamp;
+    float m_currentFps;
 
     // TODO make setting dependend
     static constexpr int32_t k_windowWidth = 1280;
