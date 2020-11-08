@@ -13,6 +13,7 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_planeTexture_p{}
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
+    , m_landingPointFunc()
 {}
 
 Plane::~Plane() {}
@@ -57,12 +58,32 @@ void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 
 void Plane::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    m_flightTrack_p->setActive(false);
+    if(m_landingPointFunc)
+    {
+        bool runwayWasHit =
+            m_landingPointFunc({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+
+        if(!runwayWasHit)
+        {
+            m_flightTrack_p->clear();
+        }
+        
+        m_flightTrack_p->setActive(false);
+    }
+    else
+    {
+        throw new std::runtime_error("Plane was not initialzed correctly");
+    }
 }
 
 FlightTrack& Plane::getFlightTrack()
 {
     return *m_flightTrack_p;
+}
+
+void Plane::setLandingPointFunc(std::function<bool(const Vector&)> f_func)
+{
+    m_landingPointFunc = f_func;
 }
 
 Vector Plane::centrifyPoint(const Vector& f_point)

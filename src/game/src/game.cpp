@@ -16,6 +16,8 @@ void Game::onAfterInitialize()
     addGameElement(*m_runway_p);
 
     auto& plane = m_planeFactory.createPlane();
+    plane.setLandingPointFunc(
+        [this](const core::graphics::Vector& f_point) -> bool { return m_runway_p->isPointForLanding(f_point); });
     addGameElement(plane.getFlightTrack());
     addGameElement(plane);
 }

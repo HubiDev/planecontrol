@@ -4,6 +4,8 @@
 #include "core/engine/game_element.hpp"
 #include "core/graphics/rectangle.hpp"
 
+using core::graphics::Vector;
+
 namespace game
 {
 namespace elements
@@ -20,8 +22,11 @@ public:
 
     void draw() override;
 
+    bool isPointForLanding(const Vector& f_point);
+
 private:
     std::unique_ptr<core::graphics::Rectangle> m_texture_p;
+    std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
 };
 
 } // namespace elements

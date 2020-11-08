@@ -5,6 +5,8 @@
 #include "core/graphics/texture.hpp"
 #include "game/elements/flight_track.hpp"
 
+#include <functional>
+
 namespace game
 {
 namespace elements
@@ -35,6 +37,8 @@ public:
 
     FlightTrack& getFlightTrack();
 
+    void setLandingPointFunc(std::function<bool(const Vector&)> f_func);
+
 private:
     Vector centrifyPoint(const Vector& f_point);
     void updatePosition(const core::engine::UpdateContext& f_context);
@@ -47,6 +51,7 @@ private:
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;
     float m_speed;
     Vector m_textureOrientation;
+    std::function<bool(const Vector&)> m_landingPointFunc;
 };
 
 } // namespace elements
