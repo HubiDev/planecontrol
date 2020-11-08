@@ -34,11 +34,11 @@ public:
 
 private:
     Vector centrifyPoint(const Vector& f_point);
-    void updatePosition();
-    void updateRotation();
+    void updatePosition(const core::engine::UpdateContext& f_context);
+    void updateRotation(const core::engine::UpdateContext& f_context);
     float calcTargetRotation();
-    float rotateSmooth(float f_targetRotation);
-    float calcRotationSpeed(float f_angleDiff);
+    float rotateSmooth(float f_targetRotation, const core::engine::UpdateContext& f_context);
+    float calcRotationSpeed(float f_angleDiff, const core::engine::UpdateContext& f_context);
 
     std::shared_ptr<FlightTrack> m_flightTrack_p;
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;

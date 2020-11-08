@@ -13,6 +13,8 @@ struct UpdateContext
     int64_t m_durationSinceLastUpdate;
 }; 
 
+float adaptToFps(const UpdateContext& f_context, float f_toAdapt);
+
 } // namespace engine
 } // namespace core
 

@@ -1,7 +1,6 @@
 #include "game/elements/plane.hpp"
 #include "core/engine/update_context.hpp"
 #include "core/graphics/geometry.hpp"
-#include <iostream>
 
 namespace game
 {
@@ -30,8 +29,8 @@ void Plane::update(const core::engine::UpdateContext& f_context)
 {
     if(m_flightTrack_p->isActive())
     {
-        updatePosition();
-        updateRotation();
+        updatePosition(f_context);
+        updateRotation(f_context);
     }
 }
 
@@ -58,9 +57,10 @@ Vector Plane::centrifyPoint(const Vector& f_point)
     return {posX, posY};
 }
 
-void Plane::updatePosition()
+void Plane::updatePosition(const core::engine::UpdateContext& f_context)
 {
-    auto point_p = m_flightTrack_p->moveToNextPoint(m_speed);
+    auto adaptedSpeed = core::engine::adaptToFps(f_context, m_speed);
+    auto point_p = m_flightTrack_p->moveToNextPoint(adaptedSpeed);
 
     if(point_p)
     {
@@ -69,18 +69,18 @@ void Plane::updatePosition()
     }
 }
 
-void Plane::updateRotation()
+void Plane::updateRotation(const core::engine::UpdateContext& f_context)
 {
     auto targetAngle = calcTargetRotation();
 
     if(!isnan(targetAngle))
     {
-        targetAngle = rotateSmooth(targetAngle);
+        targetAngle = rotateSmooth(targetAngle, f_context);
         m_planeTexture_p->setRotation(targetAngle);
     }
 }
 
-float Plane::rotateSmooth(float f_targetRotation)
+float Plane::rotateSmooth(float f_targetRotation, const core::engine::UpdateContext& f_context)
 {
     auto currentRotation = m_planeTexture_p->getRotation();
 
@@ -92,7 +92,7 @@ float Plane::rotateSmooth(float f_targetRotation)
     if(diff > 1.f)
     {
         float rotationToDo{};
-        float speed = calcRotationSpeed(diff);
+        float speed = calcRotationSpeed(diff, f_context);
 
         // turn right by default
         if(currentRotation < f_targetRotation)
@@ -128,18 +128,21 @@ float Plane::calcTargetRotation()
     return angle;
 }
 
-float Plane::calcRotationSpeed(float f_angleDiff)
+float Plane::calcRotationSpeed(float f_angleDiff, const core::engine::UpdateContext& f_context)
 {
     constexpr float speedDivisor = 10.f;
+    float result{};
 
     if(f_angleDiff > 180.f)
     {
-        return (f_angleDiff - 180.f) / speedDivisor;
+        result = (f_angleDiff - 180.f) / speedDivisor;
     }
     else
     {
-        return f_angleDiff / speedDivisor;
+        result = f_angleDiff / speedDivisor;
     }
+
+    return core::engine::adaptToFps(f_context, result);
 }
 
 } // namespace elements
