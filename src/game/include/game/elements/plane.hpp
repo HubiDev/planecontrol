@@ -18,6 +18,7 @@
 #ifndef GAME_ELEMENTS_PLANE_HPP_INLUDED
 #define GAME_ELEMENTS_PLANE_HPP_INLUDED
 
+#include "core/graphics/animation.hpp"
 #include "core/engine/game_element.hpp"
 #include "core/graphics/texture.hpp"
 #include "game/elements/flight_track.hpp"
@@ -69,6 +70,7 @@ private:
     float m_speed;
     Vector m_textureOrientation;
     std::function<bool(const Vector&)> m_landingPointFunc;
+    core::graphics::Animation m_landingAnimation;
 };
 
 } // namespace elements

@@ -43,6 +43,7 @@ public:
     const Vector& getPoint(int32_t f_index);
     void removePoint(int32_t f_index);
     int32_t getPointCount();
+    float getLength();
 
 private:
     void render();

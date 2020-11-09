@@ -179,6 +179,24 @@ const Vector& Polyline::getPoint(int32_t f_index)
     return m_points[f_index];
 }
 
+// TODO this is inefficient --> optimize
+float Polyline::getLength()
+{
+    if(m_points.size() > 1)
+    {
+        float result{};
+
+        for(std::int32_t i{}; i < (m_points.size() - 1); ++i)
+        {
+            result += geometry::calcDistance(m_points[i], m_points[i + 1]);
+        }
+
+        return result;
+    }
+
+    return 0.f;
+}
+
 // TODO fix
 void Polyline::removePoint(int32_t f_index)
 {

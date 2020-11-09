@@ -124,6 +124,11 @@ void FlightTrack::shiftStart(float f_distanceToShift, float f_distanceToNext)
     m_line_p->push_front(shiftedPoint);
 }
 
+float FlightTrack::getRemainingLength()
+{
+    return m_line_p->getLength();
+}
+
 const core::graphics::Vector* FlightTrack::getPoint(int32_t f_index)
 {
     if(m_line_p->getPointCount() > 0)

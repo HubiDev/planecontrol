@@ -14,12 +14,7 @@ Animation::Animation(float f_refStart, float f_refEnd, float f_animationVal)
     , m_animationVal(f_animationVal)
     , m_lastVal()
 
-{
-    if(f_refStart == f_refEnd)
-    {
-        throw new std::runtime_error("Start ane end val need to differ");
-    }
-}
+{}
 
 float Animation::update(float f_currentRef)
 {

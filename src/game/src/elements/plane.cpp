@@ -22,6 +22,9 @@
 
 #include <cmath>
 
+// DEBUG included
+#include <iostream>
+
 namespace game
 {
 namespace elements
@@ -33,6 +36,7 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
     , m_landingPointFunc()
+    , m_landingAnimation{0.f, 0.f, 0.f}
 {}
 
 Plane::~Plane() {}
@@ -50,6 +54,8 @@ void Plane::update(const core::engine::UpdateContext& f_context)
 {
     updatePosition(f_context);
     updateRotation(f_context);
+
+    std::cout << "Flight track " << m_flightTrack_p->getRemainingLength() << std::endl;
 }
 
 void Plane::draw()
