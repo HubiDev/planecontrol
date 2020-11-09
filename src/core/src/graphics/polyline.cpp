@@ -30,6 +30,7 @@ namespace graphics
 Polyline::Polyline(float f_thickness)
     : m_vboReference()
     , m_thickness(f_thickness)
+    , m_length()
     , m_points()
     , m_vertexBuffer()
 {

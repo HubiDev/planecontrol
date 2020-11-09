@@ -18,13 +18,25 @@
 #ifndef CORE_GRAPHICS_ANIMATION_HPP_INCLUDED
 #define CORE_GRAPHICS_ANIMATION_HPP_INCLUDED
 
+#include "core/engine/update_context.hpp"
+
 namespace core
 {
 namespace graphics
 {
 class Animation
 {
-    public:
+public:
+    Animation(float f_refStart, float f_refEnd, float f_animationVal);
+    float update(float f_currentRef);
+    bool isActive(float f_currentRef);
+
+private:
+    const float m_refStart;
+    const float m_refEnd;
+    const float m_diff;
+    const float m_animationVal;
+    float m_lastVal;
 };
 
 } // namespace graphics

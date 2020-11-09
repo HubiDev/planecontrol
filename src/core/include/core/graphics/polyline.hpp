@@ -54,6 +54,7 @@ private:
 
     GLuint m_vboReference;
     float m_thickness;
+    float m_length;
     std::vector<Vector> m_points;
     std::vector<Vector> m_vertexBuffer;
 };
