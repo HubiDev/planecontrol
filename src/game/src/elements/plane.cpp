@@ -36,7 +36,7 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
     , m_landingPointFunc()
-    , m_landingAnimation{0.f, 0.f, 0.f}
+    , m_landingAnimation{0.f, 200.f, 10.f}
 {}
 
 Plane::~Plane() {}
@@ -54,6 +54,7 @@ void Plane::update(const core::engine::UpdateContext& f_context)
 {
     updatePosition(f_context);
     updateRotation(f_context);
+    updateSize();
 
     std::cout << "Flight track " << m_flightTrack_p->getRemainingLength() << std::endl;
 }
@@ -138,6 +139,16 @@ void Plane::updateRotation(const core::engine::UpdateContext& f_context)
     {
         targetAngle = rotateSmooth(targetAngle, f_context);
         m_planeTexture_p->setRotation(targetAngle);
+    }
+}
+
+void Plane::updateSize()
+{
+    if(m_landingAnimation.isActive(m_flightTrack_p->getRemainingLength()))
+    {
+        auto sizeDiff = m_landingAnimation.update(m_flightTrack_p->getRemainingLength());
+        auto planeSize = m_planeTexture_p->getSize();
+        m_planeTexture_p->setSize({planeSize.x - sizeDiff, planeSize.y - sizeDiff});
     }
 }
 

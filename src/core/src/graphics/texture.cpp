@@ -121,6 +121,12 @@ void Texture::setRotation(float f_rotation)
     }
 }
 
+void Texture::setSize(const Vector& f_size)
+{
+    m_width = f_size.x;
+    m_height = f_size.y;
+}
+
 Vector Texture::getSize()
 {
     return {m_width, m_height};

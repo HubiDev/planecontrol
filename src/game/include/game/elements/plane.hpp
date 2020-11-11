@@ -18,8 +18,8 @@
 #ifndef GAME_ELEMENTS_PLANE_HPP_INLUDED
 #define GAME_ELEMENTS_PLANE_HPP_INLUDED
 
-#include "core/graphics/animation.hpp"
 #include "core/engine/game_element.hpp"
+#include "core/graphics/animation.hpp"
 #include "core/graphics/texture.hpp"
 #include "game/elements/flight_track.hpp"
 
@@ -61,6 +61,7 @@ private:
     Vector centrifyPoint(const Vector& f_point);
     void updatePosition(const core::engine::UpdateContext& f_context);
     void updateRotation(const core::engine::UpdateContext& f_context);
+    void updateSize();
     float calcTargetRotation();
     float rotateSmooth(float f_targetRotation, const core::engine::UpdateContext& f_context);
     float calcRotationSpeed(float f_angleDiff, const core::engine::UpdateContext& f_context);
