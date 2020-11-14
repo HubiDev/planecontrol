@@ -36,7 +36,8 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
     , m_landingPointFunc()
-    , m_landingAnimation{0.f, 200.f, 10.f}
+    , m_landingAnimation{0.f, 150.f, 30.f}
+    , m_flightTrackComplete(false)
 {}
 
 Plane::~Plane() {}
@@ -92,6 +93,11 @@ void Plane::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
         if(!runwayWasHit)
         {
             m_flightTrack_p->clear();
+            m_flightTrackComplete = false;
+        }
+        else
+        {
+            m_flightTrackComplete = true;
         }
 
         m_flightTrack_p->setActive(false);
@@ -144,9 +150,11 @@ void Plane::updateRotation(const core::engine::UpdateContext& f_context)
 
 void Plane::updateSize()
 {
-    if(m_landingAnimation.isActive(m_flightTrack_p->getRemainingLength()))
+
+    if(m_landingAnimation.isActive(m_flightTrack_p->getRemainingLength()) && m_flightTrackComplete)
     {
         auto sizeDiff = m_landingAnimation.update(m_flightTrack_p->getRemainingLength());
+        std::cout << "Animation Size Diff: " << sizeDiff << std::endl;
         auto planeSize = m_planeTexture_p->getSize();
         m_planeTexture_p->setSize({planeSize.x - sizeDiff, planeSize.y - sizeDiff});
     }

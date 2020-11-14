@@ -72,6 +72,7 @@ private:
     Vector m_textureOrientation;
     std::function<bool(const Vector&)> m_landingPointFunc;
     core::graphics::Animation m_landingAnimation;
+    bool m_flightTrackComplete;
 };
 
 } // namespace elements
