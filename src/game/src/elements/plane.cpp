@@ -38,6 +38,8 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_landingPointFunc()
     , m_landingAnimation{0.f, 150.f, 30.f}
     , m_flightTrackComplete(false)
+    , m_flyingState()
+    , m_currentState(m_flyingState)
 {}
 
 Plane::~Plane() {}
@@ -53,11 +55,9 @@ void Plane::load()
 /// @brief
 void Plane::update(const core::engine::UpdateContext& f_context)
 {
-    updatePosition(f_context);
-    updateRotation(f_context);
-    updateSize();
-
-    std::cout << "Flight track " << m_flightTrack_p->getRemainingLength() << std::endl;
+    m_currentState.updatePosition(f_context, *this);
+    m_currentState.updateRotation(f_context, *this);
+    m_currentState.updateSize(*this);
 }
 
 void Plane::draw()
@@ -123,41 +123,6 @@ Vector Plane::centrifyPoint(const Vector& f_point)
     const float posX = (f_point.x - m_planeTexture_p->getSize().x / 2.f);
     const float posY = (f_point.y - m_planeTexture_p->getSize().y / 2.f);
     return {posX, posY};
-}
-
-void Plane::updatePosition(const core::engine::UpdateContext& f_context)
-{
-    auto adaptedSpeed = core::engine::adaptToFps(f_context, m_speed);
-    auto point_p = m_flightTrack_p->moveToNextPoint(adaptedSpeed);
-
-    if(point_p)
-    {
-        auto centrifiedPoint = centrifyPoint(*point_p);
-        m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
-    }
-}
-
-void Plane::updateRotation(const core::engine::UpdateContext& f_context)
-{
-    auto targetAngle = calcTargetRotation();
-
-    if(!std::isnan(targetAngle))
-    {
-        targetAngle = rotateSmooth(targetAngle, f_context);
-        m_planeTexture_p->setRotation(targetAngle);
-    }
-}
-
-void Plane::updateSize()
-{
-
-    if(m_landingAnimation.isActive(m_flightTrack_p->getRemainingLength()) && m_flightTrackComplete)
-    {
-        auto sizeDiff = m_landingAnimation.update(m_flightTrack_p->getRemainingLength());
-        std::cout << "Animation Size Diff: " << sizeDiff << std::endl;
-        auto planeSize = m_planeTexture_p->getSize();
-        m_planeTexture_p->setSize({planeSize.x - sizeDiff, planeSize.y - sizeDiff});
-    }
 }
 
 float Plane::rotateSmooth(float f_targetRotation, const core::engine::UpdateContext& f_context)

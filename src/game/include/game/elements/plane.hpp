@@ -22,6 +22,7 @@
 #include "core/graphics/animation.hpp"
 #include "core/graphics/texture.hpp"
 #include "game/elements/flight_track.hpp"
+#include "game/elements/plane_state.hpp"
 
 #include <functional>
 
@@ -35,6 +36,9 @@ using core::graphics::Vector;
 class Plane : public core::engine::IGameElement
 {
 public:
+    // Declare states as friends
+    friend PlaneStateFlying;
+
     Plane(std::shared_ptr<FlightTrack> f_flightTrack_p);
     ~Plane();
 
@@ -59,9 +63,6 @@ public:
 
 private:
     Vector centrifyPoint(const Vector& f_point);
-    void updatePosition(const core::engine::UpdateContext& f_context);
-    void updateRotation(const core::engine::UpdateContext& f_context);
-    void updateSize();
     float calcTargetRotation();
     float rotateSmooth(float f_targetRotation, const core::engine::UpdateContext& f_context);
     float calcRotationSpeed(float f_angleDiff, const core::engine::UpdateContext& f_context);
@@ -73,6 +74,10 @@ private:
     std::function<bool(const Vector&)> m_landingPointFunc;
     core::graphics::Animation m_landingAnimation;
     bool m_flightTrackComplete;
+    
+    // States
+    PlaneStateFlying m_flyingState;
+    PlaneState& m_currentState;
 };
 
 } // namespace elements

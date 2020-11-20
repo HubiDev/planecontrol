@@ -16,19 +16,52 @@
 // ------------------------------------------------------------------------
 
 #include "game/elements/plane_state.hpp"
+#include "game/elements/plane.hpp"
+
+#include <cmath>
 
 namespace game
 {
 namespace elements
 {
+
 PlaneStateFlying::PlaneStateFlying()
     : PlaneState()
 {}
 
-void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_context) {}
-void PlaneStateFlying::updateRotation(const core::engine::UpdateContext& f_context) {}
-void PlaneStateFlying::updateSize() {}
+void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    auto adaptedSpeed = core::engine::adaptToFps(f_context, f_plane.m_speed);
+    auto point_p = f_plane.m_flightTrack_p->moveToNextPoint(adaptedSpeed);
 
+    if(point_p)
+    {
+        auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
+        f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
+}
+
+void PlaneStateFlying::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    auto targetAngle = f_plane.calcTargetRotation();
+
+    if(!std::isnan(targetAngle))
+    {
+        targetAngle = f_plane.rotateSmooth(targetAngle, f_context);
+        f_plane.m_planeTexture_p->setRotation(targetAngle);
+    }
+}
+
+void PlaneStateFlying::updateSize(Plane& f_plane)
+{
+    if(f_plane.m_landingAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()) &&
+       f_plane.m_flightTrackComplete)
+    {
+        auto sizeDiff = f_plane.m_landingAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
+        auto planeSize = f_plane.m_planeTexture_p->getSize();
+        f_plane.m_planeTexture_p->setSize({planeSize.x - sizeDiff, planeSize.y - sizeDiff});
+    }
+}
 
 } // namespace elements
 } // namespace game

@@ -24,14 +24,17 @@ namespace game
 {
 namespace elements
 {
+
+class Plane;
+
 class PlaneState
 {
 public:
     virtual ~PlaneState() = default;
 
-    virtual void updatePosition(const core::engine::UpdateContext& f_context) = 0;
-    virtual void updateRotation(const core::engine::UpdateContext& f_context) = 0;
-    virtual void updateSize() = 0;
+    virtual void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
+    virtual void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
+    virtual void updateSize(Plane& f_plane) = 0;
 };
 
 class PlaneStateFlying : public PlaneState
@@ -39,12 +42,12 @@ class PlaneStateFlying : public PlaneState
 public:
     PlaneStateFlying();
 
-    void updatePosition(const core::engine::UpdateContext& f_context) final;
-    void updateRotation(const core::engine::UpdateContext& f_context) final;
-    void updateSize() final;
+    void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateSize(Plane& f_plane) final;
 };
 
 } // namespace elements
-} // namespace gamne
+} // namespace game
 
 #endif
