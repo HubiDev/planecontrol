@@ -1,0 +1,11 @@
+@startuml
+
+[*] --> Flying
+Flying --> Landing
+Landing --> Taxiing
+Taxiing --> Parking
+Parking --> Taxiing
+Taxiing --> Starting
+Starting --> Flying
+
+@enduml
