@@ -19,6 +19,8 @@
 #define GAME_ELEMENTS_PLANE_STATE_HPP_INCLUDED
 
 #include "core/engine/update_context.hpp"
+#include "core/ui/mouse_event_args.hpp"
+#include "core/graphics/animation.hpp"
 
 namespace game
 {
@@ -35,6 +37,9 @@ public:
     virtual void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
     virtual void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
     virtual void updateSize(Plane& f_plane) = 0;
+
+    virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
+    virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
 };
 
 class PlaneStateFlying : public PlaneState
@@ -45,6 +50,13 @@ public:
     void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateSize(Plane& f_plane) final;
+
+    virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+    virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+
+private:
+    core::graphics::Animation m_landingAnimation;
+    bool m_flightTrackComplete;
 };
 
 } // namespace elements

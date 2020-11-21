@@ -1,4 +1,4 @@
-@startuml
+@startuml PlaneStates
 
 [*] --> Flying
 Flying --> Landing

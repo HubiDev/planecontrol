@@ -36,8 +36,6 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
     , m_landingPointFunc()
-    , m_landingAnimation{0.f, 150.f, 30.f}
-    , m_flightTrackComplete(false)
     , m_flyingState()
     , m_currentState(m_flyingState)
 {}
@@ -67,45 +65,12 @@ void Plane::draw()
 
 void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    bool planeWasHit = core::graphics::geometry::isContainedInRegion(
-        m_planeTexture_p->getPosition(),
-        m_planeTexture_p->getSize(),
-        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
-
-    if(planeWasHit)
-    {
-        m_flightTrack_p->clear();
-        m_flightTrack_p->setActive(true);
-    }
-    else
-    {
-        m_flightTrack_p->setActive(false);
-    }
+    m_currentState.onMouseDown(f_eventArgs, *this);
 }
 
 void Plane::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    if(m_landingPointFunc)
-    {
-        bool runwayWasHit =
-            m_landingPointFunc({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
-
-        if(!runwayWasHit)
-        {
-            m_flightTrack_p->clear();
-            m_flightTrackComplete = false;
-        }
-        else
-        {
-            m_flightTrackComplete = true;
-        }
-
-        m_flightTrack_p->setActive(false);
-    }
-    else
-    {
-        throw new std::runtime_error("Plane was not initialzed correctly");
-    }
+    m_currentState.onMouseUp(f_eventArgs, *this);
 }
 
 FlightTrack& Plane::getFlightTrack()

@@ -16,6 +16,7 @@
 // ------------------------------------------------------------------------
 
 #include "game/elements/plane_state.hpp"
+#include "core/graphics/geometry.hpp"
 #include "game/elements/plane.hpp"
 
 #include <cmath>
@@ -27,6 +28,8 @@ namespace elements
 
 PlaneStateFlying::PlaneStateFlying()
     : PlaneState()
+    , m_landingAnimation{0.f, 150.f, 30.f}
+    , m_flightTrackComplete(false)
 {}
 
 void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -54,12 +57,54 @@ void PlaneStateFlying::updateRotation(const core::engine::UpdateContext& f_conte
 
 void PlaneStateFlying::updateSize(Plane& f_plane)
 {
-    if(f_plane.m_landingAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()) &&
-       f_plane.m_flightTrackComplete)
+    if(m_landingAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()) && m_flightTrackComplete)
     {
-        auto sizeDiff = f_plane.m_landingAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
+        auto sizeDiff = m_landingAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
         auto planeSize = f_plane.m_planeTexture_p->getSize();
         f_plane.m_planeTexture_p->setSize({planeSize.x - sizeDiff, planeSize.y - sizeDiff});
+    }
+}
+
+void PlaneStateFlying::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
+{
+    bool planeWasHit = core::graphics::geometry::isContainedInRegion(
+        f_plane.m_planeTexture_p->getPosition(),
+        f_plane.m_planeTexture_p->getSize(),
+        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+
+    if(planeWasHit)
+    {
+        f_plane.m_flightTrack_p->clear();
+        f_plane.m_flightTrack_p->setActive(true);
+    }
+    else
+    {
+        f_plane.m_flightTrack_p->setActive(false);
+    }
+}
+
+void PlaneStateFlying::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
+{
+    if(f_plane.m_landingPointFunc)
+    {
+        bool runwayWasHit = f_plane.m_landingPointFunc(
+            {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+
+        if(!runwayWasHit)
+        {
+            f_plane.m_flightTrack_p->clear();
+            m_flightTrackComplete = false;
+        }
+        else
+        {
+            m_flightTrackComplete = true;
+        }
+
+        f_plane.m_flightTrack_p->setActive(false);
+    }
+    else
+    {
+        throw new std::runtime_error("Plane was not initialzed correctly");
     }
 }
 

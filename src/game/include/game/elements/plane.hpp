@@ -72,8 +72,6 @@ private:
     float m_speed;
     Vector m_textureOrientation;
     std::function<bool(const Vector&)> m_landingPointFunc;
-    core::graphics::Animation m_landingAnimation;
-    bool m_flightTrackComplete;
     
     // States
     PlaneStateFlying m_flyingState;
