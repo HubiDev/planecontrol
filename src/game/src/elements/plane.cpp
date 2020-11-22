@@ -36,7 +36,8 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
     , m_landingPointFunc()
-    , m_flyingState()
+    , m_landingState(nullptr)
+    , m_flyingState(&m_landingState)
     , m_currentState(m_flyingState)
 {}
 
@@ -81,6 +82,11 @@ FlightTrack& Plane::getFlightTrack()
 void Plane::setLandingPointFunc(std::function<bool(const Vector&)> f_func)
 {
     m_landingPointFunc = f_func;
+}
+
+void Plane::setLandingPath(const std::vector<core::graphics::Vector> f_path) 
+{
+    m_landingState.setLandingPath(f_path);
 }
 
 Vector Plane::centrifyPoint(const Vector& f_point)

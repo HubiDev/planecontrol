@@ -19,8 +19,11 @@
 #define GAME_ELEMENTS_PLANE_STATE_HPP_INCLUDED
 
 #include "core/engine/update_context.hpp"
-#include "core/ui/mouse_event_args.hpp"
 #include "core/graphics/animation.hpp"
+#include "core/graphics/vector.hpp"
+#include "core/ui/mouse_event_args.hpp"
+
+#include <vector>
 
 namespace game
 {
@@ -32,31 +35,59 @@ class Plane;
 class PlaneState
 {
 public:
+    PlaneState(const PlaneState* const f_next);
     virtual ~PlaneState() = default;
 
     virtual void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
     virtual void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
     virtual void updateSize(Plane& f_plane) = 0;
 
+    virtual const PlaneState* const checkForNextState() = 0;
+
     virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
     virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
+
+private:
+    const PlaneState* const m_next;
 };
 
 class PlaneStateFlying : public PlaneState
 {
 public:
-    PlaneStateFlying();
+    PlaneStateFlying(const PlaneState* const f_next);
 
     void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateSize(Plane& f_plane) final;
 
-    virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
-    virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+    const PlaneState* const checkForNextState() final;
+
+    void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+    void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
 private:
     core::graphics::Animation m_landingAnimation;
     bool m_flightTrackComplete;
+};
+
+class PlaneStateLanding : public PlaneState
+{
+public:
+    PlaneStateLanding(const PlaneState* const f_next);
+
+    void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateSize(Plane& f_plane) final;
+
+    const PlaneState* const checkForNextState() final;
+
+    void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+    void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+
+    void setLandingPath(const std::vector<core::graphics::Vector>& f_path);
+
+private:
+    std::vector<core::graphics::Vector> m_landingPath;
 };
 
 } // namespace elements

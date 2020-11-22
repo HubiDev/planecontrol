@@ -26,8 +26,12 @@ namespace game
 namespace elements
 {
 
-PlaneStateFlying::PlaneStateFlying()
-    : PlaneState()
+PlaneState::PlaneState(const PlaneState* const f_next)
+    : m_next(f_next)
+{}
+
+PlaneStateFlying::PlaneStateFlying(const PlaneState* const f_next)
+    : PlaneState(f_next)
     , m_landingAnimation{0.f, 150.f, 30.f}
     , m_flightTrackComplete(false)
 {}
@@ -106,6 +110,33 @@ void PlaneStateFlying::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Pl
     {
         throw new std::runtime_error("Plane was not initialzed correctly");
     }
+}
+
+const PlaneState* const PlaneStateFlying::checkForNextState()
+{
+    return this;
+}
+
+PlaneStateLanding::PlaneStateLanding(const PlaneState* const f_next)
+    : PlaneState(f_next)
+    , m_landingPath()
+{}
+
+void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
+void PlaneStateLanding::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
+void PlaneStateLanding::updateSize(Plane& f_plane) {}
+
+void PlaneStateLanding::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+void PlaneStateLanding::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+
+void PlaneStateLanding::setLandingPath(const std::vector<core::graphics::Vector>& f_path)
+{
+    m_landingPath = f_path;
+}
+
+const PlaneState* const PlaneStateLanding::checkForNextState()
+{
+    return this;
 }
 
 } // namespace elements

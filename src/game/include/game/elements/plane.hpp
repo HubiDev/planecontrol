@@ -59,7 +59,9 @@ public:
 
     FlightTrack& getFlightTrack();
 
+    // Setters
     void setLandingPointFunc(std::function<bool(const Vector&)> f_func);
+    void setLandingPath(const std::vector<core::graphics::Vector> f_path);
 
 private:
     Vector centrifyPoint(const Vector& f_point);
@@ -74,6 +76,7 @@ private:
     std::function<bool(const Vector&)> m_landingPointFunc;
     
     // States
+    PlaneStateLanding m_landingState;
     PlaneStateFlying m_flyingState;
     PlaneState& m_currentState;
 };

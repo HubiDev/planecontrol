@@ -21,6 +21,8 @@
 #include "core/engine/game_element.hpp"
 #include "core/graphics/rectangle.hpp"
 
+#include <vector>
+
 using core::graphics::Vector;
 
 namespace game
@@ -47,6 +49,7 @@ public:
 private:
     std::unique_ptr<core::graphics::Rectangle> m_texture_p;
     std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
+    std::vector<Vector> m_landingPath;
     bool m_landingRectVisible;
 };
 
