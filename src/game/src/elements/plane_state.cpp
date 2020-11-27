@@ -21,19 +21,23 @@
 
 #include <cmath>
 
+// DEBUGGING
+#include <iostream>
+
 namespace game
 {
 namespace elements
 {
 
-PlaneState::PlaneState(const PlaneState* const f_next)
+PlaneState::PlaneState(PlaneState* f_next)
     : m_next(f_next)
 {}
 
-PlaneStateFlying::PlaneStateFlying(const PlaneState* const f_next)
+PlaneStateFlying::PlaneStateFlying(PlaneState* f_next)
     : PlaneState(f_next)
     , m_landingAnimation{0.f, 150.f, 30.f}
     , m_flightTrackComplete(false)
+    , m_switchToNextState(false)
 {}
 
 void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -45,6 +49,12 @@ void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_conte
     {
         auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
         f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
+
+    // TODO check wether plane has reached end of flight track
+    if(f_plane.m_flightTrack_p->getRemainingLength() == 0.f && m_flightTrackComplete)
+    {
+        m_switchToNextState = true;
     }
 }
 
@@ -112,12 +122,17 @@ void PlaneStateFlying::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Pl
     }
 }
 
-const PlaneState* const PlaneStateFlying::checkForNextState()
+PlaneState* PlaneStateFlying::checkForNextState()
 {
+    if(m_switchToNextState)
+    {
+        return this->m_next;
+    }
+
     return this;
 }
 
-PlaneStateLanding::PlaneStateLanding(const PlaneState* const f_next)
+PlaneStateLanding::PlaneStateLanding(PlaneState* f_next)
     : PlaneState(f_next)
     , m_landingPath()
 {}
@@ -134,7 +149,7 @@ void PlaneStateLanding::setLandingPath(const std::vector<core::graphics::Vector>
     m_landingPath = f_path;
 }
 
-const PlaneState* const PlaneStateLanding::checkForNextState()
+PlaneState* PlaneStateLanding::checkForNextState()
 {
     return this;
 }

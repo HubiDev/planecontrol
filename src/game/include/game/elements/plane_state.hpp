@@ -35,32 +35,32 @@ class Plane;
 class PlaneState
 {
 public:
-    PlaneState(const PlaneState* const f_next);
+    PlaneState(PlaneState* f_next);
     virtual ~PlaneState() = default;
 
     virtual void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
     virtual void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
     virtual void updateSize(Plane& f_plane) = 0;
 
-    virtual const PlaneState* const checkForNextState() = 0;
+    virtual PlaneState* checkForNextState() = 0;
 
     virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
     virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
 
-private:
-    const PlaneState* const m_next;
+protected:
+    PlaneState* m_next;
 };
 
 class PlaneStateFlying : public PlaneState
 {
 public:
-    PlaneStateFlying(const PlaneState* const f_next);
+    PlaneStateFlying(PlaneState* f_next);
 
     void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateSize(Plane& f_plane) final;
 
-    const PlaneState* const checkForNextState() final;
+    PlaneState* checkForNextState() final;
 
     void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
@@ -68,18 +68,19 @@ public:
 private:
     core::graphics::Animation m_landingAnimation;
     bool m_flightTrackComplete;
+    bool m_switchToNextState;
 };
 
 class PlaneStateLanding : public PlaneState
 {
 public:
-    PlaneStateLanding(const PlaneState* const f_next);
+    PlaneStateLanding(PlaneState* f_next);
 
     void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateSize(Plane& f_plane) final;
 
-    const PlaneState* const checkForNextState() final;
+    PlaneState* checkForNextState() final;
 
     void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;

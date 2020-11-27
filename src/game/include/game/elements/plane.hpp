@@ -78,7 +78,7 @@ private:
     // States
     PlaneStateLanding m_landingState;
     PlaneStateFlying m_flyingState;
-    PlaneState& m_currentState;
+    PlaneState* m_currentState;
 };
 
 } // namespace elements

@@ -38,7 +38,7 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_landingPointFunc()
     , m_landingState(nullptr)
     , m_flyingState(&m_landingState)
-    , m_currentState(m_flyingState)
+    , m_currentState(&m_flyingState)
 {}
 
 Plane::~Plane() {}
@@ -54,9 +54,10 @@ void Plane::load()
 /// @brief
 void Plane::update(const core::engine::UpdateContext& f_context)
 {
-    m_currentState.updatePosition(f_context, *this);
-    m_currentState.updateRotation(f_context, *this);
-    m_currentState.updateSize(*this);
+    m_currentState->updatePosition(f_context, *this);
+    m_currentState->updateRotation(f_context, *this);
+    m_currentState->updateSize(*this);
+    m_currentState = m_currentState->checkForNextState();
 }
 
 void Plane::draw()
@@ -66,12 +67,12 @@ void Plane::draw()
 
 void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    m_currentState.onMouseDown(f_eventArgs, *this);
+    m_currentState->onMouseDown(f_eventArgs, *this);
 }
 
 void Plane::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    m_currentState.onMouseUp(f_eventArgs, *this);
+    m_currentState->onMouseUp(f_eventArgs, *this);
 }
 
 FlightTrack& Plane::getFlightTrack()
