@@ -50,15 +50,16 @@ public:
     void onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs) override;
 
     float calcDistanceToNextPoint() const;
-
     void shiftStart(float f_distanceToShift, float f_distanceToNext);
-
     float getRemainingLength();
+
+    void setVisible(bool f_visible);
 
 private:
     std::unique_ptr<core::graphics::Polyline> m_line_p;
     bool m_isActive;
     static constexpr float TRACK_THICKNESS = 1.5f;
+    bool m_isVisible;
 };
 
 } // namespace elements

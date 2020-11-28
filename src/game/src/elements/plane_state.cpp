@@ -129,6 +129,7 @@ PlaneStateLanding::PlaneStateLanding(PlaneState* f_next)
     : PlaneState(f_next)
     , m_landingPath()
     , m_landingAnimation{200.f, 300.f, 30.f}
+    , m_slowDownAnimation{100.f, 300.f, 0.5}
 {}
 
 void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -142,6 +143,12 @@ void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_cont
     {
         auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
         f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
+
+    if(m_slowDownAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()))
+    {
+        auto speedDiff = m_slowDownAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
+        f_plane.m_speed -= speedDiff;
     }
 }
 
@@ -184,6 +191,7 @@ void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f
 {
     static_cast<void>(f_callingState);
     f_plane.m_flightTrack_p->setPoints(m_landingPath);
+    f_plane.m_flightTrack_p->setVisible(false);
 }
 
 } // namespace elements

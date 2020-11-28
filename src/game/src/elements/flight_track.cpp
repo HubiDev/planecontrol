@@ -31,6 +31,7 @@ FlightTrack::FlightTrack()
     : core::engine::IGameElement()
     , m_line_p(nullptr)
     , m_isActive(false)
+    , m_isVisible(true)
 {}
 
 FlightTrack::~FlightTrack() {}
@@ -42,7 +43,10 @@ void FlightTrack::load()
 
 void FlightTrack::draw()
 {
-    m_line_p->draw();
+    if(m_isVisible)
+    {
+        m_line_p->draw();
+    }
 }
 
 void FlightTrack::update(const core::engine::UpdateContext& f_context) {}
@@ -127,6 +131,11 @@ void FlightTrack::shiftStart(float f_distanceToShift, float f_distanceToNext)
 float FlightTrack::getRemainingLength()
 {
     return m_line_p->getLength();
+}
+
+void FlightTrack::setVisible(bool f_visible)
+{
+    m_isVisible  = f_visible;
 }
 
 const core::graphics::Vector* FlightTrack::getPoint(int32_t f_index)

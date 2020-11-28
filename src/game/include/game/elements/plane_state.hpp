@@ -90,6 +90,7 @@ public:
 
 private:
     core::graphics::Animation m_landingAnimation;
+    core::graphics::Animation m_slowDownAnimation;
     std::vector<core::graphics::Vector> m_landingPath;
 };
 
