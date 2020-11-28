@@ -24,22 +24,23 @@ namespace elements
 {
 Runway::Runway()
     : core::engine::IGameElement()
-    , m_texture_p()
     , m_landingRect_p()
+    , m_texture_p()
     , m_landingRectVisible(false)
-    , m_landingPath{{940.f, 375.f}, {940.f, 680.f}}
+    , m_landingPath{{870.f, 75.f}, {870.f, 650.f}}
 {}
 
 Runway::~Runway() {}
 
 void Runway::load()
 {
-    m_texture_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({900.f, 400.f}, {80.f, 300.f}));
+    m_texture_p = std::unique_ptr<core::graphics::Texture>(
+        new core::graphics::Texture("resources/textures/airport.png", {800.f, 100.f}, {360.f, 640.f}));
+    m_texture_p->load();
     m_landingRect_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({935.f, 355.f}, {10.f, 10.f}));
+        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({860.f, 50.f}, {10.f, 10.f}));
 
-    m_texture_p->setColor({0.5f, 0.5f, 0.5f});
+    // m_texture_p->setColor({0.5f, 0.5f, 0.5f});
     m_landingRect_p->setColor({0.1f, 0.1f, 0.1f});
 }
 

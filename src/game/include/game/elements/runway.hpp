@@ -20,6 +20,7 @@
 
 #include "core/engine/game_element.hpp"
 #include "core/graphics/rectangle.hpp"
+#include "core/graphics/texture.hpp"
 
 #include <vector>
 
@@ -49,8 +50,9 @@ public:
     const std::vector<Vector>& getLandingPath();
 
 private:
-    std::unique_ptr<core::graphics::Rectangle> m_texture_p;
     std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
+    std::unique_ptr<core::graphics::Texture> m_texture_p;
+
     std::vector<Vector> m_landingPath;
     bool m_landingRectVisible;
 };

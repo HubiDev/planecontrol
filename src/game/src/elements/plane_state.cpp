@@ -128,7 +128,7 @@ PlaneState* PlaneStateFlying::checkForNextState(Plane& f_plane)
 PlaneStateLanding::PlaneStateLanding(PlaneState* f_next)
     : PlaneState(f_next)
     , m_landingPath()
-    , m_landingAnimation{200.f, 300.f, 30.f}
+    , m_landingAnimation{400.f, 500.f, 30.f}
     , m_slowDownAnimation{100.f, 300.f, 0.5}
 {}
 
