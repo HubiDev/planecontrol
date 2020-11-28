@@ -46,7 +46,7 @@ public:
 
     virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
     virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
-    virtual void onStateChange(const PlaneState& f_callingState, Plane& f_plane){}
+    virtual void onStateChange(const PlaneState& f_callingState, Plane& f_plane) {}
 
 protected:
     PlaneState* m_next;
@@ -66,7 +66,7 @@ public:
     void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
-private:    
+private:
     bool m_flightTrackComplete;
     bool m_switchToNextState;
 };
@@ -92,6 +92,23 @@ private:
     core::graphics::Animation m_landingAnimation;
     core::graphics::Animation m_slowDownAnimation;
     std::vector<core::graphics::Vector> m_landingPath;
+};
+
+class PlaneStateTaxiingToGate : public PlaneState
+{
+public:
+    PlaneStateTaxiingToGate(PlaneState* f_next);
+
+    void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateSize(Plane& f_plane) final;
+
+    PlaneState* checkForNextState(Plane& f_plane) final;
+
+    void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+    void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+
+private:
 };
 
 } // namespace elements

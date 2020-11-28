@@ -36,7 +36,8 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
     , m_landingPointFunc()
-    , m_landingState(nullptr)
+    , m_taxiToGateState(nullptr)
+    , m_landingState(&m_taxiToGateState)
     , m_flyingState(&m_landingState)
     , m_currentState(&m_flyingState)
 {}

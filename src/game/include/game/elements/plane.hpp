@@ -39,6 +39,7 @@ public:
     // Declare states as friends
     friend PlaneStateFlying;
     friend PlaneStateLanding;
+    friend PlaneStateTaxiingToGate;
 
     Plane(std::shared_ptr<FlightTrack> f_flightTrack_p);
     ~Plane();
@@ -77,6 +78,7 @@ private:
     std::function<bool(const Vector&)> m_landingPointFunc;
     
     // States
+    PlaneStateTaxiingToGate m_taxiToGateState;
     PlaneStateLanding m_landingState;
     PlaneStateFlying m_flyingState;
     PlaneState* m_currentState;

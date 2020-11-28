@@ -194,5 +194,20 @@ void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f
     f_plane.m_flightTrack_p->setVisible(false);
 }
 
+PlaneStateTaxiingToGate::PlaneStateTaxiingToGate(PlaneState* f_next)
+    : PlaneState(f_next)
+{}
+
+void PlaneStateTaxiingToGate::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
+void PlaneStateTaxiingToGate::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
+
+void PlaneStateTaxiingToGate::updateSize(Plane& f_plane) {}
+
+PlaneState* PlaneStateTaxiingToGate::checkForNextState(Plane& f_plane) {}
+
+void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+
+void PlaneStateTaxiingToGate::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+
 } // namespace elements
 } // namespace game
