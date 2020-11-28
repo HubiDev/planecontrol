@@ -148,6 +148,14 @@ core::graphics::Vector FlightTrack::getDirection()
     return core::graphics::Vector{}; //TODO
 }
 
+void FlightTrack::setPoints(const std::vector<core::graphics::Vector>& f_points)
+{
+    for(auto& current : f_points)
+    {
+        m_line_p->push_back(current);
+    }
+}
+
 void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs)
 {
     if(m_isActive)

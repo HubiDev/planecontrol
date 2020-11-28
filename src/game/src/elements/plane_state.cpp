@@ -113,10 +113,12 @@ void PlaneStateFlying::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Pl
     }
 }
 
-PlaneState* PlaneStateFlying::checkForNextState()
+// TODO move this to base class
+PlaneState* PlaneStateFlying::checkForNextState(Plane& f_plane)
 {
     if(m_switchToNextState)
     {
+        m_next->onStateChange(*this, f_plane);
         return this->m_next;
     }
 
@@ -126,11 +128,33 @@ PlaneState* PlaneStateFlying::checkForNextState()
 PlaneStateLanding::PlaneStateLanding(PlaneState* f_next)
     : PlaneState(f_next)
     , m_landingPath()
-    , m_landingAnimation{0.f, 150.f, 30.f}
+    , m_landingAnimation{200.f, 300.f, 30.f}
 {}
 
-void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
-void PlaneStateLanding::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
+void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    // TODO adapt speed
+
+    auto adaptedSpeed = core::engine::adaptToFps(f_context, f_plane.m_speed);
+    auto point_p = f_plane.m_flightTrack_p->moveToNextPoint(adaptedSpeed);
+
+    if(point_p)
+    {
+        auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
+        f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
+}
+
+void PlaneStateLanding::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    auto targetAngle = f_plane.calcTargetRotation();
+
+    if(!std::isnan(targetAngle))
+    {
+        targetAngle = f_plane.rotateSmooth(targetAngle, f_context);
+        f_plane.m_planeTexture_p->setRotation(targetAngle);
+    }
+}
 
 void PlaneStateLanding::updateSize(Plane& f_plane)
 {
@@ -150,9 +174,16 @@ void PlaneStateLanding::setLandingPath(const std::vector<core::graphics::Vector>
     m_landingPath = f_path;
 }
 
-PlaneState* PlaneStateLanding::checkForNextState()
+PlaneState* PlaneStateLanding::checkForNextState(Plane& f_plane)
 {
+    static_cast<void>(f_plane);
     return this;
+}
+
+void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f_plane)
+{
+    static_cast<void>(f_callingState);
+    f_plane.m_flightTrack_p->setPoints(m_landingPath);
 }
 
 } // namespace elements

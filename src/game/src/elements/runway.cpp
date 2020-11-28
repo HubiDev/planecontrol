@@ -27,7 +27,7 @@ Runway::Runway()
     , m_texture_p()
     , m_landingRect_p()
     , m_landingRectVisible(false)
-    , m_landingPath()
+    , m_landingPath{{940.f, 375.f}, {940.f, 680.f}}
 {}
 
 Runway::~Runway() {}
@@ -35,13 +35,12 @@ Runway::~Runway() {}
 void Runway::load()
 {
     m_texture_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({900.f, 400.f}, {75.f, 300.f}));
+        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({900.f, 400.f}, {80.f, 300.f}));
     m_landingRect_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({930.f, 355.f}, {10.f, 10.f}));
+        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({935.f, 355.f}, {10.f, 10.f}));
 
     m_texture_p->setColor({0.5f, 0.5f, 0.5f});
     m_landingRect_p->setColor({0.1f, 0.1f, 0.1f});
-    m_landingPath = {{930.f, 355.f}, {930.f, 700.f}};
 }
 
 void Runway::update(const core::engine::UpdateContext& f_context) {}

@@ -42,10 +42,11 @@ public:
     virtual void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) = 0;
     virtual void updateSize(Plane& f_plane) = 0;
 
-    virtual PlaneState* checkForNextState() = 0;
+    virtual PlaneState* checkForNextState(Plane& f_plane) = 0;
 
     virtual void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
     virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) = 0;
+    virtual void onStateChange(const PlaneState& f_callingState, Plane& f_plane){}
 
 protected:
     PlaneState* m_next;
@@ -60,7 +61,7 @@ public:
     void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateSize(Plane& f_plane) final;
 
-    PlaneState* checkForNextState() final;
+    PlaneState* checkForNextState(Plane& f_plane) final;
 
     void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
@@ -79,12 +80,13 @@ public:
     void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
     void updateSize(Plane& f_plane) final;
 
-    PlaneState* checkForNextState() final;
+    PlaneState* checkForNextState(Plane& f_plane) final;
 
     void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
     void setLandingPath(const std::vector<core::graphics::Vector>& f_path);
+    void onStateChange(const PlaneState& f_callingState, Plane& f_plane) final;
 
 private:
     core::graphics::Animation m_landingAnimation;

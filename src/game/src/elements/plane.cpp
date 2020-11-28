@@ -57,7 +57,7 @@ void Plane::update(const core::engine::UpdateContext& f_context)
     m_currentState->updatePosition(f_context, *this);
     m_currentState->updateRotation(f_context, *this);
     m_currentState->updateSize(*this);
-    m_currentState = m_currentState->checkForNextState();
+    m_currentState = m_currentState->checkForNextState(*this);
 }
 
 void Plane::draw()
