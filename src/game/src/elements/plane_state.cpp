@@ -35,7 +35,6 @@ PlaneState::PlaneState(PlaneState* f_next)
 
 PlaneStateFlying::PlaneStateFlying(PlaneState* f_next)
     : PlaneState(f_next)
-    , m_landingAnimation{0.f, 150.f, 30.f}
     , m_flightTrackComplete(false)
     , m_switchToNextState(false)
 {}
@@ -69,15 +68,7 @@ void PlaneStateFlying::updateRotation(const core::engine::UpdateContext& f_conte
     }
 }
 
-void PlaneStateFlying::updateSize(Plane& f_plane)
-{
-    if(m_landingAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()) && m_flightTrackComplete)
-    {
-        auto sizeDiff = m_landingAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
-        auto planeSize = f_plane.m_planeTexture_p->getSize();
-        f_plane.m_planeTexture_p->setSize({planeSize.x - sizeDiff, planeSize.y - sizeDiff});
-    }
-}
+void PlaneStateFlying::updateSize(Plane& f_plane) {}
 
 void PlaneStateFlying::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
@@ -135,11 +126,21 @@ PlaneState* PlaneStateFlying::checkForNextState()
 PlaneStateLanding::PlaneStateLanding(PlaneState* f_next)
     : PlaneState(f_next)
     , m_landingPath()
+    , m_landingAnimation{0.f, 150.f, 30.f}
 {}
 
 void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
 void PlaneStateLanding::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
-void PlaneStateLanding::updateSize(Plane& f_plane) {}
+
+void PlaneStateLanding::updateSize(Plane& f_plane)
+{
+    if(m_landingAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()))
+    {
+        auto sizeDiff = m_landingAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
+        auto planeSize = f_plane.m_planeTexture_p->getSize();
+        f_plane.m_planeTexture_p->setSize({planeSize.x - sizeDiff, planeSize.y - sizeDiff});
+    }
+}
 
 void PlaneStateLanding::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
 void PlaneStateLanding::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}

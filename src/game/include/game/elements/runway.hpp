@@ -46,6 +46,8 @@ public:
     void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs) override;
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs) override;
 
+    const std::vector<Vector>& getLandingPath();
+
 private:
     std::unique_ptr<core::graphics::Rectangle> m_texture_p;
     std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;

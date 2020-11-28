@@ -38,6 +38,7 @@ class Plane : public core::engine::IGameElement
 public:
     // Declare states as friends
     friend PlaneStateFlying;
+    friend PlaneStateLanding;
 
     Plane(std::shared_ptr<FlightTrack> f_flightTrack_p);
     ~Plane();

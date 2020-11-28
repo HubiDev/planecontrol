@@ -72,5 +72,10 @@ void Runway::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
     m_landingRectVisible = false;
 }
 
+const std::vector<Vector>& Runway::getLandingPath()
+{
+    return m_landingPath;
+}
+
 } // namespace elements
 } // namespace game

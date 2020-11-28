@@ -65,8 +65,7 @@ public:
     void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
-private:
-    core::graphics::Animation m_landingAnimation;
+private:    
     bool m_flightTrackComplete;
     bool m_switchToNextState;
 };
@@ -88,6 +87,7 @@ public:
     void setLandingPath(const std::vector<core::graphics::Vector>& f_path);
 
 private:
+    core::graphics::Animation m_landingAnimation;
     std::vector<core::graphics::Vector> m_landingPath;
 };
 
