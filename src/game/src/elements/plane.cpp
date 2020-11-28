@@ -86,7 +86,7 @@ void Plane::setLandingPointFunc(std::function<bool(const Vector&)> f_func)
     m_landingPointFunc = f_func;
 }
 
-void Plane::setLandingPath(const std::vector<core::graphics::Vector> f_path) 
+void Plane::setLandingPath(const std::vector<core::graphics::Vector> f_path)
 {
     m_landingState.setLandingPath(f_path);
 }
@@ -167,6 +167,14 @@ float Plane::calcRotationSpeed(float f_angleDiff, const core::engine::UpdateCont
     }
 
     return core::engine::adaptToFps(f_context, result);
+}
+
+bool Plane::mouseHit(const core::ui::MouseEventArgs& f_eventArgs)
+{
+    return core::graphics::geometry::isContainedInRegion(
+        m_planeTexture_p->getPosition(),
+        m_planeTexture_p->getSize(),
+        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
 }
 
 } // namespace elements

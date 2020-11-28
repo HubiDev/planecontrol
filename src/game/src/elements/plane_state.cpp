@@ -72,12 +72,7 @@ void PlaneStateFlying::updateSize(Plane& f_plane) {}
 
 void PlaneStateFlying::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
-    bool planeWasHit = core::graphics::geometry::isContainedInRegion(
-        f_plane.m_planeTexture_p->getPosition(),
-        f_plane.m_planeTexture_p->getSize(),
-        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
-
-    if(planeWasHit)
+    if(f_plane.mouseHit(f_eventArgs))
     {
         f_plane.m_flightTrack_p->clear();
         f_plane.m_flightTrack_p->setActive(true);
@@ -196,6 +191,7 @@ void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f
 
 PlaneStateTaxiingToGate::PlaneStateTaxiingToGate(PlaneState* f_next)
     : PlaneState(f_next)
+    , m_planeSelected(false)
 {}
 
 void PlaneStateTaxiingToGate::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
@@ -203,9 +199,15 @@ void PlaneStateTaxiingToGate::updateRotation(const core::engine::UpdateContext& 
 
 void PlaneStateTaxiingToGate::updateSize(Plane& f_plane) {}
 
-PlaneState* PlaneStateTaxiingToGate::checkForNextState(Plane& f_plane) {}
+PlaneState* PlaneStateTaxiingToGate::checkForNextState(Plane& f_plane) 
+{
+    return this;
+}
 
-void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) 
+{
+    m_planeSelected = f_plane.mouseHit(f_eventArgs);
+}
 
 void PlaneStateTaxiingToGate::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
 

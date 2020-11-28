@@ -71,6 +71,8 @@ private:
     float rotateSmooth(float f_targetRotation, const core::engine::UpdateContext& f_context);
     float calcRotationSpeed(float f_angleDiff, const core::engine::UpdateContext& f_context);
 
+    bool mouseHit(const core::ui::MouseEventArgs& f_eventArgs);
+
     std::shared_ptr<FlightTrack> m_flightTrack_p;
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;
     float m_speed;

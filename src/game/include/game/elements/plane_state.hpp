@@ -109,6 +109,8 @@ public:
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
 private:
+
+    bool m_planeSelected;
 };
 
 } // namespace elements
