@@ -22,9 +22,25 @@ namespace game
 namespace elements
 {
 
-ParkingSlot::ParkingSlot() {}
+ParkingSlot::ParkingSlot(const std::vector<core::graphics::Vector>& f_pathToSlot)
+    : m_isUsed(false)
+    , m_isVisble(false)
+    , m_pathToSlot(f_pathToSlot)
+    , m_slotRect_p()
+{}
 
 ParkingSlot::~ParkingSlot() {}
+
+void ParkingSlot::load() {}
+void ParkingSlot::update(const core::engine::UpdateContext& f_context) {}
+
+void ParkingSlot::draw()
+{
+    if(m_isVisble)
+    {
+        m_slotRect_p->draw();
+    }
+}
 
 } // namespace elements
 } // namespace game

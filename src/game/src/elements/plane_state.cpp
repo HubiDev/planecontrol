@@ -35,7 +35,6 @@ PlaneState::PlaneState(PlaneState* f_next)
 
 PlaneStateFlying::PlaneStateFlying(PlaneState* f_next)
     : PlaneState(f_next)
-    , m_flightTrackComplete(false)
     , m_switchToNextState(false)
 {}
 
@@ -51,7 +50,7 @@ void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_conte
     }
 
     // TODO check wether plane has reached end of flight track
-    if(f_plane.m_flightTrack_p->getRemainingLength() == 0.f && m_flightTrackComplete)
+    if(f_plane.m_flightTrack_p->getRemainingLength() == 0.f && f_plane.m_flightTrackModFinished)
     {
         m_switchToNextState = true;
     }
@@ -85,26 +84,9 @@ void PlaneStateFlying::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, 
 
 void PlaneStateFlying::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
-    if(f_plane.m_landingPointFunc)
+    if(f_plane.m_flightTrack_p->isActive()) // Plane was hit on mouse down
     {
-        bool runwayWasHit = f_plane.m_landingPointFunc(
-            {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
-
-        if(!runwayWasHit)
-        {
-            f_plane.m_flightTrack_p->clear();
-            m_flightTrackComplete = false;
-        }
-        else
-        {
-            m_flightTrackComplete = true;
-        }
-
-        f_plane.m_flightTrack_p->setActive(false);
-    }
-    else
-    {
-        throw new std::runtime_error("Plane was not initialzed correctly");
+        f_plane.m_verifyFlightTrack = true;
     }
 }
 

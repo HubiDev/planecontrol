@@ -167,6 +167,7 @@ void FlightTrack::setPoints(const std::vector<core::graphics::Vector>& f_points)
 
 void FlightTrack::onMouseButtonPressed(const core::ui::MouseEventArgs& f_eventArgs)
 {
+    std::cout << "Flight track. " << m_isActive << std::endl;
     if(m_isActive)
     {
         m_line_p->push_back({static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});

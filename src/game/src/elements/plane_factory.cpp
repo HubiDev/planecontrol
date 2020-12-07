@@ -29,6 +29,11 @@ PlaneFactory::PlaneFactory()
 
 PlaneFactory::~PlaneFactory() {}
 
+const std::vector<std::shared_ptr<Plane>>&  PlaneFactory::getCreatedPlanes()
+{
+    return m_planes;
+}
+
 Plane& PlaneFactory::createPlane()
 {
     auto flightTrack_p = std::shared_ptr<FlightTrack>(new FlightTrack());

@@ -34,6 +34,7 @@ public:
     ~PlaneFactory();
 
     Plane& createPlane();
+    const std::vector<std::shared_ptr<Plane>>& getCreatedPlanes();
 
 private:
     std::vector<std::shared_ptr<Plane>> m_planes;

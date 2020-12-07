@@ -25,6 +25,7 @@
 #include "game/elements/plane_state.hpp"
 
 #include <functional>
+#include <tuple>
 
 namespace game
 {
@@ -59,11 +60,13 @@ public:
     /// @brief
     virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs) override;
 
-    FlightTrack& getFlightTrack();
+    /// @brief
+    FlightTrack& getFlightTrack();    
 
-    // Setters
-    void setLandingPointFunc(std::function<bool(const Vector&)> f_func);
-    void setLandingPath(const std::vector<core::graphics::Vector> f_path);
+    /// @brief
+    std::tuple<bool, core::graphics::Vector> landingPathNeedsVerify();    
+
+    void finalizeFlightTrack(bool f_valid);
 
 private:
     Vector centrifyPoint(const Vector& f_point);
@@ -77,13 +80,16 @@ private:
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;
     float m_speed;
     Vector m_textureOrientation;
-    std::function<bool(const Vector&)> m_landingPointFunc;
     
     // States
     PlaneStateTaxiingToGate m_taxiToGateState;
     PlaneStateLanding m_landingState;
     PlaneStateFlying m_flyingState;
     PlaneState* m_currentState;
+
+    bool m_verifyFlightTrack;    
+    Vector m_mouseUpLocation;
+    bool m_flightTrackModFinished;
 };
 
 } // namespace elements

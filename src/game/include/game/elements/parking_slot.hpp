@@ -18,18 +18,35 @@
 #ifndef GAME_ELEMENTS_PARKING_SLOT_HPP_INCLUDED
 #define GAME_ELEMENTS_PARKING_SLOT_HPP_INCLUDED
 
+#include "core/graphics/vector.hpp"
+#include "core/graphics/rectangle.hpp"
+#include "core/engine/game_element.hpp"
+
+#include <vector>
+#include <memory>
+
 namespace game
 {
 namespace elements
 {
-class ParkingSlot
+
+class ParkingSlot : public core::engine::IGameElement
 {
 public:
-    ParkingSlot();
+    ParkingSlot(const std::vector<core::graphics::Vector>& f_pathToSlot);
     ~ParkingSlot();
+
+    void load() final;
+    void update(const core::engine::UpdateContext& f_context) final;
+    void draw() final;
 
 private:
     bool m_isUsed;
+    bool m_isVisble;
+
+    std::vector<core::graphics::Vector> m_pathToSlot;
+    std::unique_ptr<core::graphics::Rectangle> m_slotRect_p;
+
 };
 
 } // namespace elements

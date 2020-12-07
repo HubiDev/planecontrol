@@ -21,6 +21,7 @@
 #include "core/engine/game_element.hpp"
 #include "core/graphics/rectangle.hpp"
 #include "core/graphics/texture.hpp"
+#include "game/elements/parking_slot.hpp"
 
 #include <vector>
 
@@ -37,9 +38,7 @@ public:
     ~Runway();
 
     void load() override;
-
     void update(const core::engine::UpdateContext& f_context) override;
-
     void draw() override;
 
     bool isPointForLanding(const Vector& f_point);
@@ -53,6 +52,7 @@ private:
     std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
     std::unique_ptr<core::graphics::Texture> m_texture_p;
 
+    std::vector<ParkingSlot> m_parkingSlots;
     std::vector<Vector> m_landingPath;
     bool m_landingRectVisible;
 };

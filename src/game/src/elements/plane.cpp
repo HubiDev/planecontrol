@@ -35,11 +35,13 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_planeTexture_p{}
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
-    , m_landingPointFunc()
     , m_taxiToGateState(nullptr)
     , m_landingState(&m_taxiToGateState)
     , m_flyingState(&m_landingState)
     , m_currentState(&m_flyingState)
+    , m_verifyFlightTrack(false)
+    , m_mouseUpLocation()
+    , m_flightTrackModFinished(false)
 {}
 
 Plane::~Plane() {}
@@ -74,6 +76,7 @@ void Plane::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 void Plane::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
 {
     m_currentState->onMouseUp(f_eventArgs, *this);
+    m_mouseUpLocation = {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)};
 }
 
 FlightTrack& Plane::getFlightTrack()
@@ -81,14 +84,23 @@ FlightTrack& Plane::getFlightTrack()
     return *m_flightTrack_p;
 }
 
-void Plane::setLandingPointFunc(std::function<bool(const Vector&)> f_func)
+std::tuple<bool, core::graphics::Vector> Plane::landingPathNeedsVerify()
 {
-    m_landingPointFunc = f_func;
+    return {m_verifyFlightTrack, m_mouseUpLocation};
 }
 
-void Plane::setLandingPath(const std::vector<core::graphics::Vector> f_path)
+void Plane::finalizeFlightTrack(bool f_valid)
 {
-    m_landingState.setLandingPath(f_path);
+    m_flightTrackModFinished = f_valid;
+
+    if(!f_valid)
+    {
+        m_flightTrack_p->clear();
+    }
+    else
+    {
+        m_flightTrack_p->setActive(false);
+    }
 }
 
 Vector Plane::centrifyPoint(const Vector& f_point)

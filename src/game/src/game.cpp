@@ -33,17 +33,31 @@ void Game::onAfterInitialize()
     addGameElement(*m_runway_p);
 
     auto& plane = m_planeFactory.createPlane();
-
-    // TODO encapsulate this
-    plane.setLandingPointFunc(
-        [this](const core::graphics::Vector& f_point) -> bool { return m_runway_p->isPointForLanding(f_point); });
-    plane.setLandingPath(m_runway_p->getLandingPath());
-
     addGameElement(plane.getFlightTrack());
     addGameElement(plane);
 }
 
-void Game::update() {}
+void Game::update()
+{
+    // Move this to seperate function
+    for(auto& currentPlane : m_planeFactory.getCreatedPlanes())
+    {
+        auto landingPathNeedsVerify = currentPlane->landingPathNeedsVerify();
+
+        if(std::get<0>(landingPathNeedsVerify))
+        {
+            if(m_runway_p->isPointForLanding(std::get<1>(landingPathNeedsVerify)))
+            {
+                currentPlane->getFlightTrack().setPoints(m_runway_p->getLandingPath());
+                currentPlane->finalizeFlightTrack(true);
+            }
+            else
+            {
+                currentPlane->finalizeFlightTrack(false);
+            }
+        }
+    }
+}
 
 void Game::draw() {}
 
