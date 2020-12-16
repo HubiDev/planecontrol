@@ -91,6 +91,7 @@ private:
     core::graphics::Animation m_landingAnimation;
     core::graphics::Animation m_slowDownAnimation;
     std::vector<core::graphics::Vector> m_landingPath;
+    bool m_switchToNextState;
 };
 
 class PlaneStateTaxiingToGate : public PlaneState
@@ -108,7 +109,6 @@ public:
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
 private:
-
     bool m_planeSelected;
 };
 

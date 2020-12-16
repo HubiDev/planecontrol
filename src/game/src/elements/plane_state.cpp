@@ -74,7 +74,6 @@ void PlaneStateFlying::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, 
 {
     if(f_plane.mouseHit(f_eventArgs))
     {
-        std::cout << "Mouse hit" << std::endl;
         f_plane.m_flightTrackModFinished = false;
         f_plane.m_flightTrack_p->clear();
         f_plane.m_flightTrack_p->setActive(true);
@@ -114,8 +113,7 @@ PlaneStateLanding::PlaneStateLanding(PlaneState* f_next)
 
 void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
 {
-    // TODO adapt speed
-
+    // Move plane
     auto adaptedSpeed = core::engine::adaptToFps(f_context, f_plane.m_speed);
     auto point_p = f_plane.m_flightTrack_p->moveToNextPoint(adaptedSpeed);
 
@@ -125,10 +123,17 @@ void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_cont
         f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
     }
 
+    // speed animation
     if(m_slowDownAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()))
     {
         auto speedDiff = m_slowDownAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
         f_plane.m_speed -= speedDiff;
+    }
+
+    // state switch
+    if(f_plane.m_flightTrack_p->getRemainingLength() == 0.f)
+    {
+        m_switchToNextState = true;
     }
 }
 
@@ -163,7 +168,12 @@ void PlaneStateLanding::setLandingPath(const std::vector<core::graphics::Vector>
 
 PlaneState* PlaneStateLanding::checkForNextState(Plane& f_plane)
 {
-    static_cast<void>(f_plane);
+    if(m_switchToNextState)
+    {
+        m_next->onStateChange(*this, f_plane);
+        return this->m_next;
+    }
+
     return this;
 }
 
@@ -184,12 +194,12 @@ void PlaneStateTaxiingToGate::updateRotation(const core::engine::UpdateContext& 
 
 void PlaneStateTaxiingToGate::updateSize(Plane& f_plane) {}
 
-PlaneState* PlaneStateTaxiingToGate::checkForNextState(Plane& f_plane) 
+PlaneState* PlaneStateTaxiingToGate::checkForNextState(Plane& f_plane)
 {
     return this;
 }
 
-void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) 
+void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
     m_planeSelected = f_plane.mouseHit(f_eventArgs);
 }
