@@ -15,7 +15,7 @@
 // along with planecontrol.  If not, see <http://www.gnu.org/licenses/>.
 // ------------------------------------------------------------------------
 
-#include "core/image/png_image.hpp"
+#include "core/io/png_image.hpp"
 
 extern "C"
 {
@@ -27,7 +27,7 @@ extern "C"
 
 namespace core
 {
-namespace image
+namespace io
 {
 
 namespace
@@ -148,5 +148,5 @@ const ImageInfo& PngImage::info() noexcept
     return m_info;
 }
 
-} // namespace image
+} // namespace io
 } // namespace core

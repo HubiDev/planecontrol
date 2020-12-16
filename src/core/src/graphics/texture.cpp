@@ -16,7 +16,7 @@
 // ------------------------------------------------------------------------
 
 #include "core/graphics/texture.hpp"
-#include "core/image/png_image.hpp"
+#include "core/io/png_image.hpp"
 #include <cmath>
 
 namespace core
@@ -24,7 +24,7 @@ namespace core
 namespace graphics
 {
 Texture::Texture(const std::string& f_imagePath, std::tuple<float, float> f_position, std::tuple<float, float> f_size)
-    : m_image_p(new image::PngImage(f_imagePath))
+    : m_image_p(new io::PngImage(f_imagePath))
     , m_posX(std::get<0>(f_position))
     , m_posY(std::get<1>(f_position))
     , m_width(std::get<0>(f_size))

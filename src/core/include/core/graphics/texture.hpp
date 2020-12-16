@@ -19,7 +19,7 @@
 #define CORE_GRAPHICS_TEXTURE_HPP_INCLUDED
 
 #include "core/graphics/vector.hpp"
-#include "core/image/image.hpp"
+#include "core/io/image.hpp"
 
 #include <memory>
 #include <string>
@@ -50,7 +50,7 @@ private:
 
     void updateRectVertices();
 
-    std::unique_ptr<image::Image> m_image_p;
+    std::unique_ptr<io::Image> m_image_p;
     std::array<float, 12U> m_rectVertices;
 
     float m_posX;

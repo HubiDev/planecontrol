@@ -23,7 +23,7 @@
 
 namespace core
 {
-namespace image
+namespace io
 {
 
 struct ImageInfo
@@ -43,7 +43,7 @@ public:
     virtual const ImageInfo& info() noexcept = 0;
 };
 
-} // namespace image
+} // namespace io
 } // namespace core
 
 #endif

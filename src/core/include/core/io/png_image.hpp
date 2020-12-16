@@ -21,13 +21,13 @@
 #include "image.hpp"
 
 #include <cstdint>
+#include <fstream>
 #include <string>
 #include <vector>
-#include <fstream>
 
 namespace core
 {
-namespace image
+namespace io
 {
 
 struct PngImageInfo : public ImageInfo
@@ -58,14 +58,13 @@ public:
     const ImageInfo& info() noexcept final;
 
 private:
-
     PngImageInfo m_info;
     std::string m_path;
     std::ifstream m_imageStream;
     std::vector<std::uint8_t> m_data;
 };
 
-} // namespace image
+} // namespace io
 } // namespace core
 
 #endif
