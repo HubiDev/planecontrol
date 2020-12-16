@@ -52,6 +52,7 @@ void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_conte
     // TODO check wether plane has reached end of flight track
     if(f_plane.m_flightTrack_p->getRemainingLength() == 0.f && f_plane.m_flightTrackModFinished)
     {
+        std::cout << "State switch" << std::endl;
         m_switchToNextState = true;
     }
 }
@@ -73,6 +74,8 @@ void PlaneStateFlying::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, 
 {
     if(f_plane.mouseHit(f_eventArgs))
     {
+        std::cout << "Mouse hit" << std::endl;
+        f_plane.m_flightTrackModFinished = false;
         f_plane.m_flightTrack_p->clear();
         f_plane.m_flightTrack_p->setActive(true);
     }

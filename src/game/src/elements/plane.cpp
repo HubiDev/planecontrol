@@ -91,6 +91,7 @@ std::tuple<bool, core::graphics::Vector> Plane::landingPathNeedsVerify()
 
 void Plane::finalizeFlightTrack(bool f_valid)
 {
+    m_verifyFlightTrack = false; // Reset for next verification
     m_flightTrackModFinished = f_valid;
 
     if(!f_valid)
