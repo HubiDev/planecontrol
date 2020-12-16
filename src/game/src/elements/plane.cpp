@@ -103,6 +103,11 @@ void Plane::finalizeFlightTrack(bool f_valid)
     }
 }
 
+void Plane::setLandingPath(const std::vector<core::graphics::Vector>& f_path)
+{
+    m_landingState.setLandingPath(f_path);
+}
+
 Vector Plane::centrifyPoint(const Vector& f_point)
 {
     const float posX = (f_point.x - m_planeTexture_p->getSize().x / 2.f);

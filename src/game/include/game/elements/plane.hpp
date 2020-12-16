@@ -68,6 +68,8 @@ public:
 
     void finalizeFlightTrack(bool f_valid);
 
+    void setLandingPath(const std::vector<core::graphics::Vector>& f_path);
+
 private:
     Vector centrifyPoint(const Vector& f_point);
     float calcTargetRotation();

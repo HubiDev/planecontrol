@@ -48,7 +48,7 @@ void Game::update()
         {
             if(m_runway_p->isPointForLanding(std::get<1>(landingPathNeedsVerify)))
             {
-                currentPlane->getFlightTrack().setPoints(m_runway_p->getLandingPath());
+                currentPlane->setLandingPath(m_runway_p->getLandingPath());
                 currentPlane->finalizeFlightTrack(true);
             }
             else
