@@ -16,6 +16,7 @@
 // ------------------------------------------------------------------------
 
 #include "game/game.hpp"
+#include "game/level.hpp"
 
 namespace game
 {
@@ -60,5 +61,13 @@ void Game::update()
 }
 
 void Game::draw() {}
+
+void Game::loadContent()
+{
+    GameBase::loadContent();
+
+    Level level("resources/levels/level_01/level.json");
+    level.load();
+}
 
 } // namespace game

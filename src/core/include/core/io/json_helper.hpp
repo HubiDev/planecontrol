@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <string>
+#include <cstdint>
 
 namespace core
 {
@@ -19,7 +20,15 @@ class JsonObject
 public:
     JsonObject(const std::string& f_path);
     bool open();
+
     std::string getProperty(const std::string& f_propName);
+    float getFloat(const std::string& f_propName);
+
+    template<typename T>
+    T deserialize()
+    {
+        
+    }
 
 private:
     void freeJson();

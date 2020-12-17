@@ -29,14 +29,14 @@ class Game : public core::engine::GameBase
 public:
     Game();
     ~Game();
+    void loadContent() final;
 
 protected:
-    void onAfterInitialize() override;
-    void update() override;
-    void draw() override;
+    void onAfterInitialize() final;
+    void update() final;
+    void draw() final;
 
 private:
-
     elements::PlaneFactory m_planeFactory;
     std::unique_ptr<elements::Runway> m_runway_p;
 };

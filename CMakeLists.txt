@@ -29,3 +29,4 @@ target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${OPENGL_gl_LIBRARY} ${P
 
 # copy resources to execution directory
 file(COPY resources/textures DESTINATION resources)
+file(COPY resources/levels DESTINATION resources)

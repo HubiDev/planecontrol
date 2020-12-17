@@ -2,9 +2,14 @@
 #define GAME_LEVEL_HPP_INCLUDED
 
 #include <string>
+#include <vector>
 
 namespace game
 {
+
+
+
+
 class Level
 {
 public:

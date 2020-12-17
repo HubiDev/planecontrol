@@ -50,7 +50,7 @@ public:
 
     /// @brief Loads all content (allocates buffer, loads textures etc.)
     /// @details Can be done during startup screen is shown
-    void loadContent();
+    virtual void loadContent();
 
     /// @brief This is "the" method that starts it all...
     void run();
