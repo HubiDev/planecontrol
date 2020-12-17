@@ -15,8 +15,8 @@
 // along with planecontrol.  If not, see <http://www.gnu.org/licenses/>.
 // ------------------------------------------------------------------------
 
-#ifndef CORE_IMAGE_PNG_IMAGE_HPP_INCLUDED
-#define CORE_IMAGE_PNG_IMAGE_HPP_INCLUDED
+#ifndef CORE_IO_PNG_IMAGE_HPP_INCLUDED
+#define CORE_IO_PNG_IMAGE_HPP_INCLUDED
 
 #include "image.hpp"
 
