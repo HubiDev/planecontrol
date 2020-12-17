@@ -1,0 +1,26 @@
+{
+    "name": "Level 1",
+    "airports": [
+        {
+            "texture": "resources/levels/level_01/airport.png",
+            "location": [
+                800,
+                100
+            ],
+            "size": [
+                360,
+                640
+            ],
+            "landing_path": [
+                [
+                    70,
+                    -25
+                ],
+                [
+                    70,
+                    540
+                ]
+            ]
+        }
+    ]
+}
