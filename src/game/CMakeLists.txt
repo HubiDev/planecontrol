@@ -4,10 +4,10 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 
 # Add sources
-FILE(GLOB GameElementsSources "src/elements/*.cpp")
+FILE(GLOB GameElementsSources "src/elements/*.cpp" "src/*.cpp")
 
 # create core lib
-add_library(planecontrol_game ${GameElementsSources} src/game.cpp)
+add_library(planecontrol_game ${GameElementsSources})
 
 # linker dependencies
 target_link_libraries(planecontrol_game planecontrol_core)
