@@ -13,4 +13,4 @@ add_library(planecontrol_game ${GameElementsSources})
 target_link_libraries(planecontrol_game planecontrol_core)
 
 # set include directory
-include_directories(planecontrol_game "include" "../core/include")
+include_directories(planecontrol_game "include" "../core/include" "../core/ext")

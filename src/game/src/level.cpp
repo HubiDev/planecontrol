@@ -1,5 +1,6 @@
 #include "game/level.hpp"
 #include "core/io/json_helper.hpp"
+#include "game/data/level_data.hpp"
 
 namespace game
 {
@@ -16,7 +17,9 @@ void Level::load()
         throw new std::runtime_error("Failed to load level");
     }
 
+    auto data = json.deserialize<data::LevelData>();
     
+    int debug  = 0;
 }
 
 } // namespace game
