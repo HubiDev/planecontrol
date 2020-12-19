@@ -13,5 +13,8 @@ FILE(GLOB CoreIoSources "src/io/*.cpp")
 # create core lib
 add_library(planecontrol_core ${CoreUiSources} ${CoreEngineSources} ${CoreGraphicsSources} ${CoreIoSources})
 
+find_package(PNG REQUIRED)
+target_link_libraries(planecontrol_core ${PNG_LIBRARY})
+
 # set include directory
-include_directories(planecontrol_core "include" "ext")
+include_directories(planecontrol_core "include" "ext" ${PNG_INCLUDE_DIR})
