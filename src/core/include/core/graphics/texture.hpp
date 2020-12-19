@@ -34,7 +34,7 @@ namespace graphics
 class Texture
 {
 public:
-    Texture(const std::string& f_imagePath, std::tuple<float, float> f_position, std::tuple<float, float> f_size);
+    Texture(const std::string& f_imagePath, const Vector& f_position, const Vector& f_size);
     void load();
     void draw();
 

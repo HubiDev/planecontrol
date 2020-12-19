@@ -62,7 +62,7 @@ protected:
     virtual void draw() = 0;
     virtual void onAfterInitialize();
 
-    void addGameElement(IGameElement& f_gameElement);
+    void addGameElement(std::shared_ptr<IGameElement> f_gameElement_p);
 
 private:
     void updateGameElements();
@@ -75,7 +75,7 @@ private:
     std::unique_ptr<ui::EventManager> m_eventManager_p;
     std::unique_ptr<ui::Mouse> m_mouse_p;
     std::unique_ptr<ui::Window> m_gameWindow_p;
-    std::vector<std::reference_wrapper<IGameElement>> m_gameElements;
+    std::vector<std::shared_ptr<IGameElement>> m_gameElements;
 
     bool m_exitRequested;
     std::int64_t m_lastUpdateTimestamp;

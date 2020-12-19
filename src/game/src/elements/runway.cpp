@@ -29,22 +29,46 @@ Runway::Runway()
     , m_parkingSlots()
     , m_landingRectVisible(false)
     , m_landingPath{{870.f, 75.f}, {870.f, 650.f}}
+    , m_location()
+    , m_size()
+    , m_texturePath()
 {}
 
 Runway::~Runway() {}
 
+void Runway::setLocation(const core::graphics::Vector& f_location)
+{
+    m_location = f_location;
+}
+
+void Runway::setSize(const core::graphics::Vector& f_size)
+{
+    m_size = f_size;
+}
+
+void Runway::setTexturePath(const std::string& f_texturePath) 
+{
+    m_texturePath = f_texturePath;
+}
+
+void Runway::setLandingPath(const std::vector<Vector>& f_landingPath)
+{
+    m_landingPath = f_landingPath;
+}
+
 void Runway::load()
 {
     m_texture_p = std::unique_ptr<core::graphics::Texture>(
-        new core::graphics::Texture("resources/textures/airport.png", {800.f, 100.f}, {360.f, 640.f}));
+        new core::graphics::Texture(m_texturePath, m_location, m_size));
     m_texture_p->load();
+
+    auto& landingLocation = m_landingPath[0];
+    landingLocation += m_location;
+
     m_landingRect_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({860.f, 50.f}, {10.f, 10.f}));
+        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({landingLocation.x - 5.f, landingLocation.y - 5.f}, {10.f, 10.f}));
 
     m_landingRect_p->setColor({0.1f, 0.1f, 0.1f});
-
-
-    
 }
 
 void Runway::update(const core::engine::UpdateContext& f_context) {}

@@ -37,6 +37,11 @@ public:
     Runway();
     ~Runway();
 
+    void setLocation(const core::graphics::Vector& f_location);
+    void setSize(const core::graphics::Vector& f_size);
+    void setTexturePath(const std::string& f_texturePath);
+    void setLandingPath(const std::vector<Vector>& f_landingPath);
+
     void load() override;
     void update(const core::engine::UpdateContext& f_context) override;
     void draw() override;
@@ -54,6 +59,10 @@ private:
 
     std::vector<ParkingSlot> m_parkingSlots;
     std::vector<Vector> m_landingPath;
+    core::graphics::Vector m_location;
+    core::graphics::Vector m_size;
+    std::string m_texturePath;
+
     bool m_landingRectVisible;
 };
 

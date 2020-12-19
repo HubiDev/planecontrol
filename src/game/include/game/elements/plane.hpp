@@ -61,7 +61,7 @@ public:
     virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs) override;
 
     /// @brief
-    FlightTrack& getFlightTrack();    
+    std::shared_ptr<FlightTrack> getFlightTrack();    
 
     /// @brief
     std::tuple<bool, core::graphics::Vector> landingPathNeedsVerify();    
@@ -89,7 +89,7 @@ private:
     PlaneStateFlying m_flyingState;
     PlaneState* m_currentState;
 
-    bool m_verifyFlightTrack;    
+    bool m_verifyFlightTrack;
     Vector m_mouseUpLocation;
     bool m_flightTrackModFinished;
 };

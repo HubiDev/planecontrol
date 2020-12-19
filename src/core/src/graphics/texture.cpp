@@ -23,12 +23,12 @@ namespace core
 {
 namespace graphics
 {
-Texture::Texture(const std::string& f_imagePath, std::tuple<float, float> f_position, std::tuple<float, float> f_size)
+Texture::Texture(const std::string& f_imagePath, const Vector& f_position, const Vector& f_size)
     : m_image_p(new io::PngImage(f_imagePath))
-    , m_posX(std::get<0>(f_position))
-    , m_posY(std::get<1>(f_position))
-    , m_width(std::get<0>(f_size))
-    , m_height(std::get<1>(f_size))
+    , m_posX(f_position.x)
+    , m_posY(f_position.y)
+    , m_width(f_size.x)
+    , m_height(f_size.y)
     , m_rotation(0.f)
     , m_textureRef()
     , m_rectVertexRef()

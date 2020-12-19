@@ -70,7 +70,7 @@ void GameBase::loadContent()
     // load game elements after window was created
     for(auto& current : m_gameElements)
     {
-        current.get().load();
+        current->load();
     }
 }
 
@@ -95,10 +95,10 @@ float GameBase::getCurrentFps()
     return m_currentFps;
 }
 
-void GameBase::addGameElement(core::engine::IGameElement& f_gameElement)
+void GameBase::addGameElement(std::shared_ptr<core::engine::IGameElement> f_gameElement_p)
 {
-    m_gameElements.push_back(std::reference_wrapper<IGameElement>(f_gameElement));
-    m_mouse_p->registerAwareElement(f_gameElement);
+    m_gameElements.push_back(f_gameElement_p);
+    m_mouse_p->registerAwareElement(*f_gameElement_p);
 }
 
 void GameBase::updateGameElements()
@@ -114,7 +114,7 @@ void GameBase::updateGameElements()
 
     for(auto& current : m_gameElements)
     {
-        current.get().update(context);
+        current->update(context);
     }
 
     update();
@@ -127,7 +127,7 @@ void GameBase::drawGameElements()
 
     for(auto& current : m_gameElements)
     {
-        current.get().draw();
+        current->draw();
     }
 
     draw();

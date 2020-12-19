@@ -30,12 +30,9 @@ Game::~Game() {}
 
 void Game::onAfterInitialize()
 {
-    m_runway_p = std::unique_ptr<elements::Runway>(new elements::Runway());
-    addGameElement(*m_runway_p);
-
-    auto& plane = m_planeFactory.createPlane();
-    addGameElement(plane.getFlightTrack());
-    addGameElement(plane);
+    auto plane_p = m_planeFactory.createPlane();
+    addGameElement(plane_p->getFlightTrack());
+    addGameElement(plane_p);
 }
 
 void Game::update()
@@ -64,10 +61,12 @@ void Game::draw() {}
 
 void Game::loadContent()
 {
-    GameBase::loadContent();
-
     Level level("resources/levels/level_01/level.json");
     level.load();
+    m_runway_p = level.generateRunway();
+    addGameElement(m_runway_p);
+
+    GameBase::loadContent();
 }
 
 } // namespace game

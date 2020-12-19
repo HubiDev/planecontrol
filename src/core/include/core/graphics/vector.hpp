@@ -27,15 +27,23 @@ struct Vector
     float x;
     float y;
 
-    bool operator==(const Vector& toCompare)
+    inline bool operator==(const Vector& f_toCompare)
     {
-        return (x == toCompare.x) && (y == toCompare.y);
+        return (x == f_toCompare.x) && (y == f_toCompare.y);
     }
 
-    bool operator!=(const Vector& toCompare)
+    inline bool operator!=(const Vector& f_toCompare)
     {
-        return !(*this == toCompare);
+        return !(*this == f_toCompare);
     }
+
+    inline Vector& operator+=(const Vector& f_toAdd)
+    {
+        this->x += f_toAdd.x;
+        this->y += f_toAdd.y;
+        return *this;
+    }
+
 };
 
 } // namespace graphics

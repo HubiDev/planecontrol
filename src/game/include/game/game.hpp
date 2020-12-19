@@ -38,7 +38,7 @@ protected:
 
 private:
     elements::PlaneFactory m_planeFactory;
-    std::unique_ptr<elements::Runway> m_runway_p;
+    std::shared_ptr<elements::Runway> m_runway_p;
 };
 
 } // namespace game

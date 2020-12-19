@@ -34,13 +34,13 @@ const std::vector<std::shared_ptr<Plane>>&  PlaneFactory::getCreatedPlanes()
     return m_planes;
 }
 
-Plane& PlaneFactory::createPlane()
+std::shared_ptr<Plane> PlaneFactory::createPlane()
 {
     auto flightTrack_p = std::shared_ptr<FlightTrack>(new FlightTrack());
     auto plane_p = std::shared_ptr<Plane>(new Plane(flightTrack_p));
     m_flightTracks.push_back(flightTrack_p);
     m_planes.push_back(plane_p);
-    return *plane_p;
+    return plane_p;
 }
 
 } // namespace elements

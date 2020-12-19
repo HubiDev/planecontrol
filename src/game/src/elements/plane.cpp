@@ -79,9 +79,9 @@ void Plane::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
     m_mouseUpLocation = {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)};
 }
 
-FlightTrack& Plane::getFlightTrack()
+std::shared_ptr<FlightTrack> Plane::getFlightTrack()
 {
-    return *m_flightTrack_p;
+    return m_flightTrack_p;
 }
 
 std::tuple<bool, core::graphics::Vector> Plane::landingPathNeedsVerify()
