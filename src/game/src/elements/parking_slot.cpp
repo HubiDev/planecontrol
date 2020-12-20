@@ -16,6 +16,8 @@
 // ------------------------------------------------------------------------
 
 #include "game/elements/parking_slot.hpp"
+#include "core/graphics/geometry.hpp"
+#include "core/ui/mouse_event_args.hpp"
 
 namespace game
 {
@@ -25,7 +27,7 @@ namespace elements
 ParkingSlot::ParkingSlot(const std::vector<core::graphics::Vector>& f_pathToSlot,
                          const std::vector<core::graphics::Vector>& f_pathToStart)
     : m_isUsed(false)
-    , m_isVisble(false)
+    , m_isVisble(true)
     , m_pathToSlot(f_pathToSlot)
     , m_pathToStart(f_pathToStart)
     , m_slotRect_p()
@@ -33,7 +35,13 @@ ParkingSlot::ParkingSlot(const std::vector<core::graphics::Vector>& f_pathToSlot
 
 ParkingSlot::~ParkingSlot() {}
 
-void ParkingSlot::load() {}
+void ParkingSlot::load()
+{
+    auto& endPoint = m_pathToSlot.back();
+    m_slotRect_p = std::unique_ptr<core::graphics::Rectangle>(
+        new core::graphics::Rectangle({endPoint.x, endPoint.y}, {10.f, 10.f}));
+}
+
 void ParkingSlot::update(const core::engine::UpdateContext& f_context) {}
 
 void ParkingSlot::draw()
@@ -42,6 +50,14 @@ void ParkingSlot::draw()
     {
         m_slotRect_p->draw();
     }
+}
+
+bool ParkingSlot::mouseHit(const core::ui::MouseEventArgs& f_eventArgs)
+{
+    return core::graphics::geometry::isContainedInRegion(
+        m_slotRect_p->getPosition(),
+        m_slotRect_p->getSize(),
+        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
 }
 
 } // namespace elements

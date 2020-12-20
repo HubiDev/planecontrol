@@ -32,6 +32,7 @@ Runway::Runway()
     , m_location()
     , m_size()
     , m_texturePath()
+    , m_lastSelectedSlot_p(nullptr)
 {}
 
 Runway::~Runway() {}
@@ -46,7 +47,7 @@ void Runway::setSize(const core::graphics::Vector& f_size)
     m_size = f_size;
 }
 
-void Runway::setTexturePath(const std::string& f_texturePath) 
+void Runway::setTexturePath(const std::string& f_texturePath)
 {
     m_texturePath = f_texturePath;
 }
@@ -63,16 +64,21 @@ void Runway::setParkingSlots(const std::vector<std::shared_ptr<ParkingSlot>>& f_
 
 void Runway::load()
 {
-    m_texture_p = std::unique_ptr<core::graphics::Texture>(
-        new core::graphics::Texture(m_texturePath, m_location, m_size));
+    m_texture_p =
+        std::unique_ptr<core::graphics::Texture>(new core::graphics::Texture(m_texturePath, m_location, m_size));
     m_texture_p->load();
 
     auto& landingLocation = m_landingPath[0];
 
-    m_landingRect_p =
-        std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({landingLocation.x - 5.f, landingLocation.y - 5.f}, {10.f, 10.f}));
+    m_landingRect_p = std::unique_ptr<core::graphics::Rectangle>(
+        new core::graphics::Rectangle({landingLocation.x - 5.f, landingLocation.y - 5.f}, {10.f, 10.f}));
 
     m_landingRect_p->setColor({0.1f, 0.1f, 0.1f});
+
+    for(auto& currentSlot : m_parkingSlots)
+    {
+        currentSlot->load();
+    }
 }
 
 void Runway::update(const core::engine::UpdateContext& f_context) {}
@@ -85,6 +91,11 @@ void Runway::draw()
     {
         m_landingRect_p->draw();
     }
+
+    for(auto& currentSlot : m_parkingSlots)
+    {
+        currentSlot->draw();
+    }
 }
 
 bool Runway::isPointForLanding(const Vector& f_point)
@@ -96,6 +107,15 @@ bool Runway::isPointForLanding(const Vector& f_point)
 void Runway::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 {
     m_landingRectVisible = true;
+    m_lastSelectedSlot_p = nullptr;
+
+    for(auto& slot : m_parkingSlots)
+    {
+        if(slot->mouseHit(f_eventArgs))
+        {
+            m_lastSelectedSlot_p = slot;
+        }
+    }
 }
 
 void Runway::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
@@ -106,6 +126,11 @@ void Runway::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
 const std::vector<Vector>& Runway::getLandingPath()
 {
     return m_landingPath;
+}
+
+std::shared_ptr<ParkingSlot> Runway::getLastSelectedParkingSlot()
+{
+    return m_lastSelectedSlot_p;
 }
 
 } // namespace elements

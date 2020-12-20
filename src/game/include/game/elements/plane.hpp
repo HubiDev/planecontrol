@@ -65,10 +65,11 @@ public:
 
     /// @brief
     std::tuple<bool, core::graphics::Vector> landingPathNeedsVerify();    
-
     void finalizeFlightTrack(bool f_valid);
-
     void setLandingPath(const std::vector<core::graphics::Vector>& f_path);
+
+    bool parkingSlotNeedsVerify();
+    void setParkingPath(const std::vector<core::graphics::Vector>& f_path);
 
 private:
     Vector centrifyPoint(const Vector& f_point);
@@ -92,6 +93,7 @@ private:
     bool m_verifyFlightTrack;
     Vector m_mouseUpLocation;
     bool m_flightTrackModFinished;
+    bool m_verifyParkingSlot;
 };
 
 } // namespace elements

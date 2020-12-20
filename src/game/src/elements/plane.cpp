@@ -109,6 +109,13 @@ void Plane::setLandingPath(const std::vector<core::graphics::Vector>& f_path)
     m_landingState.setLandingPath(f_path);
 }
 
+bool Plane::parkingSlotNeedsVerify() 
+{
+    return m_verifyParkingSlot;
+}
+
+void Plane::setParkingPath(const std::vector<core::graphics::Vector>& f_path) {}
+
 Vector Plane::centrifyPoint(const Vector& f_point)
 {
     const float posX = (f_point.x - m_planeTexture_p->getSize().x / 2.f);

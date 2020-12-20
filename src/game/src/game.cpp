@@ -18,6 +18,8 @@
 #include "game/game.hpp"
 #include "game/level.hpp"
 
+#include <iostream>
+
 namespace game
 {
 Game::Game()
@@ -49,6 +51,16 @@ void Game::update()
             else
             {
                 currentPlane->finalizeFlightTrack(false);
+            }
+        }
+
+        if(currentPlane->parkingSlotNeedsVerify())
+        {
+            auto slot_p = m_runway_p->getLastSelectedParkingSlot();
+
+            if(slot_p)
+            {
+                int debug = 0;
             }
         }
     }

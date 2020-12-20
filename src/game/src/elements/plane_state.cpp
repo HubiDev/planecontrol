@@ -186,7 +186,6 @@ void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f
 
 PlaneStateTaxiingToGate::PlaneStateTaxiingToGate(PlaneState* f_next)
     : PlaneState(f_next)
-    , m_planeSelected(false)
 {}
 
 void PlaneStateTaxiingToGate::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
@@ -201,7 +200,8 @@ PlaneState* PlaneStateTaxiingToGate::checkForNextState(Plane& f_plane)
 
 void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
-    m_planeSelected = f_plane.mouseHit(f_eventArgs);
+    // Parking slot needs verification if plane selected
+    f_plane.m_verifyParkingSlot = f_plane.mouseHit(f_eventArgs);
 }
 
 void PlaneStateTaxiingToGate::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}

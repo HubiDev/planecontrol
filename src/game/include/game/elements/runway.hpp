@@ -53,6 +53,7 @@ public:
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs) override;
 
     const std::vector<Vector>& getLandingPath();
+    std::shared_ptr<ParkingSlot> getLastSelectedParkingSlot();
 
 private:
     std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
@@ -65,6 +66,7 @@ private:
     std::string m_texturePath;
 
     bool m_landingRectVisible;
+    std::shared_ptr<ParkingSlot> m_lastSelectedSlot_p;
 };
 
 } // namespace elements

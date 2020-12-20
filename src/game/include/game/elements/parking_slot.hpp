@@ -43,6 +43,8 @@ public:
     void update(const core::engine::UpdateContext& f_context) final;
     void draw() final;
 
+    bool mouseHit(const core::ui::MouseEventArgs& f_eventArgs);
+
 private:
     bool m_isUsed;
     bool m_isVisble;

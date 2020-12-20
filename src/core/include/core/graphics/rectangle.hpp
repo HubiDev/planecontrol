@@ -18,8 +18,8 @@
 #ifndef CORE_GRAPHICS_HPP_INCLUDED
 #define CORE_GRAPHICS_HPP_INCLUDED
 
-#include "core/graphics/vector.hpp"
 #include "core/graphics/color.hpp"
+#include "core/graphics/vector.hpp"
 
 #include <array>
 #include <tuple>
