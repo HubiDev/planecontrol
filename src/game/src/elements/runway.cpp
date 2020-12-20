@@ -63,7 +63,6 @@ void Runway::load()
     m_texture_p->load();
 
     auto& landingLocation = m_landingPath[0];
-    landingLocation += m_location;
 
     m_landingRect_p =
         std::unique_ptr<core::graphics::Rectangle>(new core::graphics::Rectangle({landingLocation.x - 5.f, landingLocation.y - 5.f}, {10.f, 10.f}));

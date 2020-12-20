@@ -42,7 +42,10 @@ std::shared_ptr<elements::Runway> Level::generateRunway()
 {
     std::shared_ptr<elements::Runway> runway_p(new elements::Runway());
 
-    runway_p->setLocation({m_levelData.m_airport.m_location[0], m_levelData.m_airport.m_location[1]});
+    auto locationX = m_levelData.m_airport.m_location[0];
+    auto locationY = m_levelData.m_airport.m_location[1];
+
+    runway_p->setLocation({locationX, locationY});
     runway_p->setSize({m_levelData.m_airport.m_size[0], m_levelData.m_airport.m_size[1]});
     runway_p->setTexturePath(m_levelData.m_airport.m_texture);
 
@@ -50,7 +53,7 @@ std::shared_ptr<elements::Runway> Level::generateRunway()
 
     for(auto& current : m_levelData.m_airport.m_landingPath)
     {
-        landingPath.push_back({current[0], current[1]});
+        landingPath.push_back({locationX + current[0], locationY + current[1]});
     }
 
     runway_p->setLandingPath(landingPath);

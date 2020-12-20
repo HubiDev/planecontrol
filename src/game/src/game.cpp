@@ -30,9 +30,6 @@ Game::~Game() {}
 
 void Game::onAfterInitialize()
 {
-    auto plane_p = m_planeFactory.createPlane();
-    addGameElement(plane_p->getFlightTrack());
-    addGameElement(plane_p);
 }
 
 void Game::update()
@@ -61,10 +58,15 @@ void Game::draw() {}
 
 void Game::loadContent()
 {
+    // TODO add onBeforeLoad
     Level level("resources/levels/level_01/level.json");
     level.load();
     m_runway_p = level.generateRunway();
     addGameElement(m_runway_p);
+
+    auto plane_p = m_planeFactory.createPlane();
+    addGameElement(plane_p->getFlightTrack());
+    addGameElement(plane_p);
 
     GameBase::loadContent();
 }
