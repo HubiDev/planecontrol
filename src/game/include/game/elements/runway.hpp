@@ -41,6 +41,7 @@ public:
     void setSize(const core::graphics::Vector& f_size);
     void setTexturePath(const std::string& f_texturePath);
     void setLandingPath(const std::vector<Vector>& f_landingPath);
+    void setParkingSlots(const std::vector<std::shared_ptr<ParkingSlot>>& f_parkingSlots);
 
     void load() override;
     void update(const core::engine::UpdateContext& f_context) override;
@@ -57,7 +58,7 @@ private:
     std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
     std::unique_ptr<core::graphics::Texture> m_texture_p;
 
-    std::vector<ParkingSlot> m_parkingSlots;
+    std::vector<std::shared_ptr<ParkingSlot>> m_parkingSlots;
     std::vector<Vector> m_landingPath;
     core::graphics::Vector m_location;
     core::graphics::Vector m_size;

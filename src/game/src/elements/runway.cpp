@@ -56,6 +56,11 @@ void Runway::setLandingPath(const std::vector<Vector>& f_landingPath)
     m_landingPath = f_landingPath;
 }
 
+void Runway::setParkingSlots(const std::vector<std::shared_ptr<ParkingSlot>>& f_parkingSlots)
+{
+    m_parkingSlots = f_parkingSlots;
+}
+
 void Runway::load()
 {
     m_texture_p = std::unique_ptr<core::graphics::Texture>(

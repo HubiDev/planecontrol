@@ -55,8 +55,30 @@ std::shared_ptr<elements::Runway> Level::generateRunway()
     {
         landingPath.push_back({locationX + current[0], locationY + current[1]});
     }
-
     runway_p->setLandingPath(landingPath);
+
+    std::vector<std::shared_ptr<elements::ParkingSlot>> parkingSlots{};
+
+    for(auto& current : m_levelData.m_airport.m_parkingLots)
+    {
+        std::vector<core::graphics::Vector> parkingPath{};
+        std::vector<core::graphics::Vector> startingPath{};
+
+        for(auto& currentPoint : current.m_parkingPath)
+        {
+            parkingPath.push_back({locationX + currentPoint[0], locationY + currentPoint[1]});
+        }
+
+        for(auto& currentPoint : current.m_startingPath)
+        {
+            startingPath.push_back({locationX + currentPoint[0], locationY + currentPoint[1]});
+        }
+
+        parkingSlots.push_back(
+            std::shared_ptr<elements::ParkingSlot>(new elements::ParkingSlot(parkingPath, startingPath)));
+    }
+
+    runway_p->setParkingSlots(parkingSlots);
 
     return runway_p;
 }

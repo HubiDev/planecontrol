@@ -27,6 +27,11 @@ namespace game
 {
 namespace data
 {
+struct ParkingSlotData
+{
+    std::vector<std::array<float, 2U>> m_parkingPath;
+    std::vector<std::array<float, 2U>> m_startingPath;
+};
 
 struct AirportData
 {
@@ -34,7 +39,7 @@ struct AirportData
     std::array<float, 2U> m_location;
     std::array<float, 2U> m_size;
     std::vector<std::array<float, 2U>> m_landingPath;
-    std::vector<std::array<float, 2U>> m_parkingLots;
+    std::vector<ParkingSlotData> m_parkingLots;
 };
 
 struct LevelData
@@ -42,6 +47,17 @@ struct LevelData
     std::string m_name;
     AirportData m_airport;
 };
+
+inline void to_json(nlohmann::json& f_json, const ParkingSlotData& f_parkingSlotData)
+{
+    //TODO
+}
+
+inline void from_json(const nlohmann::json& f_json, ParkingSlotData& f_parkingSlotData)
+{
+    f_json.at("parking_path").get_to(f_parkingSlotData.m_parkingPath);
+    f_json.at("starting_path").get_to(f_parkingSlotData.m_startingPath);
+}
 
 inline void to_json(nlohmann::json& f_json, const AirportData& f_airportData)
 {
@@ -57,7 +73,7 @@ inline void from_json(const nlohmann::json& f_json, AirportData& f_airportData)
     f_json.at("parking_lots").get_to(f_airportData.m_parkingLots);
 }
 
-inline void to_json(nlohmann::json& f_json, const LevelData& f_levelData) 
+inline void to_json(nlohmann::json& f_json, const LevelData& f_levelData)
 {
     //TODO
 }
