@@ -159,5 +159,24 @@ bool Runway::takeoffWasSelected()
     return m_takeoffWasSelected;
 }
 
+void Runway::registerParking(std::shared_ptr<ParkingSlot> f_slot_p, std::shared_ptr<Plane> f_plane_p)
+{
+    f_slot_p->setUsed(true);
+    m_parkingRegistry.insert({f_plane_p, f_slot_p});
+}
+
+std::shared_ptr<ParkingSlot> Runway::unregisterParking(std::shared_ptr<Plane> f_plane_p)
+{
+    if(m_parkingRegistry.find(f_plane_p) != m_parkingRegistry.end())
+    {
+        auto result = m_parkingRegistry[f_plane_p];
+        m_parkingRegistry.erase(f_plane_p);
+        result->setUsed(false);
+        return result;
+    }
+
+    return nullptr;
+}
+
 } // namespace elements
 } // namespace game

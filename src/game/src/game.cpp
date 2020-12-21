@@ -30,49 +30,59 @@ Game::Game()
 
 Game::~Game() {}
 
-void Game::onAfterInitialize()
-{
-}
+void Game::onAfterInitialize() {}
 
 void Game::update()
 {
     // Move this to seperate function
-    for(auto& currentPlane : m_planeFactory.getCreatedPlanes())
+    for(auto& currentPlane_p : m_planeFactory.getCreatedPlanes())
     {
         // TODO encapsulate this
-        auto landingPathNeedsVerify = currentPlane->landingPathNeedsVerify();
+        auto landingPathNeedsVerify = currentPlane_p->landingPathNeedsVerify();
 
         if(std::get<0>(landingPathNeedsVerify))
         {
             if(m_runway_p->isPointForLanding(std::get<1>(landingPathNeedsVerify)))
             {
-                currentPlane->setLandingPath(m_runway_p->getLandingPath());
-                currentPlane->finalizeFlightTrack(true);
+                currentPlane_p->setLandingPath(m_runway_p->getLandingPath());
+                currentPlane_p->finalizeFlightTrack(true);
             }
             else
             {
-                currentPlane->finalizeFlightTrack(false);
+                currentPlane_p->finalizeFlightTrack(false);
             }
         }
 
         // TODO encapsulate this
-        if(currentPlane->parkingSlotNeedsVerify()) // plane was selected
+        if(currentPlane_p->parkingSlotNeedsVerify()) // plane was selected
         {
             auto slot_p = m_runway_p->getLastSelectedParkingSlot(); // slot was selected
 
             if(slot_p)
             {
                 // start parking for this plane
-                currentPlane->startParking(slot_p->getPathToSlot());            
+                m_runway_p->registerParking(slot_p, currentPlane_p);
+                currentPlane_p->startParking(slot_p->getPathToSlot());
             }
+            
         }
 
         // TODO encapsulate this
-        if(currentPlane->startSlotNeedsVerify()) // plane was selected
+        if(currentPlane_p->startSlotNeedsVerify()) // plane was selected
         {
             if(m_runway_p->takeoffWasSelected())
             {
-                currentPlane->startTakeoff({});
+                auto slot_p = m_runway_p->unregisterParking(currentPlane_p);
+
+                if(slot_p)
+                {
+                    currentPlane_p->startTakeoff(slot_p->getPathToTakeoff());
+                }
+                else
+                {
+                    // Game logic error
+                }
+                
             }
         }
     }

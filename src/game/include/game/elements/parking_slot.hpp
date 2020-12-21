@@ -48,6 +48,8 @@ public:
     const std::vector<core::graphics::Vector>& getPathToSlot() const;
     const std::vector<core::graphics::Vector>& getPathToTakeoff() const;
 
+    void setUsed(bool f_used);
+
 private:
     bool m_isUsed;
     bool m_isVisble;

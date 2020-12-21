@@ -128,6 +128,7 @@ public:
     void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
+    void startTakeoff(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane);
 private:
 };
 

@@ -70,5 +70,10 @@ const std::vector<core::graphics::Vector>& ParkingSlot::getPathToTakeoff() const
     return m_pathToStart;
 }
 
+void ParkingSlot::setUsed(bool f_used)
+{
+    m_isUsed = f_used;
+}
+
 } // namespace elements
 } // namespace game

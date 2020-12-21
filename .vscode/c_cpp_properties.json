@@ -3,7 +3,10 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/src/core/include/**",
+                "${workspaceFolder}/src/core/ext/**",
+                "${workspaceFolder}/src/game/include/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

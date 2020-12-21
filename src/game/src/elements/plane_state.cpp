@@ -256,19 +256,36 @@ PlaneStateTaxiingToStart::PlaneStateTaxiingToStart(PlaneState* f_next)
     : PlaneState(f_next)
 {}
 
-void PlaneStateTaxiingToStart::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) 
+void PlaneStateTaxiingToStart::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
 {
-    int debug = 0;
+    auto adaptedSpeed = core::engine::adaptToFps(f_context, f_plane.m_speed);
+    auto point_p = f_plane.m_flightTrack_p->moveToNextPoint(adaptedSpeed);
+
+    if(point_p)
+    {
+        auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
+        f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
 }
-void PlaneStateTaxiingToStart::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
+void PlaneStateTaxiingToStart::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    auto targetAngle = f_plane.calcTargetRotation();
+
+    if(!std::isnan(targetAngle))
+    {
+        targetAngle = f_plane.rotateSmooth(targetAngle, f_context);
+        f_plane.m_planeTexture_p->setRotation(targetAngle);
+    }
+}
+
 void PlaneStateTaxiingToStart::updateSize(Plane& f_plane) {}
 
-PlaneState* PlaneStateTaxiingToStart::checkForNextState(Plane& f_plane) 
+PlaneState* PlaneStateTaxiingToStart::checkForNextState(Plane& f_plane)
 {
     return this;
 }
 
-void PlaneStateTaxiingToStart::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) 
+void PlaneStateTaxiingToStart::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
     if(!f_plane.m_verifyStartSlot)
     {
@@ -277,6 +294,11 @@ void PlaneStateTaxiingToStart::onMouseDown(const core::ui::MouseEventArgs& f_eve
 }
 
 void PlaneStateTaxiingToStart::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+
+void PlaneStateTaxiingToStart::startTakeoff(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane)
+{
+    f_plane.getFlightTrack()->setPoints(f_path);
+}
 
 } // namespace elements
 } // namespace game

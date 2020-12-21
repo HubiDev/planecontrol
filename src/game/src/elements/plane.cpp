@@ -129,7 +129,7 @@ bool Plane::startSlotNeedsVerify()
 
 void Plane::startTakeoff(const std::vector<core::graphics::Vector>& f_path) 
 {
-
+    m_taxiToStartState.startTakeoff(f_path, *this);
 }
 
 Vector Plane::centrifyPoint(const Vector& f_point)
