@@ -42,6 +42,7 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_verifyFlightTrack(false)
     , m_mouseUpLocation()
     , m_flightTrackModFinished(false)
+    , m_verifyParkingSlot(false)
 {}
 
 Plane::~Plane() {}

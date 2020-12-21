@@ -109,6 +109,7 @@ PlaneStateLanding::PlaneStateLanding(PlaneState* f_next)
     , m_landingPath()
     , m_landingAnimation{400.f, 500.f, 30.f}
     , m_slowDownAnimation{100.f, 300.f, 0.5}
+    , m_switchToNextState(false)
 {}
 
 void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -133,6 +134,7 @@ void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_cont
     // state switch
     if(f_plane.m_flightTrack_p->getRemainingLength() == 0.f)
     {
+        std::cout << "Switch to taxiing" << std::endl;
         m_switchToNextState = true;
     }
 }
@@ -181,6 +183,7 @@ void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f
 {
     static_cast<void>(f_callingState);
     f_plane.m_flightTrack_p->setPoints(m_landingPath);
+    std::cout << "Set flight track points" << std::endl;
     f_plane.m_flightTrack_p->setVisible(false);
 }
 

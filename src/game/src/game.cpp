@@ -46,6 +46,7 @@ void Game::update()
             if(m_runway_p->isPointForLanding(std::get<1>(landingPathNeedsVerify)))
             {
                 currentPlane->setLandingPath(m_runway_p->getLandingPath());
+                std::cout << "Set landing path" << std::endl;
                 currentPlane->finalizeFlightTrack(true);
             }
             else
@@ -57,11 +58,7 @@ void Game::update()
         if(currentPlane->parkingSlotNeedsVerify())
         {
             auto slot_p = m_runway_p->getLastSelectedParkingSlot();
-
-            if(slot_p)
-            {
-                int debug = 0;
-            }
+            std::cout << slot_p << std::endl;
         }
     }
 }
