@@ -39,6 +39,7 @@ void Game::update()
     // Move this to seperate function
     for(auto& currentPlane : m_planeFactory.getCreatedPlanes())
     {
+        // TODO encapsulate this
         auto landingPathNeedsVerify = currentPlane->landingPathNeedsVerify();
 
         if(std::get<0>(landingPathNeedsVerify))
@@ -46,7 +47,6 @@ void Game::update()
             if(m_runway_p->isPointForLanding(std::get<1>(landingPathNeedsVerify)))
             {
                 currentPlane->setLandingPath(m_runway_p->getLandingPath());
-                std::cout << "Set landing path" << std::endl;
                 currentPlane->finalizeFlightTrack(true);
             }
             else
@@ -55,10 +55,16 @@ void Game::update()
             }
         }
 
-        if(currentPlane->parkingSlotNeedsVerify())
+        // TODO encapsulate this
+        if(currentPlane->parkingSlotNeedsVerify()) // plane was selected
         {
-            auto slot_p = m_runway_p->getLastSelectedParkingSlot();
-            std::cout << slot_p << std::endl;
+            auto slot_p = m_runway_p->getLastSelectedParkingSlot(); // slot was selected
+
+            if(slot_p)
+            {
+                // start parking for this plane
+                currentPlane->startParking(slot_p->getPathToSlot());            
+            }
         }
     }
 }

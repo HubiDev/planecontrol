@@ -52,7 +52,6 @@ void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_conte
     // TODO check wether plane has reached end of flight track
     if(f_plane.m_flightTrack_p->getRemainingLength() == 0.f && f_plane.m_flightTrackModFinished)
     {
-        std::cout << "State switch" << std::endl;
         m_switchToNextState = true;
     }
 }
@@ -134,7 +133,6 @@ void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_cont
     // state switch
     if(f_plane.m_flightTrack_p->getRemainingLength() == 0.f)
     {
-        std::cout << "Switch to taxiing" << std::endl;
         m_switchToNextState = true;
     }
 }
@@ -183,16 +181,36 @@ void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f
 {
     static_cast<void>(f_callingState);
     f_plane.m_flightTrack_p->setPoints(m_landingPath);
-    std::cout << "Set flight track points" << std::endl;
     f_plane.m_flightTrack_p->setVisible(false);
 }
 
 PlaneStateTaxiingToGate::PlaneStateTaxiingToGate(PlaneState* f_next)
     : PlaneState(f_next)
+    , m_parkingHasStarted(false)
 {}
 
-void PlaneStateTaxiingToGate::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
-void PlaneStateTaxiingToGate::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) {}
+void PlaneStateTaxiingToGate::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    auto adaptedSpeed = core::engine::adaptToFps(f_context, f_plane.m_speed);
+    auto point_p = f_plane.m_flightTrack_p->moveToNextPoint(adaptedSpeed);
+
+    if(point_p)
+    {
+        auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
+        f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
+}
+
+void PlaneStateTaxiingToGate::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    auto targetAngle = f_plane.calcTargetRotation();
+
+    if(!std::isnan(targetAngle))
+    {
+        targetAngle = f_plane.rotateSmooth(targetAngle, f_context);
+        f_plane.m_planeTexture_p->setRotation(targetAngle);
+    }
+}
 
 void PlaneStateTaxiingToGate::updateSize(Plane& f_plane) {}
 
@@ -204,10 +222,22 @@ PlaneState* PlaneStateTaxiingToGate::checkForNextState(Plane& f_plane)
 void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
     // Parking slot needs verification if plane selected
-    f_plane.m_verifyParkingSlot = f_plane.mouseHit(f_eventArgs);
+    if(!f_plane.m_verifyParkingSlot)
+    {
+        f_plane.m_verifyParkingSlot = f_plane.mouseHit(f_eventArgs);
+    }
 }
 
 void PlaneStateTaxiingToGate::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+
+void PlaneStateTaxiingToGate::startParking(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane)
+{
+    if(!m_parkingHasStarted) // Prevents that parking ist started multiple times
+    {
+        m_parkingHasStarted = true;
+        f_plane.getFlightTrack()->setPoints(f_path);
+    }
+}
 
 } // namespace elements
 } // namespace game

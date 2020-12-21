@@ -18,6 +18,8 @@
 #include "game/elements/runway.hpp"
 #include "core/graphics/geometry.hpp"
 
+#include <iostream>
+
 namespace game
 {
 namespace elements

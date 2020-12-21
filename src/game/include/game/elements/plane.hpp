@@ -63,13 +63,17 @@ public:
     /// @brief
     std::shared_ptr<FlightTrack> getFlightTrack();    
 
-    /// @brief
+    // Landing
     std::tuple<bool, core::graphics::Vector> landingPathNeedsVerify();    
     void finalizeFlightTrack(bool f_valid);
     void setLandingPath(const std::vector<core::graphics::Vector>& f_path);
 
+    // Parking
     bool parkingSlotNeedsVerify();
-    void setParkingPath(const std::vector<core::graphics::Vector>& f_path);
+    void startParking(const std::vector<core::graphics::Vector>& f_path);
+
+    // Starting
+
 
 private:
     Vector centrifyPoint(const Vector& f_point);

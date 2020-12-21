@@ -60,5 +60,10 @@ bool ParkingSlot::mouseHit(const core::ui::MouseEventArgs& f_eventArgs)
         {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
 }
 
+const std::vector<core::graphics::Vector>& ParkingSlot::getPathToSlot() const
+{
+    return m_pathToSlot;
+}
+
 } // namespace elements
 } // namespace game
