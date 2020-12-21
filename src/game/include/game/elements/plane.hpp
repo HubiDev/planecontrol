@@ -74,6 +74,8 @@ public:
     void startParking(const std::vector<core::graphics::Vector>& f_path);
 
     // Starting
+    bool startSlotNeedsVerify();
+    void startTakeoff(const std::vector<core::graphics::Vector>& f_path);
 
 
 private:
@@ -100,6 +102,7 @@ private:
     Vector m_mouseUpLocation;
     bool m_flightTrackModFinished;
     bool m_verifyParkingSlot;
+    bool m_verifyStartSlot;
 };
 
 } // namespace elements

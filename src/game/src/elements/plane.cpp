@@ -111,7 +111,7 @@ void Plane::setLandingPath(const std::vector<core::graphics::Vector>& f_path)
     m_landingState.setLandingPath(f_path);
 }
 
-bool Plane::parkingSlotNeedsVerify() 
+bool Plane::parkingSlotNeedsVerify()
 {
     return m_verifyParkingSlot;
 }
@@ -119,6 +119,16 @@ bool Plane::parkingSlotNeedsVerify()
 void Plane::startParking(const std::vector<core::graphics::Vector>& f_path)
 {
     m_taxiToGateState.startParking(f_path, *this);
+}
+
+bool Plane::startSlotNeedsVerify() 
+{
+    
+}
+
+void Plane::startTakeoff(const std::vector<core::graphics::Vector>& f_path) 
+{
+
 }
 
 Vector Plane::centrifyPoint(const Vector& f_point)

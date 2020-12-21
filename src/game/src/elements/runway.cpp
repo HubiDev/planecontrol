@@ -28,9 +28,11 @@ Runway::Runway()
     : core::engine::IGameElement()
     , m_landingRect_p()
     , m_texture_p()
+    , m_takeoffRect_p()
     , m_parkingSlots()
     , m_landingRectVisible(false)
-    , m_landingPath{{870.f, 75.f}, {870.f, 650.f}}
+    , m_landingPath()
+    , m_takeoffPath()
     , m_location()
     , m_size()
     , m_texturePath()
@@ -59,6 +61,11 @@ void Runway::setLandingPath(const std::vector<Vector>& f_landingPath)
     m_landingPath = f_landingPath;
 }
 
+void Runway::setTakeoffPath(const std::vector<Vector>& f_takeoffPath)
+{
+    m_takeoffPath = f_takeoffPath;
+}
+
 void Runway::setParkingSlots(const std::vector<std::shared_ptr<ParkingSlot>>& f_parkingSlots)
 {
     m_parkingSlots = f_parkingSlots;
@@ -71,11 +78,14 @@ void Runway::load()
     m_texture_p->load();
 
     auto& landingLocation = m_landingPath[0];
-
     m_landingRect_p = std::unique_ptr<core::graphics::Rectangle>(
         new core::graphics::Rectangle({landingLocation.x - 5.f, landingLocation.y - 5.f}, {10.f, 10.f}));
-
     m_landingRect_p->setColor({0.1f, 0.1f, 0.1f});
+
+    auto& takeoffLocation = m_takeoffPath[0];
+    m_takeoffRect_p = std::unique_ptr<core::graphics::Rectangle>(
+        new core::graphics::Rectangle({takeoffLocation.x - 5.f, takeoffLocation.y - 5.f}, {10.f, 10.f}));
+    m_takeoffRect_p->setColor({1.f, 0.0f, 0.0f});
 
     for(auto& currentSlot : m_parkingSlots)
     {
@@ -98,6 +108,8 @@ void Runway::draw()
     {
         currentSlot->draw();
     }
+
+    m_takeoffRect_p->draw();
 }
 
 bool Runway::isPointForLanding(const Vector& f_point)

@@ -45,10 +45,12 @@ std::shared_ptr<elements::Runway> Level::generateRunway()
     auto locationX = m_levelData.m_airport.m_location[0];
     auto locationY = m_levelData.m_airport.m_location[1];
 
+    // TODO encapsulate
     runway_p->setLocation({locationX, locationY});
     runway_p->setSize({m_levelData.m_airport.m_size[0], m_levelData.m_airport.m_size[1]});
     runway_p->setTexturePath(m_levelData.m_airport.m_texture);
 
+    // TODO encapsulate
     std::vector<core::graphics::Vector> landingPath{};
 
     for(auto& current : m_levelData.m_airport.m_landingPath)
@@ -57,6 +59,16 @@ std::shared_ptr<elements::Runway> Level::generateRunway()
     }
     runway_p->setLandingPath(landingPath);
 
+    // TODO encapsulate
+    std::vector<core::graphics::Vector> takeoffPath{};
+
+    for(auto& current : m_levelData.m_airport.m_takeoffPath)
+    {
+        takeoffPath.push_back({locationX + current[0], locationY + current[1]});
+    }
+    runway_p->setTakeoffPath(takeoffPath);
+
+    // TODO encapsulate
     std::vector<std::shared_ptr<elements::ParkingSlot>> parkingSlots{};
 
     for(auto& current : m_levelData.m_airport.m_parkingLots)

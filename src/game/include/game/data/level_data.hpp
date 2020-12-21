@@ -39,6 +39,7 @@ struct AirportData
     std::array<float, 2U> m_location;
     std::array<float, 2U> m_size;
     std::vector<std::array<float, 2U>> m_landingPath;
+    std::vector<std::array<float, 2U>> m_takeoffPath;
     std::vector<ParkingSlotData> m_parkingLots;
 };
 
@@ -70,6 +71,7 @@ inline void from_json(const nlohmann::json& f_json, AirportData& f_airportData)
     f_json.at("location").get_to(f_airportData.m_location);
     f_json.at("size").get_to(f_airportData.m_size);
     f_json.at("landing_path").get_to(f_airportData.m_landingPath);
+    f_json.at("takeoff_path").get_to(f_airportData.m_takeoffPath);
     f_json.at("parking_lots").get_to(f_airportData.m_parkingLots);
 }
 
