@@ -318,6 +318,8 @@ PlaneStateTakeoff::PlaneStateTakeoff(PlaneState* f_next)
     : PlaneState(f_next)
     , m_takeoffPath()
     , m_takeOffStarted(false)
+    , m_takeoffAnimation{200.f, 400.f, 30.f}
+    , m_speedUpAnimation{400.f, 700.f, 0.5f}
 {}
 
 void PlaneStateTakeoff::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -329,6 +331,13 @@ void PlaneStateTakeoff::updatePosition(const core::engine::UpdateContext& f_cont
     {
         auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
         f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
+
+    // speed animation
+    if(m_speedUpAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()))
+    {
+        auto speedDiff = m_speedUpAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
+        f_plane.m_speed += speedDiff;
     }
 }
 void PlaneStateTakeoff::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -342,7 +351,15 @@ void PlaneStateTakeoff::updateRotation(const core::engine::UpdateContext& f_cont
     }
 }
 
-void PlaneStateTakeoff::updateSize(Plane& f_plane) {}
+void PlaneStateTakeoff::updateSize(Plane& f_plane)
+{
+    if(m_takeoffAnimation.isActive(f_plane.m_flightTrack_p->getRemainingLength()))
+    {
+        auto sizeDiff = m_takeoffAnimation.update(f_plane.m_flightTrack_p->getRemainingLength());
+        auto planeSize = f_plane.m_planeTexture_p->getSize();
+        f_plane.m_planeTexture_p->setSize({planeSize.x + sizeDiff, planeSize.y + sizeDiff});
+    }
+}
 
 PlaneState* PlaneStateTakeoff::checkForNextState(Plane& f_plane)
 {

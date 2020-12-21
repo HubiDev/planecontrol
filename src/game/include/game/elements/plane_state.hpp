@@ -155,6 +155,8 @@ public:
 private:
     std::vector<core::graphics::Vector> m_takeoffPath;
     bool m_takeOffStarted;
+    core::graphics::Animation m_takeoffAnimation;
+    core::graphics::Animation m_speedUpAnimation;
 };
 
 } // namespace elements
