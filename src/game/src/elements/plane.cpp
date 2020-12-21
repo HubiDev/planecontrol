@@ -35,7 +35,8 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_planeTexture_p{}
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
-    , m_taxiToStartState(nullptr)
+    , m_takeoffState(nullptr)
+    , m_taxiToStartState(&m_takeoffState)
     , m_taxiToGateState(&m_taxiToStartState)
     , m_landingState(&m_taxiToGateState)
     , m_flyingState(&m_landingState)
@@ -130,6 +131,11 @@ bool Plane::startSlotNeedsVerify()
 void Plane::startTakeoff(const std::vector<core::graphics::Vector>& f_path) 
 {
     m_taxiToStartState.startTakeoff(f_path, *this);
+}
+
+void Plane::setTakeoffPath(const std::vector<core::graphics::Vector>& f_path)
+{
+    m_takeoffState.setTakeoffPath(f_path);
 }
 
 Vector Plane::centrifyPoint(const Vector& f_point)

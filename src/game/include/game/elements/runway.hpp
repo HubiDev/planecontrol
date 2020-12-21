@@ -56,6 +56,8 @@ public:
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs) override;
 
     const std::vector<Vector>& getLandingPath();
+    const std::vector<Vector>& getTakeoffPath();
+
     std::shared_ptr<ParkingSlot> getLastSelectedParkingSlot();
 
     bool takeoffWasSelected();

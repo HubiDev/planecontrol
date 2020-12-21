@@ -149,6 +149,11 @@ const std::vector<Vector>& Runway::getLandingPath()
     return m_landingPath;
 }
 
+const std::vector<Vector>& Runway::getTakeoffPath()
+{
+    return m_takeoffPath;
+}
+
 std::shared_ptr<ParkingSlot> Runway::getLastSelectedParkingSlot()
 {
     return m_lastSelectedSlot_p;

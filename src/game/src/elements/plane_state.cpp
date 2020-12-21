@@ -254,6 +254,8 @@ void PlaneStateTaxiingToGate::startParking(const std::vector<core::graphics::Vec
 
 PlaneStateTaxiingToStart::PlaneStateTaxiingToStart(PlaneState* f_next)
     : PlaneState(f_next)
+    , m_taxiingStarted(false)
+    , m_switchToNextState(false)
 {}
 
 void PlaneStateTaxiingToStart::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -265,6 +267,11 @@ void PlaneStateTaxiingToStart::updatePosition(const core::engine::UpdateContext&
     {
         auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
         f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
+
+    if(m_taxiingStarted && f_plane.m_flightTrack_p->getRemainingLength() == 0.f)
+    {
+        m_switchToNextState = true;
     }
 }
 void PlaneStateTaxiingToStart::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -282,6 +289,12 @@ void PlaneStateTaxiingToStart::updateSize(Plane& f_plane) {}
 
 PlaneState* PlaneStateTaxiingToStart::checkForNextState(Plane& f_plane)
 {
+    if(m_switchToNextState)
+    {
+        m_next->onStateChange(*this, f_plane);
+        return this->m_next;
+    }
+
     return this;
 }
 
@@ -298,6 +311,58 @@ void PlaneStateTaxiingToStart::onMouseUp(const core::ui::MouseEventArgs& f_event
 void PlaneStateTaxiingToStart::startTakeoff(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane)
 {
     f_plane.getFlightTrack()->setPoints(f_path);
+    m_taxiingStarted = true;
+}
+
+PlaneStateTakeoff::PlaneStateTakeoff(PlaneState* f_next)
+    : PlaneState(f_next)
+    , m_takeoffPath()
+    , m_takeOffStarted(false)
+{}
+
+void PlaneStateTakeoff::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    auto adaptedSpeed = core::engine::adaptToFps(f_context, f_plane.m_speed);
+    auto point_p = f_plane.m_flightTrack_p->moveToNextPoint(adaptedSpeed);
+
+    if(point_p)
+    {
+        auto centrifiedPoint = f_plane.centrifyPoint(*point_p);
+        f_plane.m_planeTexture_p->setPosition(centrifiedPoint.x, centrifiedPoint.y);
+    }
+}
+void PlaneStateTakeoff::updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane)
+{
+    auto targetAngle = f_plane.calcTargetRotation();
+
+    if(!std::isnan(targetAngle))
+    {
+        targetAngle = f_plane.rotateSmooth(targetAngle, f_context);
+        f_plane.m_planeTexture_p->setRotation(targetAngle);
+    }
+}
+
+void PlaneStateTakeoff::updateSize(Plane& f_plane) {}
+
+PlaneState* PlaneStateTakeoff::checkForNextState(Plane& f_plane)
+{
+    return this;
+}
+
+void PlaneStateTakeoff::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
+{
+    if((!m_takeOffStarted) && f_plane.mouseHit(f_eventArgs))
+    {
+        m_takeOffStarted = true;
+        f_plane.getFlightTrack()->setPoints(m_takeoffPath);
+    }
+}
+
+void PlaneStateTakeoff::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+
+void PlaneStateTakeoff::setTakeoffPath(const std::vector<core::graphics::Vector>& f_path)
+{
+    m_takeoffPath = f_path;
 }
 
 } // namespace elements

@@ -42,6 +42,7 @@ public:
     friend PlaneStateLanding;
     friend PlaneStateTaxiingToGate;
     friend PlaneStateTaxiingToStart;
+    friend PlaneStateTakeoff;
 
     Plane(std::shared_ptr<FlightTrack> f_flightTrack_p);
     ~Plane();
@@ -62,10 +63,10 @@ public:
     virtual void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs) override;
 
     /// @brief
-    std::shared_ptr<FlightTrack> getFlightTrack();    
+    std::shared_ptr<FlightTrack> getFlightTrack();
 
     // Landing
-    std::tuple<bool, core::graphics::Vector> landingPathNeedsVerify();    
+    std::tuple<bool, core::graphics::Vector> landingPathNeedsVerify();
     void finalizeFlightTrack(bool f_valid);
     void setLandingPath(const std::vector<core::graphics::Vector>& f_path);
 
@@ -77,6 +78,8 @@ public:
     bool startSlotNeedsVerify();
     void startTakeoff(const std::vector<core::graphics::Vector>& f_path);
 
+    // Takeoff
+    void setTakeoffPath(const std::vector<core::graphics::Vector>& f_path);
 
 private:
     Vector centrifyPoint(const Vector& f_point);
@@ -90,12 +93,13 @@ private:
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;
     float m_speed;
     Vector m_textureOrientation;
-    
+
     // States
+    PlaneStateTakeoff m_takeoffState;
     PlaneStateTaxiingToStart m_taxiToStartState;
     PlaneStateTaxiingToGate m_taxiToGateState;
     PlaneStateLanding m_landingState;
-    PlaneStateFlying m_flyingState;    
+    PlaneStateFlying m_flyingState;
     PlaneState* m_currentState;
 
     bool m_verifyFlightTrack;

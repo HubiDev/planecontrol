@@ -109,6 +109,7 @@ public:
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
     void startParking(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane);
+
 private:
     bool m_parkingHasStarted;
     bool m_switchToNextState;
@@ -129,7 +130,31 @@ public:
     void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
 
     void startTakeoff(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane);
+
 private:
+    bool m_taxiingStarted;
+    bool m_switchToNextState;
+};
+
+class PlaneStateTakeoff : public PlaneState
+{
+public:
+    PlaneStateTakeoff(PlaneState* f_next);
+
+    void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateSize(Plane& f_plane) final;
+
+    PlaneState* checkForNextState(Plane& f_plane) final;
+
+    void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+    void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+
+    void setTakeoffPath(const std::vector<core::graphics::Vector>& f_path);
+
+private:
+    std::vector<core::graphics::Vector> m_takeoffPath;
+    bool m_takeOffStarted;
 };
 
 } // namespace elements

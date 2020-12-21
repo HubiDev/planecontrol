@@ -76,7 +76,8 @@ void Game::update()
 
                 if(slot_p)
                 {
-                    currentPlane_p->startTakeoff(slot_p->getPathToTakeoff());
+                    currentPlane_p->setTakeoffPath(m_runway_p->getTakeoffPath());
+                    currentPlane_p->startTakeoff(slot_p->getPathToTakeoff());                    
                 }
                 else
                 {
