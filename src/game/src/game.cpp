@@ -66,6 +66,15 @@ void Game::update()
                 currentPlane->startParking(slot_p->getPathToSlot());            
             }
         }
+
+        // TODO encapsulate this
+        if(currentPlane->startSlotNeedsVerify()) // plane was selected
+        {
+            if(m_runway_p->takeoffWasSelected())
+            {
+                currentPlane->startTakeoff({});
+            }
+        }
     }
 }
 

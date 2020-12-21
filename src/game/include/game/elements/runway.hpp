@@ -56,6 +56,8 @@ public:
     const std::vector<Vector>& getLandingPath();
     std::shared_ptr<ParkingSlot> getLastSelectedParkingSlot();
 
+    bool takeoffWasSelected();
+
 private:
     std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
     std::unique_ptr<core::graphics::Texture> m_texture_p;
@@ -72,6 +74,8 @@ private:
 
     bool m_landingRectVisible;
     std::shared_ptr<ParkingSlot> m_lastSelectedSlot_p;
+
+    bool m_takeoffWasSelected;
 };
 
 } // namespace elements

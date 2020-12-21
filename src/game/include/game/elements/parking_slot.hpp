@@ -46,6 +46,7 @@ public:
     bool mouseHit(const core::ui::MouseEventArgs& f_eventArgs);
 
     const std::vector<core::graphics::Vector>& getPathToSlot() const;
+    const std::vector<core::graphics::Vector>& getPathToTakeoff() const;
 
 private:
     bool m_isUsed;

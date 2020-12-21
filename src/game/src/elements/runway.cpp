@@ -17,6 +17,7 @@
 
 #include "game/elements/runway.hpp"
 #include "core/graphics/geometry.hpp"
+#include "core/ui/mouse_event_args.hpp"
 
 #include <iostream>
 
@@ -37,6 +38,7 @@ Runway::Runway()
     , m_size()
     , m_texturePath()
     , m_lastSelectedSlot_p(nullptr)
+    , m_takeoffWasSelected(false)
 {}
 
 Runway::~Runway() {}
@@ -130,6 +132,11 @@ void Runway::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
             m_lastSelectedSlot_p = slot;
         }
     }
+
+    m_takeoffWasSelected = core::graphics::geometry::isContainedInRegion(
+        m_takeoffRect_p->getPosition(),
+        m_takeoffRect_p->getSize(),
+        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
 }
 
 void Runway::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
@@ -145,6 +152,11 @@ const std::vector<Vector>& Runway::getLandingPath()
 std::shared_ptr<ParkingSlot> Runway::getLastSelectedParkingSlot()
 {
     return m_lastSelectedSlot_p;
+}
+
+bool Runway::takeoffWasSelected()
+{
+    return m_takeoffWasSelected;
 }
 
 } // namespace elements

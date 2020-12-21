@@ -268,7 +268,14 @@ PlaneState* PlaneStateTaxiingToStart::checkForNextState(Plane& f_plane)
     return this;
 }
 
-void PlaneStateTaxiingToStart::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
+void PlaneStateTaxiingToStart::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) 
+{
+    if(!f_plane.m_verifyStartSlot)
+    {
+        f_plane.m_verifyStartSlot = f_plane.mouseHit(f_eventArgs);
+    }
+}
+
 void PlaneStateTaxiingToStart::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
 
 } // namespace elements

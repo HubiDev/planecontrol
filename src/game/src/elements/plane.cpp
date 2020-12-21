@@ -44,6 +44,7 @@ Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
     , m_mouseUpLocation()
     , m_flightTrackModFinished(false)
     , m_verifyParkingSlot(false)
+    , m_verifyStartSlot(false)
 {}
 
 Plane::~Plane() {}
@@ -123,7 +124,7 @@ void Plane::startParking(const std::vector<core::graphics::Vector>& f_path)
 
 bool Plane::startSlotNeedsVerify() 
 {
-    
+    return m_verifyStartSlot;
 }
 
 void Plane::startTakeoff(const std::vector<core::graphics::Vector>& f_path) 
