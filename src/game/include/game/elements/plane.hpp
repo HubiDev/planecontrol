@@ -41,6 +41,7 @@ public:
     friend PlaneStateFlying;
     friend PlaneStateLanding;
     friend PlaneStateTaxiingToGate;
+    friend PlaneStateTaxiingToStart;
 
     Plane(std::shared_ptr<FlightTrack> f_flightTrack_p);
     ~Plane();
@@ -89,9 +90,10 @@ private:
     Vector m_textureOrientation;
     
     // States
+    PlaneStateTaxiingToStart m_taxiToStartState;
     PlaneStateTaxiingToGate m_taxiToGateState;
     PlaneStateLanding m_landingState;
-    PlaneStateFlying m_flyingState;
+    PlaneStateFlying m_flyingState;    
     PlaneState* m_currentState;
 
     bool m_verifyFlightTrack;

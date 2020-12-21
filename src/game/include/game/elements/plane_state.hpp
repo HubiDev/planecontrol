@@ -111,6 +111,24 @@ public:
     void startParking(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane);
 private:
     bool m_parkingHasStarted;
+    bool m_switchToNextState;
+};
+
+class PlaneStateTaxiingToStart : public PlaneState
+{
+public:
+    PlaneStateTaxiingToStart(PlaneState* f_next);
+
+    void updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateRotation(const core::engine::UpdateContext& f_context, Plane& f_plane) final;
+    void updateSize(Plane& f_plane) final;
+
+    PlaneState* checkForNextState(Plane& f_plane) final;
+
+    void onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+    void onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) final;
+
+private:
 };
 
 } // namespace elements
