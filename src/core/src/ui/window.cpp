@@ -49,6 +49,9 @@ SDL_Window& Window::getSDLWindow()
 
 void Window::createWindow()
 {
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+        SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
     m_window_p = std::unique_ptr<SDL_Window, SdlDeleter>(SDL_CreateWindow(m_title.c_str(),
                                                                           SDL_WINDOWPOS_CENTERED,
                                                                           SDL_WINDOWPOS_CENTERED,
@@ -64,11 +67,15 @@ void Window::createWindow()
 
 void Window::createOpenGlContext()
 {
+
     m_openGlContext = SDL_GL_CreateContext(m_window_p.get());
     glOrtho(0.f, (double)m_width, (double)m_height, 0.f, 0.f, 1.f);
 
     SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 8);
     glEnable(GL_MULTISAMPLE);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     if(nullptr == m_openGlContext)
     {

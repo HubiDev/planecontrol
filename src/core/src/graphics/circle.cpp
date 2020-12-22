@@ -26,6 +26,7 @@ namespace graphics
 Circle::Circle(const Vector& f_position, float f_radius)
     : m_position(f_position)
     , m_radius(f_radius)
+    , m_colorGradient(0.9f)
     , m_vertexBuffer()
     , m_colorBuffer()
     , m_vboReference()
@@ -42,6 +43,7 @@ void Circle::draw()
     {
         //glColor3f(0, 0, 0);
         glClearColor(0, 0, 0, 0);
+        glShadeModel(GL_SMOOTH);
 
         glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
         glBufferData(GL_ARRAY_BUFFER, m_vertexBuffer.size() * sizeof(float), &m_vertexBuffer.front(), GL_STATIC_DRAW);
@@ -78,11 +80,15 @@ void Circle::render()
     //The point (0,r) ends up at x=rsinθ, y=rcosθ.
     float lastX = m_position.x + (m_radius * std::sin(0.f));
     float lastY = m_position.y + (m_radius * std::cos(0.f));
+    float lastHalfX = m_position.x + ((m_radius * m_colorGradient) * std::sin(0.f));
+    float lastHalfY = m_position.y + ((m_radius * m_colorGradient) * std::cos(0.f));
 
     for(float angle = k_res; angle < k_angleLimit; angle += k_res)
     {
         float x = m_position.x + (m_radius * std::sin(angle));
         float y = m_position.y + (m_radius * std::cos(angle));
+        float halfX = m_position.x + ((m_radius * m_colorGradient) * std::sin(angle));
+        float halfY = m_position.y + ((m_radius * m_colorGradient) * std::cos(angle));
 
         // center
         m_vertexBuffer.push_back(m_position.x);
@@ -94,25 +100,68 @@ void Circle::render()
         m_colorBuffer.push_back(0.4f);
 
         // left
+        m_vertexBuffer.push_back(lastHalfX);
+        m_vertexBuffer.push_back(lastHalfY);
+        m_vertexBuffer.push_back(0.f);
+
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
+
+        // right
+        m_vertexBuffer.push_back(halfX);
+        m_vertexBuffer.push_back(halfY);
+        m_vertexBuffer.push_back(0.f);
+
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
+
+        // outer vertices
+        m_vertexBuffer.push_back(lastHalfX);
+        m_vertexBuffer.push_back(lastHalfY);
+        m_vertexBuffer.push_back(0.f);
         m_vertexBuffer.push_back(lastX);
         m_vertexBuffer.push_back(lastY);
         m_vertexBuffer.push_back(0.f);
+        m_vertexBuffer.push_back(halfX);
+        m_vertexBuffer.push_back(halfY);
+        m_vertexBuffer.push_back(0.f);
 
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
         m_colorBuffer.push_back(1.f);
         m_colorBuffer.push_back(1.f);
         m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
 
-        // right
+        m_vertexBuffer.push_back(lastX);
+        m_vertexBuffer.push_back(lastY);
+        m_vertexBuffer.push_back(0.f);
         m_vertexBuffer.push_back(x);
         m_vertexBuffer.push_back(y);
+        m_vertexBuffer.push_back(0.f);
+        m_vertexBuffer.push_back(halfX);
+        m_vertexBuffer.push_back(halfY);
         m_vertexBuffer.push_back(0.f);
 
         m_colorBuffer.push_back(1.f);
         m_colorBuffer.push_back(1.f);
         m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
+        m_colorBuffer.push_back(0.5f);
 
         lastX = x;
         lastY = y;
+        lastHalfX = halfX;
+        lastHalfY = halfY;
     }
 
     int debug = 0;

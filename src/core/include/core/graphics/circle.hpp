@@ -40,6 +40,7 @@ private:
 
     Vector m_position;
     float m_radius;
+    float m_colorGradient;
     std::vector<float> m_vertexBuffer;
     std::vector<float> m_colorBuffer;
     GLuint m_vboReference;
