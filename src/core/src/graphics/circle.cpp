@@ -66,12 +66,13 @@ void Circle::draw()
 void Circle::render()
 {
     constexpr float k_res = 0.1f;
+    constexpr float k_angleLimit = ((2.f * M_PI) + k_res);
 
     //The point (0,r) ends up at x=rsinθ, y=rcosθ.
     float lastX = m_position.x + (m_radius * std::sin(0.f));
     float lastY = m_position.y + (m_radius * std::cos(0.f));
 
-    for(float angle = k_res; angle < (2.f * M_PI); angle += k_res)
+    for(float angle = k_res; angle < k_angleLimit; angle += k_res)
     {
         float x = m_position.x + (m_radius * std::sin(angle));
         float y = m_position.y + (m_radius * std::cos(angle));
