@@ -78,8 +78,6 @@ void PlaneStateFlying::updateRotation(const core::engine::UpdateContext& f_conte
     }
 }
 
-void PlaneStateFlying::updateSize(Plane& f_plane) {}
-
 void PlaneStateFlying::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
     if(f_plane.mouseHit(f_eventArgs))
@@ -156,9 +154,6 @@ void PlaneStateLanding::updateSize(Plane& f_plane)
     }
 }
 
-void PlaneStateLanding::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
-void PlaneStateLanding::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
-
 void PlaneStateLanding::setLandingPath(const std::vector<core::graphics::Vector>& f_path)
 {
     m_landingPath = f_path;
@@ -205,9 +200,6 @@ void PlaneStateTaxiingToGate::updateRotation(const core::engine::UpdateContext& 
     }
 }
 
-void PlaneStateTaxiingToGate::updateSize(Plane& f_plane) {}
-
-
 void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
     // Parking slot needs verification if plane selected
@@ -216,8 +208,6 @@ void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_even
         f_plane.m_verifyParkingSlot = f_plane.mouseHit(f_eventArgs);
     }
 }
-
-void PlaneStateTaxiingToGate::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
 
 void PlaneStateTaxiingToGate::startParking(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane)
 {
@@ -260,8 +250,6 @@ void PlaneStateTaxiingToStart::updateRotation(const core::engine::UpdateContext&
     }
 }
 
-void PlaneStateTaxiingToStart::updateSize(Plane& f_plane) {}
-
 void PlaneStateTaxiingToStart::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
     if(!f_plane.m_verifyStartSlot)
@@ -269,8 +257,6 @@ void PlaneStateTaxiingToStart::onMouseDown(const core::ui::MouseEventArgs& f_eve
         f_plane.m_verifyStartSlot = f_plane.mouseHit(f_eventArgs);
     }
 }
-
-void PlaneStateTaxiingToStart::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
 
 void PlaneStateTaxiingToStart::startTakeoff(const std::vector<core::graphics::Vector>& f_path, Plane& f_plane)
 {
@@ -333,8 +319,6 @@ void PlaneStateTakeoff::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs,
         f_plane.getFlightTrack()->setPoints(m_takeoffPath);
     }
 }
-
-void PlaneStateTakeoff::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane) {}
 
 void PlaneStateTakeoff::setTakeoffPath(const std::vector<core::graphics::Vector>& f_path)
 {
