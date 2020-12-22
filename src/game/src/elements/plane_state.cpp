@@ -31,11 +31,22 @@ namespace elements
 
 PlaneState::PlaneState(PlaneState* f_next)
     : m_next(f_next)
+    , m_switchToNextState(false)
 {}
+
+PlaneState* PlaneState::checkForNextState(Plane& f_plane)
+{
+    if(m_switchToNextState)
+    {
+        m_next->onStateChange(*this, f_plane);
+        return this->m_next;
+    }
+
+    return this;
+}
 
 PlaneStateFlying::PlaneStateFlying(PlaneState* f_next)
     : PlaneState(f_next)
-    , m_switchToNextState(false)
 {}
 
 void PlaneStateFlying::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -91,24 +102,11 @@ void PlaneStateFlying::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs, Pl
     }
 }
 
-// TODO move this to base class
-PlaneState* PlaneStateFlying::checkForNextState(Plane& f_plane)
-{
-    if(m_switchToNextState)
-    {
-        m_next->onStateChange(*this, f_plane);
-        return this->m_next;
-    }
-
-    return this;
-}
-
 PlaneStateLanding::PlaneStateLanding(PlaneState* f_next)
     : PlaneState(f_next)
     , m_landingPath()
     , m_landingAnimation{400.f, 500.f, 30.f}
     , m_slowDownAnimation{100.f, 300.f, 0.5}
-    , m_switchToNextState(false)
 {}
 
 void PlaneStateLanding::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -166,17 +164,6 @@ void PlaneStateLanding::setLandingPath(const std::vector<core::graphics::Vector>
     m_landingPath = f_path;
 }
 
-PlaneState* PlaneStateLanding::checkForNextState(Plane& f_plane)
-{
-    if(m_switchToNextState)
-    {
-        m_next->onStateChange(*this, f_plane);
-        return this->m_next;
-    }
-
-    return this;
-}
-
 void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f_plane)
 {
     static_cast<void>(f_callingState);
@@ -187,7 +174,6 @@ void PlaneStateLanding::onStateChange(const PlaneState& f_callingState, Plane& f
 PlaneStateTaxiingToGate::PlaneStateTaxiingToGate(PlaneState* f_next)
     : PlaneState(f_next)
     , m_parkingHasStarted(false)
-    , m_switchToNextState(false)
 {}
 
 void PlaneStateTaxiingToGate::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -221,16 +207,6 @@ void PlaneStateTaxiingToGate::updateRotation(const core::engine::UpdateContext& 
 
 void PlaneStateTaxiingToGate::updateSize(Plane& f_plane) {}
 
-PlaneState* PlaneStateTaxiingToGate::checkForNextState(Plane& f_plane)
-{
-    if(m_switchToNextState)
-    {
-        m_next->onStateChange(*this, f_plane);
-        return this->m_next;
-    }
-
-    return this;
-}
 
 void PlaneStateTaxiingToGate::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
@@ -255,7 +231,6 @@ void PlaneStateTaxiingToGate::startParking(const std::vector<core::graphics::Vec
 PlaneStateTaxiingToStart::PlaneStateTaxiingToStart(PlaneState* f_next)
     : PlaneState(f_next)
     , m_taxiingStarted(false)
-    , m_switchToNextState(false)
 {}
 
 void PlaneStateTaxiingToStart::updatePosition(const core::engine::UpdateContext& f_context, Plane& f_plane)
@@ -286,17 +261,6 @@ void PlaneStateTaxiingToStart::updateRotation(const core::engine::UpdateContext&
 }
 
 void PlaneStateTaxiingToStart::updateSize(Plane& f_plane) {}
-
-PlaneState* PlaneStateTaxiingToStart::checkForNextState(Plane& f_plane)
-{
-    if(m_switchToNextState)
-    {
-        m_next->onStateChange(*this, f_plane);
-        return this->m_next;
-    }
-
-    return this;
-}
 
 void PlaneStateTaxiingToStart::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
 {
@@ -359,11 +323,6 @@ void PlaneStateTakeoff::updateSize(Plane& f_plane)
         auto planeSize = f_plane.m_planeTexture_p->getSize();
         f_plane.m_planeTexture_p->setSize({planeSize.x + sizeDiff, planeSize.y + sizeDiff});
     }
-}
-
-PlaneState* PlaneStateTakeoff::checkForNextState(Plane& f_plane)
-{
-    return this;
 }
 
 void PlaneStateTakeoff::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs, Plane& f_plane)
