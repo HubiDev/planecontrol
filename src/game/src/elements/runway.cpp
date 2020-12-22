@@ -30,6 +30,7 @@ Runway::Runway()
     , m_landingRect_p()
     , m_texture_p()
     , m_takeoffRect_p()
+    , m_circle_p()
     , m_parkingSlots()
     , m_landingRectVisible(false)
     , m_landingPath()
@@ -93,6 +94,8 @@ void Runway::load()
     {
         currentSlot->load();
     }
+
+    m_circle_p = std::unique_ptr<core::graphics::Circle>(new core::graphics::Circle({150.f, 150.f}, 100.f));
 }
 
 void Runway::update(const core::engine::UpdateContext& f_context) {}
@@ -112,6 +115,8 @@ void Runway::draw()
     }
 
     m_takeoffRect_p->draw();
+
+    m_circle_p->draw();
 }
 
 bool Runway::isPointForLanding(const Vector& f_point)

@@ -21,6 +21,7 @@
 #include "core/engine/game_element.hpp"
 #include "core/graphics/rectangle.hpp"
 #include "core/graphics/texture.hpp"
+#include "core/graphics/circle.hpp"
 #include "game/elements/parking_slot.hpp"
 #include "game/elements/plane.hpp"
 
@@ -69,6 +70,8 @@ private:
     std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
     std::unique_ptr<core::graphics::Texture> m_texture_p;
     std::unique_ptr<core::graphics::Rectangle> m_takeoffRect_p;
+
+    std::unique_ptr<core::graphics::Circle> m_circle_p;
 
     std::vector<std::shared_ptr<ParkingSlot>> m_parkingSlots;
     std::map<std::shared_ptr<Plane>, std::shared_ptr<ParkingSlot>> m_parkingRegistry;
