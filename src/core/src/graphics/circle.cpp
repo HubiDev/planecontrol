@@ -27,9 +27,12 @@ Circle::Circle(const Vector& f_position, float f_radius)
     : m_position(f_position)
     , m_radius(f_radius)
     , m_vertexBuffer()
+    , m_colorBuffer()
     , m_vboReference()
+    , m_cbReference()
 {
     glGenBuffers(1, &m_vboReference);
+    glGenBuffers(1, &m_cbReference);
     render();
 }
 
@@ -37,28 +40,32 @@ void Circle::draw()
 {
     if(m_vertexBuffer.size() > 0)
     {
-        glColor3f(0.4, 0.4, 0.4);
+        //glColor3f(0, 0, 0);
+        glClearColor(0, 0, 0, 0);
 
-        //Make the new VBO active. Repeat here incase changed since initialisation
         glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
-
-        //Upload vertex data to the video device
         glBufferData(GL_ARRAY_BUFFER, m_vertexBuffer.size() * sizeof(float), &m_vertexBuffer.front(), GL_STATIC_DRAW);
 
-        //Make the new VBO active. Repeat here incase changed since initialisation
-        glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
+        glBindBuffer(GL_ARRAY_BUFFER, m_cbReference);
+        glBufferData(GL_ARRAY_BUFFER, m_colorBuffer.size() * sizeof(float), &m_colorBuffer.front(), GL_STATIC_DRAW);
 
-        //Draw Triangle from VBO - do each time window, view point or data changes
-        //Establish its 3 coordinates per vertex with zero stride in this array; necessary here
+        glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
         glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_cbReference);
+        glColorPointer(3, GL_FLOAT, 0, NULL);
+
+        //glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
 
         //Establish array contains vertices (not normals, colours, texture coords etc)
         glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
 
         //Actually draw the triangle, giving the number of vertices provided
         glDrawArrays(GL_TRIANGLES, 0, m_vertexBuffer.size() / 3);
 
         glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 }
@@ -82,15 +89,27 @@ void Circle::render()
         m_vertexBuffer.push_back(m_position.y);
         m_vertexBuffer.push_back(0.f);
 
+        m_colorBuffer.push_back(0.4f);
+        m_colorBuffer.push_back(0.4f);
+        m_colorBuffer.push_back(0.4f);
+
         // left
         m_vertexBuffer.push_back(lastX);
         m_vertexBuffer.push_back(lastY);
         m_vertexBuffer.push_back(0.f);
 
+        m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(1.f);
+
         // right
         m_vertexBuffer.push_back(x);
         m_vertexBuffer.push_back(y);
         m_vertexBuffer.push_back(0.f);
+
+        m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(1.f);
+        m_colorBuffer.push_back(1.f);
 
         lastX = x;
         lastY = y;

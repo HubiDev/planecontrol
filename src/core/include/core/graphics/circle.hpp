@@ -41,7 +41,9 @@ private:
     Vector m_position;
     float m_radius;
     std::vector<float> m_vertexBuffer;
+    std::vector<float> m_colorBuffer;
     GLuint m_vboReference;
+    GLuint m_cbReference;
 };
 
 } // namespace graphics
