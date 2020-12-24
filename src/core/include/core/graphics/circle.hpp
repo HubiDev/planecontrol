@@ -35,6 +35,9 @@ public:
     Circle(const Vector& f_position, float f_radius);
     void draw();
 
+    const Vector& getPosition();
+    float getRadius();
+
 private:
     void render();
 

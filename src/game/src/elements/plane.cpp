@@ -30,11 +30,12 @@ namespace game
 namespace elements
 {
 
-Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p)
+Plane::Plane(std::shared_ptr<FlightTrack> f_flightTrack_p, const core::graphics::Vector& f_position)
     : m_flightTrack_p{std::move(f_flightTrack_p)}
     , m_planeTexture_p{}
     , m_speed{1.f}
     , m_textureOrientation{1.f, 0.f} // 90 degrees
+    , m_postion(f_position)
     , m_takeoffState(nullptr)
     , m_taxiToStartState(&m_takeoffState)
     , m_taxiToGateState(&m_taxiToStartState)
@@ -54,8 +55,10 @@ Plane::~Plane() {}
 void Plane::load()
 {
     m_planeTexture_p = std::unique_ptr<core::graphics::Texture>(
-        new core::graphics::Texture("resources/textures/plane2.png", {100.f, 100.f}, {100.f, 100.f}));
+        new core::graphics::Texture("resources/textures/plane2.png", m_postion, {100.f, 100.f}));
     m_planeTexture_p->load();
+
+
 }
 
 /// @brief

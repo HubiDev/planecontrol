@@ -142,6 +142,16 @@ void Runway::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
         m_takeoffRect_p->getPosition(),
         m_takeoffRect_p->getSize(),
         {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+
+    bool circleHit = core::graphics::geometry::isContainedInRegion(
+        m_circle_p->getPosition(),
+        m_circle_p->getRadius(),
+        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
+
+    if(circleHit)
+    {
+        std::cout << "Circle was hit" << std::endl;
+    }
 }
 
 void Runway::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)

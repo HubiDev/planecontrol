@@ -36,8 +36,11 @@ const std::vector<std::shared_ptr<Plane>>&  PlaneFactory::getCreatedPlanes()
 
 std::shared_ptr<Plane> PlaneFactory::createPlane()
 {
+    static float last{};
+    last += 100.f;
+
     auto flightTrack_p = std::shared_ptr<FlightTrack>(new FlightTrack());
-    auto plane_p = std::shared_ptr<Plane>(new Plane(flightTrack_p));
+    auto plane_p = std::shared_ptr<Plane>(new Plane(flightTrack_p, {last, last}));
     m_flightTracks.push_back(flightTrack_p);
     m_planes.push_back(plane_p);
     return plane_p;

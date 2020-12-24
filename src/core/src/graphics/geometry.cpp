@@ -110,6 +110,12 @@ bool isContainedInRegion(const Vector& f_origin, const Vector& f_size, const Vec
     return false;
 }
 
+bool isContainedInRegion(const Vector& f_origin, float f_radius, const Vector& f_point)
+{
+    auto distance = calcDistance(f_origin, f_point);
+    return (distance <= f_radius);
+}
+
 } // namespace geometry
 } // namespace graphics
 } // namespace core

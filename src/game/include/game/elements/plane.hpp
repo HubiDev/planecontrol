@@ -44,7 +44,7 @@ public:
     friend PlaneStateTaxiingToStart;
     friend PlaneStateTakeoff;
 
-    Plane(std::shared_ptr<FlightTrack> f_flightTrack_p);
+    Plane(std::shared_ptr<FlightTrack> f_flightTrack_p, const core::graphics::Vector& f_position);
     ~Plane();
 
     /// @brief
@@ -93,6 +93,7 @@ private:
     std::unique_ptr<core::graphics::Texture> m_planeTexture_p;
     float m_speed;
     Vector m_textureOrientation;
+    Vector m_postion;
 
     // States
     PlaneStateTakeoff m_takeoffState;

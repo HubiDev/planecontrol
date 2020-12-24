@@ -58,7 +58,11 @@ float calcScalarProduct(const Vector& f_first, const Vector& f_second);
 
 float angleAbs(float f_angle);
 
+/// @brief Point in rectangle
 bool isContainedInRegion(const Vector& f_origin, const Vector& f_size, const Vector& f_point);
+
+/// @brief Point in circle
+bool isContainedInRegion(const Vector& f_origin, float f_radius, const Vector& f_point);
 
 } // namespace geometry
 } // namespace graphics

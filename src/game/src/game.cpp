@@ -103,6 +103,10 @@ void Game::loadContent()
     addGameElement(plane_p->getFlightTrack());
     addGameElement(plane_p);
 
+    auto plane2_p = m_planeFactory.createPlane();
+    addGameElement(plane2_p->getFlightTrack());
+    addGameElement(plane2_p);
+
     GameBase::loadContent();
 }
 

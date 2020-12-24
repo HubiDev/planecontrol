@@ -72,6 +72,17 @@ void Circle::draw()
     }
 }
 
+const Vector& Circle::getPosition()
+{
+    return m_position;
+}
+
+float Circle::getRadius()
+{
+    return m_radius;
+}
+
+
 void Circle::render()
 {
     constexpr float k_res = 0.1f;

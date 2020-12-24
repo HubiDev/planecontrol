@@ -138,7 +138,7 @@ void GameBase::drawGameElements()
 void GameBase::updateFps(std::int64_t f_durationSinceLastUpdate)
 {
     m_currentFps = 1.f / (f_durationSinceLastUpdate / 1000.f / 1000.f);
-    std::cout << "FPS: " << m_currentFps << std::endl;
+    //std::cout << "FPS: " << m_currentFps << std::endl;
 }
 
 GameBase::~GameBase() {}
