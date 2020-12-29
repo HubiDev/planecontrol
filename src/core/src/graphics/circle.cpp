@@ -73,7 +73,7 @@ void Circle::draw()
 void Circle::setColor(const ColorRgba& f_color)
 {
     m_color = f_color;
-    m_gradientColor = {m_color.m_r, m_color.m_g, m_color.m_b, m_color.m_a - 0.1f};
+    m_gradientColor = {f_color.m_r, f_color.m_g, f_color.m_b, f_color.m_a - 0.1f};    
     renderColor();
 }
 
@@ -89,6 +89,8 @@ float Circle::getRadius()
 
 void Circle::render()
 {
+    m_vertexBuffer.clear();
+
     //The point (0,r) ends up at x=rsinθ, y=rcosθ.
     float lastX = m_position.x + (m_radius * std::sin(0.f));
     float lastY = m_position.y + (m_radius * std::cos(0.f));
@@ -131,6 +133,8 @@ void Circle::render()
 
 void Circle::renderColor()
 {
+    m_colorBuffer.clear();
+
     for(float segment{}; segment <= (k_res + std::numeric_limits<float>::epsilon()); segment++)
     {
         // inner triangle
