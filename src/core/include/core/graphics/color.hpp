@@ -37,6 +37,8 @@ struct ColorRgba
     float m_a;
 };
 
+constexpr ColorRgba k_colorTransparent{0.f, 0.f, 0.f, 0.f};
+
 } // namespace graphics
 } // namespace core
 

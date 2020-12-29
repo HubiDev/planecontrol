@@ -18,13 +18,14 @@
 #ifndef CORE_GRAPHICS_CIRCLE_HPP_INCLUDED
 #define CORE_GRAPHICS_CIRCLE_HPP_INCLUDED
 
-#include "vector.hpp"
 #include "core/graphics/color.hpp"
+#include "vector.hpp"
 
 #define GL_GLEXT_PROTOTYPES
 #include <SDL2/SDL_opengl.h>
 
 #include <vector>
+#include <cmath>
 
 namespace core
 {
@@ -42,6 +43,7 @@ public:
 private:
     void render();
     void renderColor();
+    void addColor(const ColorRgba& f_color);
 
     Vector m_position;
     float m_radius;
@@ -49,7 +51,12 @@ private:
     std::vector<float> m_vertexBuffer;
     std::vector<float> m_colorBuffer;
 
+    static constexpr float k_res = 200.f;
+    static constexpr float k_angleLimit = (2.f * M_PI);
+    static constexpr float k_segmentSize = (k_angleLimit / k_res);
+
     ColorRgba m_color;
+    ColorRgba m_gradientColor;
 
     GLuint m_vboReference;
     GLuint m_cbReference;

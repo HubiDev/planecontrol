@@ -17,11 +17,6 @@
 
 #include "core/graphics/circle.hpp"
 
-#include <cmath>
-
-// DEBUG
-#include <iostream>
-
 namespace core
 {
 namespace graphics
@@ -33,6 +28,7 @@ Circle::Circle(const Vector& f_position, float f_radius)
     , m_vertexBuffer()
     , m_colorBuffer()
     , m_color{0.4f, 0.4f, 0.4f, 1.f}
+    , m_gradientColor{m_color.m_r, m_color.m_g, m_color.m_b, m_color.m_a - 0.1f}
     , m_vboReference()
     , m_cbReference()
 {
@@ -86,10 +82,6 @@ float Circle::getRadius()
 
 void Circle::render()
 {
-    constexpr float k_res = 200.f;
-    constexpr float k_angleLimit = (2.f * M_PI);
-    constexpr float k_segmentSize = (k_angleLimit / k_res);
-
     //The point (0,r) ends up at x=rsinθ, y=rcosθ.
     float lastX = m_position.x + (m_radius * std::sin(0.f));
     float lastY = m_position.y + (m_radius * std::cos(0.f));
@@ -105,43 +97,19 @@ void Circle::render()
         float halfX = m_position.x + ((m_radius * m_colorGradient) * std::sin(angle));
         float halfY = m_position.y + ((m_radius * m_colorGradient) * std::cos(angle));
 
-        // center
-        m_vertexBuffer.push_back(m_position.x);
-        m_vertexBuffer.push_back(m_position.y);
-        m_vertexBuffer.push_back(0.f);
-
-        // left
-        m_vertexBuffer.push_back(lastHalfX);
-        m_vertexBuffer.push_back(lastHalfY);
-        m_vertexBuffer.push_back(0.f);
-
-        // right
-        m_vertexBuffer.push_back(halfX);
-        m_vertexBuffer.push_back(halfY);
-        m_vertexBuffer.push_back(0.f);
+        // inner vertex
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {m_position.x, m_position.y, 0.f});
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {lastHalfX, lastHalfY, 0.f});
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {halfX, halfY, 0.f});
 
         // outer vertices
-        m_vertexBuffer.push_back(lastHalfX);
-        m_vertexBuffer.push_back(lastHalfY);
-        m_vertexBuffer.push_back(0.f);
-        m_vertexBuffer.push_back(lastX);
-        m_vertexBuffer.push_back(lastY);
-        m_vertexBuffer.push_back(0.f);
-        m_vertexBuffer.push_back(halfX);
-        m_vertexBuffer.push_back(halfY);
-        m_vertexBuffer.push_back(0.f);
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {lastHalfX, lastHalfY, 0.f});
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {lastX, lastY, 0.f});
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {halfX, halfY, 0.f});
 
-        m_vertexBuffer.push_back(lastX);
-        m_vertexBuffer.push_back(lastY);
-        m_vertexBuffer.push_back(0.f);
-        m_vertexBuffer.push_back(x);
-        m_vertexBuffer.push_back(y);
-        m_vertexBuffer.push_back(0.f);
-        m_vertexBuffer.push_back(halfX);
-        m_vertexBuffer.push_back(halfY);
-        m_vertexBuffer.push_back(0.f);
-
-        renderColor();
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {lastX, lastY, 0.f});
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {x, y, 0.f});
+        m_vertexBuffer.insert(m_vertexBuffer.end(), {halfX, halfY, 0.f});
 
         lastX = x;
         lastY = y;
@@ -150,53 +118,33 @@ void Circle::render()
 
         angle += k_segmentSize;
     }
+
+    renderColor();
 }
 
 void Circle::renderColor()
 {
-    // inner triangle
+    for(float segment{}; segment <= (k_res + std::numeric_limits<float>::epsilon()); segment++)
+    {
+        // inner triangle
+        addColor(m_color);
+        addColor(m_gradientColor);
+        addColor(m_gradientColor);
 
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(m_color.m_a);
+        // outer triangles
+        addColor(m_gradientColor);
+        addColor(k_colorTransparent);
+        addColor(m_gradientColor);
 
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(m_color.m_a - 0.1f);
+        addColor(k_colorTransparent);
+        addColor(k_colorTransparent);
+        addColor(m_gradientColor);
+    }
+}
 
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(m_color.m_a - 0.1f);
-
-    // outer triangles
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(m_color.m_a - 0.1f);
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(0.f);
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(m_color.m_a - 0.1f);
-
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(0.f);
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(0.f);
-    m_colorBuffer.push_back(m_color.m_r);
-    m_colorBuffer.push_back(m_color.m_g);
-    m_colorBuffer.push_back(m_color.m_b);
-    m_colorBuffer.push_back(m_color.m_a - 0.1f);
+void Circle::addColor(const ColorRgba& f_color)
+{
+    m_colorBuffer.insert(m_colorBuffer.end(), {f_color.m_r, f_color.m_g, f_color.m_b, f_color.m_a});
 }
 
 } // namespace graphics
