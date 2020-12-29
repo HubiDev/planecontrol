@@ -24,7 +24,7 @@ namespace graphics
 Circle::Circle(const Vector& f_position, float f_radius)
     : m_position(f_position)
     , m_radius(f_radius)
-    , m_colorGradient(0.9f)
+    , m_colorGradient(0.5f)
     , m_vertexBuffer()
     , m_colorBuffer()
     , m_color{0.4f, 0.4f, 0.4f, 1.f}
@@ -68,6 +68,13 @@ void Circle::draw()
         glDisableClientState(GL_COLOR_ARRAY);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
+}
+
+void Circle::setColor(const ColorRgba& f_color)
+{
+    m_color = f_color;
+    m_gradientColor = {m_color.m_r, m_color.m_g, m_color.m_b, m_color.m_a - 0.1f};
+    renderColor();
 }
 
 const Vector& Circle::getPosition()

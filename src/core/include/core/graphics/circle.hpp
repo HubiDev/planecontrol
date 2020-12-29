@@ -36,9 +36,10 @@ class Circle
 public:
     Circle(const Vector& f_position, float f_radius);
     void draw();
+    void setColor(const ColorRgba& f_color);
 
     const Vector& getPosition();
-    float getRadius();
+    float getRadius();    
 
 private:
     void render();

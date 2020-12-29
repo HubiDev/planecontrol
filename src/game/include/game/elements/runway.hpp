@@ -67,11 +67,9 @@ public:
     std::shared_ptr<ParkingSlot> unregisterParking(std::shared_ptr<Plane> f_plane_p);
 
 private:
-    std::unique_ptr<core::graphics::Rectangle> m_landingRect_p;
+    std::unique_ptr<core::graphics::Circle> m_landingPoint_p;
     std::unique_ptr<core::graphics::Texture> m_texture_p;
-    std::unique_ptr<core::graphics::Rectangle> m_takeoffRect_p;
-
-    std::unique_ptr<core::graphics::Circle> m_circle_p;
+    std::unique_ptr<core::graphics::Circle> m_takeoffPoint_p;
 
     std::vector<std::shared_ptr<ParkingSlot>> m_parkingSlots;
     std::map<std::shared_ptr<Plane>, std::shared_ptr<ParkingSlot>> m_parkingRegistry;

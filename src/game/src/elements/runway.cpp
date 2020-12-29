@@ -27,10 +27,9 @@ namespace elements
 {
 Runway::Runway()
     : core::engine::IGameElement()
-    , m_landingRect_p()
+    , m_landingPoint_p()
     , m_texture_p()
-    , m_takeoffRect_p()
-    , m_circle_p()
+    , m_takeoffPoint_p()
     , m_parkingSlots()
     , m_landingRectVisible(false)
     , m_landingPath()
@@ -81,21 +80,19 @@ void Runway::load()
     m_texture_p->load();
 
     auto& landingLocation = m_landingPath[0];
-    m_landingRect_p = std::unique_ptr<core::graphics::Rectangle>(
-        new core::graphics::Rectangle({landingLocation.x - 5.f, landingLocation.y - 5.f}, {10.f, 10.f}));
-    m_landingRect_p->setColor({0.1f, 0.1f, 0.1f});
+    m_landingPoint_p = std::unique_ptr<core::graphics::Circle>(
+        new core::graphics::Circle({landingLocation.x - 5.f, landingLocation.y - 5.f}, 10.f));
+    m_landingPoint_p->setColor({0.1f, 0.1f, 0.1f, 1.f});
 
     auto& takeoffLocation = m_takeoffPath[0];
-    m_takeoffRect_p = std::unique_ptr<core::graphics::Rectangle>(
-        new core::graphics::Rectangle({takeoffLocation.x - 5.f, takeoffLocation.y - 5.f}, {10.f, 10.f}));
-    m_takeoffRect_p->setColor({1.f, 0.0f, 0.0f});
+    m_takeoffPoint_p = std::unique_ptr<core::graphics::Circle>(
+        new core::graphics::Circle({takeoffLocation.x - 5.f, takeoffLocation.y - 5.f}, 10.f));
+    m_takeoffPoint_p->setColor({1.f, 0.0f, 0.0f, 1.f});
 
     for(auto& currentSlot : m_parkingSlots)
     {
         currentSlot->load();
     }
-
-    m_circle_p = std::unique_ptr<core::graphics::Circle>(new core::graphics::Circle({150.f, 150.f}, 100.f));
 }
 
 void Runway::update(const core::engine::UpdateContext& f_context) {}
@@ -106,7 +103,7 @@ void Runway::draw()
 
     if(m_landingRectVisible)
     {
-        m_landingRect_p->draw();
+        m_landingPoint_p->draw();
     }
 
     for(auto& currentSlot : m_parkingSlots)
@@ -114,15 +111,13 @@ void Runway::draw()
         currentSlot->draw();
     }
 
-    m_takeoffRect_p->draw();
-
-    m_circle_p->draw();
+    m_takeoffPoint_p->draw();
 }
 
 bool Runway::isPointForLanding(const Vector& f_point)
 {
     return core::graphics::geometry::isContainedInRegion(
-        m_landingRect_p->getPosition(), m_landingRect_p->getSize(), f_point);
+        m_landingPoint_p->getPosition(), m_landingPoint_p->getRadius(), f_point);
 }
 
 void Runway::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
@@ -139,19 +134,9 @@ void Runway::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
     }
 
     m_takeoffWasSelected = core::graphics::geometry::isContainedInRegion(
-        m_takeoffRect_p->getPosition(),
-        m_takeoffRect_p->getSize(),
+        m_takeoffPoint_p->getPosition(),
+        m_takeoffPoint_p->getRadius(),
         {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
-
-    bool circleHit = core::graphics::geometry::isContainedInRegion(
-        m_circle_p->getPosition(),
-        m_circle_p->getRadius(),
-        {static_cast<float>(f_eventArgs.m_posX), static_cast<float>(f_eventArgs.m_posY)});
-
-    if(circleHit)
-    {
-        std::cout << "Circle was hit" << std::endl;
-    }
 }
 
 void Runway::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
