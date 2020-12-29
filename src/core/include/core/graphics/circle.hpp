@@ -19,6 +19,7 @@
 #define CORE_GRAPHICS_CIRCLE_HPP_INCLUDED
 
 #include "vector.hpp"
+#include "core/graphics/color.hpp"
 
 #define GL_GLEXT_PROTOTYPES
 #include <SDL2/SDL_opengl.h>
@@ -40,12 +41,16 @@ public:
 
 private:
     void render();
+    void renderColor();
 
     Vector m_position;
     float m_radius;
     float m_colorGradient;
     std::vector<float> m_vertexBuffer;
     std::vector<float> m_colorBuffer;
+
+    ColorRgba m_color;
+
     GLuint m_vboReference;
     GLuint m_cbReference;
 };

@@ -19,6 +19,9 @@
 
 #include <cmath>
 
+// DEBUG
+#include <iostream>
+
 namespace core
 {
 namespace graphics
@@ -29,6 +32,7 @@ Circle::Circle(const Vector& f_position, float f_radius)
     , m_colorGradient(0.9f)
     , m_vertexBuffer()
     , m_colorBuffer()
+    , m_color{0.4f, 0.4f, 0.4f, 1.f}
     , m_vboReference()
     , m_cbReference()
 {
@@ -55,9 +59,7 @@ void Circle::draw()
         glVertexPointer(3, GL_FLOAT, 0, NULL);
 
         glBindBuffer(GL_ARRAY_BUFFER, m_cbReference);
-        glColorPointer(3, GL_FLOAT, 0, NULL);
-
-        //glBindBuffer(GL_ARRAY_BUFFER, m_vboReference);
+        glColorPointer(4, GL_FLOAT, 0, NULL);
 
         //Establish array contains vertices (not normals, colours, texture coords etc)
         glEnableClientState(GL_VERTEX_ARRAY);
@@ -82,11 +84,11 @@ float Circle::getRadius()
     return m_radius;
 }
 
-
 void Circle::render()
 {
-    constexpr float k_res = 0.1f;
-    constexpr float k_angleLimit = ((2.f * M_PI) + k_res);
+    constexpr float k_res = 200.f;
+    constexpr float k_angleLimit = (2.f * M_PI);
+    constexpr float k_segmentSize = (k_angleLimit / k_res);
 
     //The point (0,r) ends up at x=rsinθ, y=rcosθ.
     float lastX = m_position.x + (m_radius * std::sin(0.f));
@@ -94,7 +96,9 @@ void Circle::render()
     float lastHalfX = m_position.x + ((m_radius * m_colorGradient) * std::sin(0.f));
     float lastHalfY = m_position.y + ((m_radius * m_colorGradient) * std::cos(0.f));
 
-    for(float angle = k_res; angle < k_angleLimit; angle += k_res)
+    float angle{};
+
+    for(float segment{}; segment <= (k_res + std::numeric_limits<float>::epsilon()); segment++)
     {
         float x = m_position.x + (m_radius * std::sin(angle));
         float y = m_position.y + (m_radius * std::cos(angle));
@@ -106,27 +110,15 @@ void Circle::render()
         m_vertexBuffer.push_back(m_position.y);
         m_vertexBuffer.push_back(0.f);
 
-        m_colorBuffer.push_back(0.4f);
-        m_colorBuffer.push_back(0.4f);
-        m_colorBuffer.push_back(0.4f);
-
         // left
         m_vertexBuffer.push_back(lastHalfX);
         m_vertexBuffer.push_back(lastHalfY);
         m_vertexBuffer.push_back(0.f);
 
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
-
         // right
         m_vertexBuffer.push_back(halfX);
         m_vertexBuffer.push_back(halfY);
         m_vertexBuffer.push_back(0.f);
-
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
 
         // outer vertices
         m_vertexBuffer.push_back(lastHalfX);
@@ -139,16 +131,6 @@ void Circle::render()
         m_vertexBuffer.push_back(halfY);
         m_vertexBuffer.push_back(0.f);
 
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
-
         m_vertexBuffer.push_back(lastX);
         m_vertexBuffer.push_back(lastY);
         m_vertexBuffer.push_back(0.f);
@@ -159,23 +141,62 @@ void Circle::render()
         m_vertexBuffer.push_back(halfY);
         m_vertexBuffer.push_back(0.f);
 
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(1.f);
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
-        m_colorBuffer.push_back(0.5f);
+        renderColor();
 
         lastX = x;
         lastY = y;
         lastHalfX = halfX;
         lastHalfY = halfY;
-    }
 
-    int debug = 0;
+        angle += k_segmentSize;
+    }
+}
+
+void Circle::renderColor()
+{
+    // inner triangle
+
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(m_color.m_a);
+
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(m_color.m_a - 0.1f);
+
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(m_color.m_a - 0.1f);
+
+    // outer triangles
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(m_color.m_a - 0.1f);
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(0.f);
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(m_color.m_a - 0.1f);
+
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(0.f);
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(0.f);
+    m_colorBuffer.push_back(m_color.m_r);
+    m_colorBuffer.push_back(m_color.m_g);
+    m_colorBuffer.push_back(m_color.m_b);
+    m_colorBuffer.push_back(m_color.m_a - 0.1f);
 }
 
 } // namespace graphics
