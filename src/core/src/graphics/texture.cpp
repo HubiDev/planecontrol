@@ -75,9 +75,6 @@ void Texture::draw()
                  GL_UNSIGNED_BYTE,
                  &m_image_p->data());
 
-    //glEnable(GL_BLEND);
-    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     // Render
     glPushMatrix(); // save current matrix
     glTranslatef(m_posX + m_width / 2.f, m_posY + m_height / 2.f, 0.f);

@@ -32,6 +32,8 @@ Runway::Runway()
     , m_takeoffPoint_p()
     , m_parkingSlots()
     , m_landingRectVisible(false)
+    , m_showParkingSlots(false)
+    , m_showStartSlot(false)
     , m_landingPath()
     , m_takeoffPath()
     , m_location()
@@ -73,6 +75,16 @@ void Runway::setParkingSlots(const std::vector<std::shared_ptr<ParkingSlot>>& f_
     m_parkingSlots = f_parkingSlots;
 }
 
+void Runway::setParkingSlotVisible(bool f_visible)
+{
+    m_showParkingSlots = f_visible;
+}
+
+void Runway::setTakeoffSlotVisible(bool f_visible)
+{
+    m_showStartSlot = f_visible;
+}
+
 void Runway::load()
 {
     m_texture_p =
@@ -106,12 +118,18 @@ void Runway::draw()
         m_landingPoint_p->draw();
     }
 
-    for(auto& currentSlot : m_parkingSlots)
+    if(m_showParkingSlots)
     {
-        currentSlot->draw();
+        for(auto& currentSlot : m_parkingSlots)
+        {
+            currentSlot->draw();
+        }
     }
 
-    m_takeoffPoint_p->draw();
+    if(m_showStartSlot)
+    {
+        m_takeoffPoint_p->draw();
+    }
 }
 
 bool Runway::isPointForLanding(const Vector& f_point)

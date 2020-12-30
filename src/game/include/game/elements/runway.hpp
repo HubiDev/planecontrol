@@ -47,6 +47,9 @@ public:
     void setTakeoffPath(const std::vector<Vector>& f_takeoffPath);
     void setParkingSlots(const std::vector<std::shared_ptr<ParkingSlot>>& f_parkingSlots);
 
+    void setParkingSlotVisible(bool f_visible);
+    void setTakeoffSlotVisible(bool f_visible);
+
     void load() override;
     void update(const core::engine::UpdateContext& f_context) override;
     void draw() override;
@@ -82,6 +85,9 @@ private:
     std::string m_texturePath;
 
     bool m_landingRectVisible;
+    bool m_showParkingSlots;
+    bool m_showStartSlot;
+
     std::shared_ptr<ParkingSlot> m_lastSelectedSlot_p;
 
     bool m_takeoffWasSelected;

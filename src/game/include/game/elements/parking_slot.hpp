@@ -19,7 +19,7 @@
 #define GAME_ELEMENTS_PARKING_SLOT_HPP_INCLUDED
 
 #include "core/engine/game_element.hpp"
-#include "core/graphics/rectangle.hpp"
+#include "core/graphics/circle.hpp"
 #include "core/graphics/vector.hpp"
 
 #include <memory>
@@ -56,7 +56,7 @@ private:
 
     std::vector<core::graphics::Vector> m_pathToSlot;
     std::vector<core::graphics::Vector> m_pathToStart;
-    std::unique_ptr<core::graphics::Rectangle> m_slotRect_p;
+    std::unique_ptr<core::graphics::Circle> m_slotPoint_p;
 };
 
 } // namespace elements

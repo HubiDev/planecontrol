@@ -56,6 +56,7 @@ void Game::update()
         // TODO encapsulate this
         if(currentPlane_p->parkingSlotNeedsVerify()) // plane was selected
         {
+            m_runway_p->setParkingSlotVisible(true);
             auto slot_p = m_runway_p->getLastSelectedParkingSlot(); // slot was selected
 
             if(slot_p)
@@ -66,10 +67,15 @@ void Game::update()
             }
             
         }
+        else
+        {
+            m_runway_p->setParkingSlotVisible(false);
+        }
 
         // TODO encapsulate this
         if(currentPlane_p->startSlotNeedsVerify()) // plane was selected
         {
+            m_runway_p->setTakeoffSlotVisible(true);
             if(m_runway_p->takeoffWasSelected())
             {
                 auto slot_p = m_runway_p->unregisterParking(currentPlane_p);
@@ -86,6 +92,11 @@ void Game::update()
                 
             }
         }
+        else
+        {
+            m_runway_p->setTakeoffSlotVisible(false);
+        }
+        
     }
 }
 
@@ -103,9 +114,9 @@ void Game::loadContent()
     addGameElement(plane_p->getFlightTrack());
     addGameElement(plane_p);
 
-    auto plane2_p = m_planeFactory.createPlane();
-    addGameElement(plane2_p->getFlightTrack());
-    addGameElement(plane2_p);
+    // auto plane2_p = m_planeFactory.createPlane();
+    // addGameElement(plane2_p->getFlightTrack());
+    // addGameElement(plane2_p);
 
     GameBase::loadContent();
 }
