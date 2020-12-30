@@ -47,6 +47,7 @@ public:
     void setTakeoffPath(const std::vector<Vector>& f_takeoffPath);
     void setParkingSlots(const std::vector<std::shared_ptr<ParkingSlot>>& f_parkingSlots);
 
+    void setLandingPointVisible(bool f_visible);
     void setParkingSlotVisible(bool f_visible);
     void setTakeoffSlotVisible(bool f_visible);
 

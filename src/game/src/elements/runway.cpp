@@ -75,6 +75,11 @@ void Runway::setParkingSlots(const std::vector<std::shared_ptr<ParkingSlot>>& f_
     m_parkingSlots = f_parkingSlots;
 }
 
+void Runway::setLandingPointVisible(bool f_visible)
+{
+    m_landingRectVisible = f_visible;
+}
+
 void Runway::setParkingSlotVisible(bool f_visible)
 {
     m_showParkingSlots = f_visible;
@@ -140,7 +145,7 @@ bool Runway::isPointForLanding(const Vector& f_point)
 
 void Runway::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    m_landingRectVisible = true;
+    //m_landingRectVisible = true;
     m_lastSelectedSlot_p = nullptr;
 
     for(auto& slot : m_parkingSlots)
@@ -159,7 +164,7 @@ void Runway::onMouseDown(const core::ui::MouseEventArgs& f_eventArgs)
 
 void Runway::onMouseUp(const core::ui::MouseEventArgs& f_eventArgs)
 {
-    m_landingRectVisible = false;
+    //m_landingRectVisible = false;
 }
 
 const std::vector<Vector>& Runway::getLandingPath()

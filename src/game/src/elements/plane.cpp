@@ -91,6 +91,11 @@ std::shared_ptr<FlightTrack> Plane::getFlightTrack()
     return m_flightTrack_p;
 }
 
+bool Plane::landingPointRequired()
+{
+    return m_flightTrack_p->isActive();
+}
+
 std::tuple<bool, core::graphics::Vector> Plane::landingPathNeedsVerify()
 {
     return {m_verifyFlightTrack, m_mouseUpLocation};
@@ -124,6 +129,7 @@ bool Plane::parkingSlotNeedsVerify()
 void Plane::startParking(const std::vector<core::graphics::Vector>& f_path)
 {
     m_taxiToGateState.startParking(f_path, *this);
+    m_verifyParkingSlot = false;
 }
 
 bool Plane::startSlotNeedsVerify() 
@@ -134,6 +140,7 @@ bool Plane::startSlotNeedsVerify()
 void Plane::startTakeoff(const std::vector<core::graphics::Vector>& f_path) 
 {
     m_taxiToStartState.startTakeoff(f_path, *this);
+    m_verifyStartSlot = false;
 }
 
 void Plane::setTakeoffPath(const std::vector<core::graphics::Vector>& f_path)

@@ -37,6 +37,15 @@ void Game::update()
     // Move this to seperate function
     for(auto& currentPlane_p : m_planeFactory.getCreatedPlanes())
     {
+        if(currentPlane_p->landingPointRequired())
+        {
+            m_runway_p->setLandingPointVisible(true);
+        }
+        else
+        {
+            m_runway_p->setLandingPointVisible(false);
+        }
+
         // TODO encapsulate this
         auto landingPathNeedsVerify = currentPlane_p->landingPathNeedsVerify();
 
@@ -64,8 +73,8 @@ void Game::update()
                 // start parking for this plane
                 m_runway_p->registerParking(slot_p, currentPlane_p);
                 currentPlane_p->startParking(slot_p->getPathToSlot());
+                m_runway_p->setParkingSlotVisible(false);
             }
-            
         }
         else
         {
@@ -83,20 +92,19 @@ void Game::update()
                 if(slot_p)
                 {
                     currentPlane_p->setTakeoffPath(m_runway_p->getTakeoffPath());
-                    currentPlane_p->startTakeoff(slot_p->getPathToTakeoff());                    
+                    currentPlane_p->startTakeoff(slot_p->getPathToTakeoff());
+                    m_runway_p->setTakeoffSlotVisible(false);
                 }
                 else
                 {
                     // Game logic error
                 }
-                
             }
         }
         else
         {
             m_runway_p->setTakeoffSlotVisible(false);
         }
-        
     }
 }
 

@@ -66,6 +66,7 @@ public:
     std::shared_ptr<FlightTrack> getFlightTrack();
 
     // Landing
+    bool landingPointRequired();
     std::tuple<bool, core::graphics::Vector> landingPathNeedsVerify();
     void finalizeFlightTrack(bool f_valid);
     void setLandingPath(const std::vector<core::graphics::Vector>& f_path);

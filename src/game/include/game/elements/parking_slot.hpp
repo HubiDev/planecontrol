@@ -52,7 +52,6 @@ public:
 
 private:
     bool m_isUsed;
-    bool m_isVisble;
 
     std::vector<core::graphics::Vector> m_pathToSlot;
     std::vector<core::graphics::Vector> m_pathToStart;
